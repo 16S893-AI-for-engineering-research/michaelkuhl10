@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* ========== CSS Variables ========== */
+:root {
+  --color-orbit: #22c1da;
+  --color-orbit-light: #67dbeb;
+  --color-thruster: #ffb01f;
+  --color-bg: #050810;
+  --color-text-primary: #f4f6fb;
+  --color-text-secondary: #c6d2e8;
+  --color-text-muted: #93a8d2;
+  --color-border: rgba(34, 193, 218, 0.15);
+  --color-border-active: rgba(34, 193, 218, 0.4);
+}
+
+/* ========== Base Styles ========== */
+html {
+  scroll-behavior: smooth;
+  background: var(--color-bg);
+  overflow-x: hidden;
+}
+
+body {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+}
+
+/* Subtle starfield / atmosphere glow at the top of the page */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background: radial-gradient(ellipse 120% 80% at 50% 0%,
+    rgba(34, 193, 218, 0.12) 0%,
+    rgba(58, 85, 155, 0.06) 35%,
+    transparent 70%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ========== Typography ========== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--color-text-primary);
+}
+
+h1 {
+  @apply text-5xl md:text-7xl;
+  font-weight: 700;
+  line-height: 1.1;
+  animation: slideUp 0.8s ease-out;
+  background: linear-gradient(135deg, #67dbeb 0%, #22c1da 45%, #ffb01f 110%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  @apply text-3xl md:text-4xl;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-text-secondary);
+}
+
+h3 {
+  @apply text-xl md:text-2xl;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+p {
+  @apply text-base md:text-lg;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+strong {
+  color: var(--color-orbit);
+}
+
+a {
+  @apply transition-colors duration-200;
+  color: var(--color-orbit);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+
+a:hover {
+  color: var(--color-orbit-light);
+  border-bottom-color: var(--color-orbit-light);
+}
+
+/* ========== Layout ========== */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  @apply max-w-6xl mx-auto;
+}
+
+/* ========== Animations ========== */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+[data-reveal] {
+  opacity: 0;
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+[data-reveal='1'] { animation-delay: 0.1s; }
+[data-reveal='2'] { animation-delay: 0.2s; }
+[data-reveal='3'] { animation-delay: 0.3s; }
+[data-reveal='4'] { animation-delay: 0.4s; }
+[data-reveal='5'] { animation-delay: 0.5s; }
+
+/* ========== Selection & Scrollbar ========== */
+::selection {
+  background-color: var(--color-orbit);
+  color: #050810;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(34, 193, 218, 0.3); }
+::-webkit-scrollbar-thumb:hover { background: rgba(34, 193, 218, 0.5); }

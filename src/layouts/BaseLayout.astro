@@ -1,0 +1,46 @@
+---
+import '../styles/globals.css';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { resolvePath } from '../lib/paths';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Michael Kuhl's portfolio for MIT 16.S893: AI Agent for In-Space Assembly",
+} = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={resolvePath('/favicon.svg')} />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title} | AI Agent for In-Space Assembly</title>
+  </head>
+  <body>
+    <Header currentPath={currentPath} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  html, body { height: 100%; }
+  body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+  main { flex: 1; }
+</style>

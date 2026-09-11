@@ -1,0 +1,62 @@
+---
+import { resolvePath } from '../lib/paths';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+const navItems = [
+  { label: 'Home', href: resolvePath('/') },
+  { label: 'About', href: resolvePath('/about') },
+  { label: 'Project', href: resolvePath('/project') },
+  { label: 'Dev Log', href: resolvePath('/dev-log') },
+];
+
+const isActive = (href: string) => {
+  if (href === resolvePath('/') && (currentPath === '/' || currentPath === resolvePath('/'))) return true;
+  if (href !== resolvePath('/') && currentPath?.startsWith(href)) return true;
+  return false;
+};
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-space-950/80 border-b border-orbit/20">
+  <nav class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href={resolvePath('/')} class="font-mono text-sm tracking-widest text-orbit no-underline border-none hover:text-orbit-light">
+      MK · ISA
+    </a>
+
+    <ul class="flex gap-6 md:gap-8 items-center list-none m-0 p-0">
+      {navItems.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class={`relative font-sans text-sm font-medium tracking-wide transition-all duration-300 group border-none ${
+              isActive(item.href)
+                ? 'text-orbit-light'
+                : 'text-space-300 hover:text-orbit'
+            }`}
+          >
+            {item.label}
+            <span
+              class={`absolute -bottom-1 left-0 h-0.5 bg-orbit transition-all duration-300 ${
+                isActive(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
+              }`}
+            ></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orbit/30 to-transparent"></div>
+</header>
+
+<div class="h-16"></div>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    a, span { transition: none; }
+  }
+</style>

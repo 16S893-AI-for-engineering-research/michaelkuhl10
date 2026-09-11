@@ -1,0 +1,59 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { resolvePath } from '../lib/paths';
+---
+
+<BaseLayout title="Home">
+  <section class="max-w-4xl mx-auto px-6 pt-16 pb-12">
+    <p class="font-mono text-sm text-orbit tracking-widest mb-4" data-reveal="1">
+      MIT 16.S893 · AI AGENTS FOR ENGINEERING RESEARCH
+    </p>
+    <h1 data-reveal="2">AI Agent for In-Space Assembly</h1>
+    <p class="text-xl text-space-200 mt-6 max-w-2xl" data-reveal="3">
+      Building and studying an autonomous agent that plans, reasons about, and
+      verifies the robotic assembly of large structures in orbit — from truss
+      deployment to module berthing.
+    </p>
+
+    <div class="flex flex-wrap gap-4 mt-10" data-reveal="4">
+      <a
+        href={resolvePath('/project')}
+        class="px-6 py-3 bg-orbit/10 border border-orbit/40 text-orbit-light font-medium no-underline shadow-orbit-sm hover:bg-orbit/20 transition-all"
+      >
+        Read the project →
+      </a>
+      <a
+        href={resolvePath('/dev-log')}
+        class="px-6 py-3 border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
+      >
+        Follow the dev log
+      </a>
+    </div>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-6 py-12">
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="border border-orbit/15 p-6" data-reveal="1">
+        <h3 class="mt-0 text-orbit-light">The problem</h3>
+        <p class="text-base text-space-300 m-0">
+          Assembling large structures in orbit is expensive, risky, and hard to
+          plan. Can an agent reason through the sequence?
+        </p>
+      </div>
+      <div class="border border-orbit/15 p-6" data-reveal="2">
+        <h3 class="mt-0 text-orbit-light">The approach</h3>
+        <p class="text-base text-space-300 m-0">
+          An AI agent that reads specs, drafts assembly plans, runs checks
+          against constraints, and iterates on failures.
+        </p>
+      </div>
+      <div class="border border-orbit/15 p-6" data-reveal="3">
+        <h3 class="mt-0 text-orbit-light">The record</h3>
+        <p class="text-base text-space-300 m-0">
+          A transparent log of what I tried, what worked, what broke, and what I
+          learned along the way.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
