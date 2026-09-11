@@ -1,0 +1,185 @@
+---
+// Tony Stark arc-reactor easter egg. Hover to reveal the hologram.
+---
+
+<div class="arc-reactor-wrap" data-reveal="2">
+  <div class="arc-reactor" role="img" aria-label="Arc reactor">
+    <svg viewBox="0 0 200 200" class="arc-reactor-svg">
+      <defs>
+        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#eafcff" stop-opacity="1" />
+          <stop offset="35%" stop-color="#8fe9ff" stop-opacity="0.95" />
+          <stop offset="70%" stop-color="#22c1da" stop-opacity="0.55" />
+          <stop offset="100%" stop-color="#22c1da" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+
+      <!-- outer housing ring -->
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#3a559b" stroke-width="4" opacity="0.5" />
+      <circle cx="100" cy="100" r="80" fill="none" stroke="#22c1da" stroke-width="2" opacity="0.35" />
+
+      <!-- rotating triangular pylons -->
+      <g class="arc-reactor-pylons">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <rect
+            x="97"
+            y="18"
+            width="6"
+            height="24"
+            fill="#67dbeb"
+            opacity="0.8"
+            transform={`rotate(${i * 45} 100 100)`}
+          />
+        ))}
+      </g>
+
+      <!-- middle ring -->
+      <circle cx="100" cy="100" r="58" fill="none" stroke="#67dbeb" stroke-width="3" opacity="0.7" />
+
+      <!-- glow halo -->
+      <circle cx="100" cy="100" r="70" fill="url(#coreGlow)" class="arc-reactor-halo" />
+
+      <!-- inner core -->
+      <circle cx="100" cy="100" r="30" fill="#050810" stroke="#67dbeb" stroke-width="2" />
+      <circle cx="100" cy="100" r="22" fill="url(#coreGlow)" class="arc-reactor-core" />
+      <circle cx="100" cy="100" r="8" fill="#eafcff" class="arc-reactor-pulse-dot" />
+    </svg>
+  </div>
+
+  <div class="hologram">
+    <div class="hologram-inner">
+      <p class="hologram-text">Made by J.A.R.V.I.S.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .arc-reactor-wrap {
+    position: relative;
+    display: inline-flex;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 1rem;
+    cursor: pointer;
+  }
+
+  .arc-reactor {
+    width: 100%;
+    height: 100%;
+  }
+
+  .arc-reactor-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 12px rgba(103, 219, 235, 0.5));
+  }
+
+  .arc-reactor-pylons {
+    transform-origin: 100px 100px;
+    animation: reactorSpin 12s linear infinite;
+  }
+
+  .arc-reactor-halo {
+    animation: reactorPulse 2.2s ease-in-out infinite;
+  }
+
+  .arc-reactor-core {
+    animation: reactorPulse 2.2s ease-in-out infinite;
+    animation-delay: 0.1s;
+  }
+
+  .arc-reactor-pulse-dot {
+    animation: reactorCorePulse 2.2s ease-in-out infinite;
+  }
+
+  .arc-reactor-wrap:hover .arc-reactor-svg {
+    filter: drop-shadow(0 0 22px rgba(103, 219, 235, 0.85));
+  }
+
+  @keyframes reactorSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes reactorPulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.08); }
+  }
+
+  @keyframes reactorCorePulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+
+  /* ===== Hologram easter egg ===== */
+  .hologram {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%) translateY(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    white-space: nowrap;
+    z-index: 20;
+  }
+
+  .arc-reactor-wrap:hover .hologram {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .hologram-inner {
+    position: relative;
+    padding: 0.6rem 1rem;
+    background: rgba(10, 30, 45, 0.55);
+    border: 1px solid rgba(103, 219, 235, 0.6);
+    box-shadow: 0 0 18px rgba(34, 193, 218, 0.45), inset 0 0 12px rgba(34, 193, 218, 0.15);
+    backdrop-filter: blur(2px);
+    animation: hologramFlicker 2.5s steps(30) infinite;
+  }
+
+  .hologram-inner::before,
+  .hologram-inner::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 1px;
+    background: rgba(103, 219, 235, 0.6);
+    transform: translateX(-50%);
+  }
+
+  .hologram-inner::before {
+    top: 100%;
+    height: 14px;
+  }
+
+  .hologram-text {
+    margin: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: #eafcff;
+    text-shadow: 0 0 8px rgba(103, 219, 235, 0.9);
+  }
+
+  @keyframes hologramFlicker {
+    0%, 100% { opacity: 1; }
+    8% { opacity: 0.85; }
+    9% { opacity: 1; }
+    22% { opacity: 0.7; }
+    23% { opacity: 1; }
+    60% { opacity: 0.9; }
+    61% { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .arc-reactor-pylons,
+    .arc-reactor-halo,
+    .arc-reactor-core,
+    .arc-reactor-pulse-dot,
+    .hologram-inner {
+      animation: none;
+    }
+  }
+</style>

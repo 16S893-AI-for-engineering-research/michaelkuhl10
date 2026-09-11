@@ -1,24 +1,29 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import ArcReactor from '@components/ArcReactor.astro';
 import { resolvePath } from '../lib/paths';
 ---
 
 <BaseLayout title="Home">
   <section class="max-w-4xl mx-auto px-6 pt-16 pb-12">
-    <p class="font-mono text-sm text-orbit tracking-widest mb-4" data-reveal="1">
+    <div class="flex justify-center">
+      <ArcReactor />
+    </div>
+
+    <p class="font-mono text-sm text-orbit tracking-widest mb-4 text-center" data-reveal="1">
       MIT 16.S893 · AI AGENTS FOR ENGINEERING RESEARCH
     </p>
-    <h1 data-reveal="2">ORLO Assembly Agent</h1>
-    <p class="text-lg md:text-xl text-space-200 mt-6 max-w-3xl" data-reveal="3">
+    <h1 class="text-center" data-reveal="2">ORLO Assembly Agent</h1>
+    <p class="text-lg md:text-xl text-space-200 mt-6 max-w-3xl mx-auto text-center" data-reveal="3">
       Perceive → Detect → Replan
     </p>
-    <p class="text-base text-space-300 mt-4 max-w-3xl" data-reveal="3">
+    <p class="text-base text-space-300 mt-4 max-w-3xl mx-auto text-center" data-reveal="3">
       Building an autonomous agent that perceives the true state of the ORLO robotic
       assembly system, detects when something has gone wrong, and dynamically replans
       the assembly sequence instead of failing on the first anomaly.
     </p>
 
-    <div class="flex flex-wrap gap-4 mt-10" data-reveal="4">
+    <div class="flex flex-wrap gap-4 mt-10 justify-center" data-reveal="4">
       <a
         href={resolvePath('/project')}
         class="px-6 py-3 bg-orbit/10 border border-orbit/40 text-orbit-light font-medium no-underline shadow-orbit-sm hover:bg-orbit/20 transition-all"
