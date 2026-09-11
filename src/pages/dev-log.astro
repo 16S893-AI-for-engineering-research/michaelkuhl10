@@ -4,10 +4,21 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 // Add new entries to the top of this list as the project progresses.
 const entries = [
   {
-    date: '2025-09-11',
+    date: '2026-09-11',
+    title: 'Project scoped: perceive-detect-replan for ORLO',
+    body: `Worked through the ORLO / ORLO STAR research landscape and picked this project's scope.
+      The two concrete gaps are fiducial-marker fragility (no fallback when a read is ambiguous or fails)
+      and a fully offline assembly-sequence planner with no mechanism to react to an off-nominal event during execution.
+      Chose this over five other candidate directions as the strongest one-semester target — buildable against
+      existing hardware and flight data, and unambiguously an agent rather than a bare model.`,
+  },
+  {
+    date: '2026-09-11',
     title: 'Repository and site scaffolded',
-    body:
-      'Created the class repo (michaelkuhl10) and stood up the Astro + Tailwind portfolio site, following the class convention. Next: fill in the project one-pager.',
+    body: `Created the class portfolio repo (michaelkuhl10) and stood up the Astro + Tailwind site following
+      the course convention. Added real project content, photos, and a diagram of the perceive-detect-replan loop.
+      Next: confirm what testbed imagery, CAD, and zero-g flight footage already exist before deciding how much
+      new synthetic data generation is needed.`,
   },
 ];
 ---
@@ -15,10 +26,10 @@ const entries = [
 <BaseLayout title="Dev Log">
   <section class="max-w-3xl mx-auto px-6 pt-12 pb-16">
     <h1 data-reveal="1">Dev Log</h1>
-    <p class="mt-6 max-w-2xl" data-reveal="2">
-      A running record of what I tried, what worked, what failed, and what I
-      learned. This is the part the class cares about most — the process, not
-      just the result.
+    <p class="mt-6 max-w-2xl text-base text-space-200" data-reveal="2">
+      A running, honest record of what I tried, what worked, what failed, and what I learned.
+      This is the part that matters most — the process, not just the result. Each entry is a snapshot
+      of one session's work, blockers, and next steps.
     </p>
 
     <div class="mt-12 space-y-10">
@@ -32,9 +43,13 @@ const entries = [
             {entry.date}
           </time>
           <h3 class="mt-1 mb-2 text-orbit-light">{entry.title}</h3>
-          <p class="text-base text-space-300 m-0">{entry.body}</p>
+          <p class="text-base text-space-300 m-0 whitespace-pre-line">{entry.body}</p>
         </article>
       ))}
     </div>
+
+    <p class="mt-12 text-sm text-space-400 border-t border-orbit/10 pt-6">
+      New entries added weekly as work progresses. Template: Status, Did, Learned, Blocked on, Next.
+    </p>
   </section>
 </BaseLayout>

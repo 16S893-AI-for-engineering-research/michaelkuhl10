@@ -1,44 +1,138 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { resolvePath } from '../lib/paths';
 ---
 
 <BaseLayout title="Project">
   <section class="max-w-3xl mx-auto px-6 pt-12 pb-16">
     <p class="font-mono text-sm text-orbit tracking-widest mb-4" data-reveal="1">
-      ONE-PAGER
+      PROJECT PROPOSAL · PERCEIVE → DETECT → REPLAN
     </p>
-    <h1 data-reveal="1">AI Agent for In-Space Assembly</h1>
+    <h1 data-reveal="1">ORLO Assembly Agent</h1>
 
-    <h2 data-reveal="2">The problem</h2>
-    <p data-reveal="2">
-      <!-- TODO: State the problem from your field's point of view. Be ambitious.
-      What is hard about assembling large structures in orbit today? -->
-      Placeholder: assembling large structures (trusses, telescopes, habitats) in
-      orbit requires long, error-sensitive sequences of robotic operations that
-      are costly to plan and verify. This section frames that challenge.
-    </p>
+    <!-- Animated perceive-detect-replan loop -->
+    <div class="my-12 p-8 border border-orbit/20 bg-space-950/30 rounded-none" data-reveal="2">
+      <div class="flex justify-center items-center gap-6 md:gap-8">
+        <div class="text-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 mx-auto border-2 border-orbit flex items-center justify-center animate-pulse">
+            <span class="text-orbit font-mono text-sm">O1</span>
+          </div>
+          <p class="text-xs text-orbit mt-3 font-mono">Perceive</p>
+        </div>
+        <div class="text-orbit font-mono text-lg">→</div>
+        <div class="text-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 mx-auto border-2 border-orbit flex items-center justify-center animate-pulse" style="animation-delay: 0.3s;">
+            <span class="text-orbit font-mono text-sm">O2</span>
+          </div>
+          <p class="text-xs text-orbit mt-3 font-mono">Detect</p>
+        </div>
+        <div class="text-orbit font-mono text-lg">→</div>
+        <div class="text-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 mx-auto border-2 border-orbit flex items-center justify-center animate-pulse" style="animation-delay: 0.6s;">
+            <span class="text-thruster font-mono text-sm">Act</span>
+          </div>
+          <p class="text-xs text-thruster mt-3 font-mono">Replan</p>
+        </div>
+      </div>
+    </div>
 
-    <h2 data-reveal="3">Why it matters</h2>
+    <h2 data-reveal="3">The problem</h2>
     <p data-reveal="3">
-      <!-- TODO: Why does solving this matter to your field and beyond? -->
-      Placeholder: robust autonomous assembly unlocks larger apertures, cheaper
-      infrastructure, and missions that cannot be launched fully assembled.
+      In-space assembly only matters if it's <strong>reliable</strong>. A satellite operator
+      gets no benefit from on-demand CubeSat assembly if the assembly step itself is the
+      least trustworthy part of the mission.
     </p>
 
-    <h2 data-reveal="4">What I expect the agent to do</h2>
+    <p data-reveal="3">
+      ORLO has already passed major milestones — it's flown, survived launch-level vibration
+      testing, and has a working assembly-sequence planner (a graph-based optimization
+      by labmate Leila Freitag, validated in microgravity). But underneath that success
+      sit two brittle assumptions:
+    </p>
+
+    <h3 data-reveal="3">Perception is brittle</h3>
+    <p data-reveal="3">
+      Module identification relies on fiducial markers (visual tags) to tell the gantry robot
+      which module is which and where it sits. Fiducials fail in ways that matter:
+      orbital lighting swings from harsh direct sun to deep shadow far faster than Earth,
+      markers are occluded by the arm or by other modules, and a damaged or misprinted marker
+      simply can't be read. When a read fails, the entire assembly pipeline has no fallback.
+    </p>
+
+    <h3 data-reveal="4">Planning doesn't adapt</h3>
     <p data-reveal="4">
-      <!-- TODO: Describe how you imagine using an agent: what it reads, writes,
-      runs, or checks. You don't need to know how yet. -->
-      Placeholder: the agent will read assembly specifications and constraints,
-      draft a step-by-step assembly plan, run it against a simulator or checker,
-      detect constraint violations, and iterate toward a feasible sequence.
+      The sequencer computes an assembly order in advance and executes it open-loop — no
+      model of things going wrong mid-assembly. A module that doesn't fully seat, a connector
+      that fails continuity check, a gantry position that drifts outside tolerance — these
+      are all fatal to the current system. At best it stops and waits for a human.
     </p>
 
-    <h2 data-reveal="5">Data and restrictions</h2>
+    <p data-reveal="4">
+      Neither gap is ORLO-specific. Every "autonomous assembly" claim in the in-space-servicing
+      literature quietly assumes nominal conditions. <strong>The research question this project
+      takes on is:</strong> Can an agent perceive the real state of a modular assembly system under
+      uncertainty, and use that perception to decide — in real time — whether to retry, reorder,
+      or escalate, instead of just executing a fixed plan?
+    </p>
+
+    <h2 data-reveal="5">Why it matters</h2>
     <p data-reveal="5">
-      <!-- TODO: Note any data sources and confirm nothing proprietary/sensitive. -->
-      Placeholder: all data used will be public, synthetic, or redacted — no
-      proprietary or sensitive material, per class policy.
+      Large tiled structures in orbit (mirrors, solar arrays, radiators) unlock missions that
+      cannot be launched fully assembled — they don't fit in any vehicle. The path to making
+      that capability real depends on two things happening: (1) the hardware must be mature and
+      tested, which ORLO is getting there on; and (2) the autonomous assembly software must be
+      robust enough that operators trust it. Today's open-loop pipeline is not yet trustworthy
+      enough. A system that notices and recovers from failures in real time is.
+    </p>
+
+    <h2 data-reveal="6">What the agent will do</h2>
+    <p data-reveal="6">
+      The agent operates in a loop:
+    </p>
+    <ul class="text-base text-space-200 space-y-2" data-reveal="6">
+      <li><strong>Perceive (O1):</strong> Read fiducial markers and/or learned pose estimates to build a state estimate of which module is where, along with a confidence score and an anomaly flag (none / occlusion / damage / misalignment).</li>
+      <li><strong>Detect (O2):</strong> Consume the perception output plus execution telemetry (gantry torque, position error, continuity checks, vibration) and decide: is this step nominal, or is something wrong?</li>
+      <li><strong>Replan (O2):</strong> If something is wrong, choose an action — retry the current step, skip it and reorder the remaining sequence, or escalate to a human operator. Execute the chosen action and loop.</li>
+    </ul>
+
+    <p data-reveal="6" class="mt-4">
+      The agent treats the perception module, the existing graph planner, and the gantry interface
+      as tools it can call. Its job is to reason over their outputs and decide the next action,
+      rather than to re-implement any of them from scratch. A rule-based policy is the baseline;
+      a learned or LLM-orchestrated policy is the stretch goal.
+    </p>
+
+    <h2 data-reveal="7">Development approach</h2>
+    <p data-reveal="7">
+      Real hardware access is limited, so the project runs two tracks in parallel:
+    </p>
+    <ul class="text-base text-space-200 space-y-2" data-reveal="7">
+      <li><strong>Simulation track:</strong> Build a synthetic fault-injection environment (renders of the locker with injectable faults — occluded marker, misaligned module, failed connector). Test the perceive-detect-replan loop end-to-end in simulation before touching hardware.</li>
+      <li><strong>Hardware-in-the-loop track:</strong> Validate the perception model against real ORLO testbed imagery; if lab time allows, run the full agent loop against the actual gantry.</li>
+    </ul>
+
+    <h2 data-reveal="8">Milestones</h2>
+    <ol class="text-base text-space-200 space-y-2" data-reveal="8">
+      <li>Stand up the perception module against existing ORLO imagery/CAD; establish a baseline against plain fiducial reads.</li>
+      <li>Build the synthetic fault-injection environment; define the fault taxonomy.</li>
+      <li>Implement the agent loop (perceive → detect → decide) against simulated faults; get a rule-based policy working end to end.</li>
+      <li>Optionally, compare a learned or LLM-orchestrated policy against the baseline.</li>
+      <li>Validate on real testbed data/hardware to whatever extent is possible; report where simulation diverges from reality.</li>
+    </ol>
+
+    <h2 data-reveal="9">Success metrics</h2>
+    <ul class="text-base text-space-200 space-y-2" data-reveal="9">
+      <li>Perception accuracy and confidence calibration under injected occlusion/lighting faults</li>
+      <li>Fraction of injected faults the agent correctly diagnoses</li>
+      <li>Assembly completion rate and time-to-recovery on faulted runs vs. the open-loop baseline (which, by design, doesn't recover at all)</li>
+    </ul>
+
+    <h2 data-reveal="10">Data and restrictions</h2>
+    <p data-reveal="10">
+      All data used in this project is public, synthetic, or redacted — no proprietary or
+      sensitive material. The simulation environment will use ORLO's public CAD geometry,
+      and real testbed imagery will be anonymized or synthetic-render augmented before publication.
+      This ensures all work can be shared with collaborators and the broader community.
     </p>
   </section>
 </BaseLayout>

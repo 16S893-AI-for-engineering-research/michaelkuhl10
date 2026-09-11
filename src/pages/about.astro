@@ -1,37 +1,113 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { resolvePath } from '../lib/paths';
 ---
 
 <BaseLayout title="About">
-  <section class="max-w-3xl mx-auto px-6 pt-12 pb-16">
+  <section class="max-w-4xl mx-auto px-6 pt-12 pb-16">
     <h1 data-reveal="1">About</h1>
 
-    <p class="mt-8" data-reveal="2">
-      I'm Michael Kuhl, a student in MIT 16.S893: AI Agents for Engineering
-      Research. This site documents my semester project on applying AI agents to
-      the problem of <strong>in-space assembly</strong>.
-    </p>
+    <div class="grid md:grid-cols-3 gap-8 mt-12 mb-12">
+      <div class="md:col-span-2" data-reveal="2">
+        <p class="text-base text-space-200 leading-relaxed">
+          I'm <strong>Michael Kuhl</strong>, a graduate student in the MIT Department
+          of Aeronautics and Astronautics, working in the <strong>Space
+          Telecommunications, Astronomy and Radiation Laboratory (STAR Lab)</strong>
+          under <strong>Prof. Kerri Cahoy</strong>.
+        </p>
 
-    <h2 data-reveal="3">Background</h2>
-    <p data-reveal="3">
-      <!-- TODO: A short paragraph about your research area, lab/advisor, and
-      what drew you to in-space assembly. Keep it plain and human. -->
-      Placeholder: my research background and how it connects to autonomous
-      assembly of orbital structures.
-    </p>
+        <p class="text-base text-space-200 leading-relaxed mt-4">
+          My research centers on in-space assembly and deployment of modular spacecraft.
+          I'm the lead student on <strong>ORLO (Orbital Locker)</strong>, a free-flying
+          robotic system for autonomous assembly of CubeSats and large tiled structures
+          in orbit. With labmates Jonah Goldstein and Prof. Cahoy, I published
+          <strong>"Design and Validation of a Modular CubeSat Framework for In-Space
+          Assembly"</strong> at SmallSat 2026, describing four standardized module types
+          and qualification testing to Falcon-9 secondary-payload structural standards
+          (fundamental frequencies &gt; 45 Hz, frequency shift &lt; 2.5%). ORLO has
+          already demonstrated a full 72-second autonomous assembly during a
+          zero-gravity parabolic flight.
+        </p>
 
-    <h2 data-reveal="4">Why this class</h2>
-    <p data-reveal="4">
-      <!-- TODO: What you hope to get out of using AI coding agents on a real
-      research problem. -->
-      Placeholder: what I want to learn about setting up and directing AI agents
-      on hard engineering problems.
-    </p>
+        <p class="text-base text-space-200 leading-relaxed mt-4">
+          Before coming to MIT, I built a satellite capable of assembling other
+          satellites as my senior thesis at Harvard SEAS — foundational hardware and
+          systems thinking that led directly to the ORLO project.
+        </p>
 
-    <h2 data-reveal="5">Contact</h2>
-    <p data-reveal="5">
-      GitHub: <a href="https://github.com/michaelkuhl10">@michaelkuhl10</a>
-      <!-- TODO: add email or other links if you want them public -->
-    </p>
+        <h2 class="mt-8 mb-4">This class</h2>
+        <p class="text-base text-space-200 leading-relaxed">
+          MIT 16.S893 applies AI agents to real research problems. For me, that's ORLO:
+          it works in the lab, but its perception and planning are brittle in ways that
+          matter for real missions. This project uses the agent patterns from the course
+          to close that gap — building the perceive-detect-replan loop that turns a
+          brittle offline pipeline into something that notices failures and responds to them
+          in real time.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="border border-orbit/20 overflow-hidden" data-reveal="3">
+          <img
+            src={resolvePath('/images/Grad.jpeg')}
+            alt="Michael Kuhl, MIT"
+            class="w-full h-auto"
+          />
+        </div>
+        <p class="text-xs text-space-400 italic">MIT, 2026</p>
+      </div>
+    </div>
+
+    <h2 data-reveal="4">Beyond research</h2>
+    <div class="grid md:grid-cols-4 gap-4 mb-8" data-reveal="4">
+      <div class="border border-orbit/15 p-3">
+        <img
+          src={resolvePath('/images/Hockey.jpeg')}
+          alt="Hockey"
+          class="w-full h-auto mb-2"
+        />
+        <p class="text-xs text-space-400 m-0">Club hockey</p>
+      </div>
+      <div class="border border-orbit/15 p-3">
+        <img
+          src={resolvePath('/images/Surf.jpeg')}
+          alt="Surfing"
+          class="w-full h-auto mb-2"
+        />
+        <p class="text-xs text-space-400 m-0">Surfing</p>
+      </div>
+      <div class="border border-orbit/15 p-3">
+        <img
+          src={resolvePath('/images/Fish.jpeg')}
+          alt="Fishing"
+          class="w-full h-auto mb-2"
+        />
+        <p class="text-xs text-space-400 m-0">Fishing</p>
+      </div>
+      <div class="border border-orbit/15 p-3">
+        <img
+          src={resolvePath('/images/Travel.jpeg')}
+          alt="Travel"
+          class="w-full h-auto mb-2"
+        />
+        <p class="text-xs text-space-400 m-0">Travel</p>
+      </div>
+    </div>
+
+    <h2 data-reveal="5">Contact & links</h2>
+    <div class="space-y-2 text-base text-space-300" data-reveal="5">
+      <p>
+        <strong>GitHub:</strong>{' '}
+        <a href="https://github.com/michaelkuhl10">@michaelkuhl10</a>
+      </p>
+      <p>
+        <strong>MIT STAR Lab:</strong>{' '}
+        <a href="https://starlab.mit.edu">starlab.mit.edu</a>
+      </p>
+      <p>
+        <strong>Publications:</strong>{' '}
+        <a href="https://dspace.mit.edu">MIT DSpace</a> (ORLO papers and thesis)
+      </p>
+    </div>
   </section>
 </BaseLayout>

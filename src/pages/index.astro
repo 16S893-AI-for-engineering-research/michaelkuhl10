@@ -8,11 +8,14 @@ import { resolvePath } from '../lib/paths';
     <p class="font-mono text-sm text-orbit tracking-widest mb-4" data-reveal="1">
       MIT 16.S893 · AI AGENTS FOR ENGINEERING RESEARCH
     </p>
-    <h1 data-reveal="2">AI Agent for In-Space Assembly</h1>
-    <p class="text-xl text-space-200 mt-6 max-w-2xl" data-reveal="3">
-      Building and studying an autonomous agent that plans, reasons about, and
-      verifies the robotic assembly of large structures in orbit — from truss
-      deployment to module berthing.
+    <h1 data-reveal="2">ORLO Assembly Agent</h1>
+    <p class="text-lg md:text-xl text-space-200 mt-6 max-w-3xl" data-reveal="3">
+      Perceive → Detect → Replan
+    </p>
+    <p class="text-base text-space-300 mt-4 max-w-3xl" data-reveal="3">
+      Building an autonomous agent that perceives the true state of the ORLO robotic
+      assembly system, detects when something has gone wrong, and dynamically replans
+      the assembly sequence instead of failing on the first anomaly.
     </p>
 
     <div class="flex flex-wrap gap-4 mt-10" data-reveal="4">
@@ -20,38 +23,44 @@ import { resolvePath } from '../lib/paths';
         href={resolvePath('/project')}
         class="px-6 py-3 bg-orbit/10 border border-orbit/40 text-orbit-light font-medium no-underline shadow-orbit-sm hover:bg-orbit/20 transition-all"
       >
-        Read the project →
+        The project →
+      </a>
+      <a
+        href={resolvePath('/about')}
+        class="px-6 py-3 border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
+      >
+        About the work
       </a>
       <a
         href={resolvePath('/dev-log')}
         class="px-6 py-3 border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
       >
-        Follow the dev log
+        Dev log
       </a>
     </div>
   </section>
 
-  <section class="max-w-4xl mx-auto px-6 py-12">
+  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-orbit/10 mt-8">
     <div class="grid md:grid-cols-3 gap-6">
       <div class="border border-orbit/15 p-6" data-reveal="1">
-        <h3 class="mt-0 text-orbit-light">The problem</h3>
+        <h3 class="mt-0 text-orbit-light">Brittle perception</h3>
         <p class="text-base text-space-300 m-0">
-          Assembling large structures in orbit is expensive, risky, and hard to
-          plan. Can an agent reason through the sequence?
+          Fiducial-marker identification fails under real orbital lighting, occlusion,
+          and damage — no fallback when reads are ambiguous.
         </p>
       </div>
       <div class="border border-orbit/15 p-6" data-reveal="2">
-        <h3 class="mt-0 text-orbit-light">The approach</h3>
+        <h3 class="mt-0 text-orbit-light">Offline planning</h3>
         <p class="text-base text-space-300 m-0">
-          An AI agent that reads specs, drafts assembly plans, runs checks
-          against constraints, and iterates on failures.
+          The assembly sequence is computed once and executed open-loop. No mechanism
+          to react when a step fails mid-assembly.
         </p>
       </div>
       <div class="border border-orbit/15 p-6" data-reveal="3">
-        <h3 class="mt-0 text-orbit-light">The record</h3>
+        <h3 class="mt-0 text-orbit-light">This project</h3>
         <p class="text-base text-space-300 m-0">
-          A transparent log of what I tried, what worked, what broke, and what I
-          learned along the way.
+          An AI agent that pairs robust perception with real-time contingency replanning
+          to turn a brittle pipeline into one that detects and recovers.
         </p>
       </div>
     </div>
