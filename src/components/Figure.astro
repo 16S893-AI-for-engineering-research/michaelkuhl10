@@ -12,7 +12,7 @@ const { src, alt, caption } = Astro.props;
   <img
     {src}
     {alt}
-    class="w-full h-auto border border-orbit/15"
+    class="w-full h-auto border border-orbit/15 rounded-xl"
   />
   {caption && <figcaption class="text-xs text-space-400 italic mt-2">{caption}</figcaption>}
 </figure>

@@ -26,19 +26,19 @@ import { resolvePath } from '../lib/paths';
     <div class="flex flex-wrap gap-4 mt-10 justify-center" data-reveal="4">
       <a
         href={resolvePath('/project')}
-        class="px-6 py-3 bg-orbit/10 border border-orbit/40 text-orbit-light font-medium no-underline shadow-orbit-sm hover:bg-orbit/20 transition-all"
+        class="px-6 py-3 rounded-xl border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
       >
         The project →
       </a>
       <a
         href={resolvePath('/about')}
-        class="px-6 py-3 border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
+        class="px-6 py-3 rounded-xl border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
       >
         About the work
       </a>
       <a
         href={resolvePath('/dev-log')}
-        class="px-6 py-3 border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
+        class="px-6 py-3 rounded-xl border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
       >
         Dev log
       </a>
@@ -47,21 +47,21 @@ import { resolvePath } from '../lib/paths';
 
   <section class="max-w-4xl mx-auto px-6 py-16 border-t border-orbit/10 mt-8">
     <div class="grid md:grid-cols-3 gap-6">
-      <div class="border border-orbit/15 p-6" data-reveal="1">
+      <div class="border border-orbit/15 rounded-xl p-6" data-reveal="1">
         <h3 class="mt-0 text-orbit-light">Brittle perception</h3>
         <p class="text-base text-space-300 m-0">
           Fiducial-marker identification fails under real orbital lighting, occlusion,
           and damage. No fallback when reads are ambiguous.
         </p>
       </div>
-      <div class="border border-orbit/15 p-6" data-reveal="2">
+      <div class="border border-orbit/15 rounded-xl p-6" data-reveal="2">
         <h3 class="mt-0 text-orbit-light">Offline planning</h3>
         <p class="text-base text-space-300 m-0">
           The assembly sequence is computed once and executed open-loop. No mechanism
           to react when a step fails mid-assembly.
         </p>
       </div>
-      <div class="border border-orbit/15 p-6" data-reveal="3">
+      <div class="border border-orbit/15 rounded-xl p-6" data-reveal="3">
         <h3 class="mt-0 text-orbit-light">This project</h3>
         <p class="text-base text-space-300 m-0">
           An AI agent that pairs robust perception with real-time contingency replanning
