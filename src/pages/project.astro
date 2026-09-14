@@ -44,7 +44,7 @@ import { resolvePath } from '../lib/paths';
     </p>
 
     <p data-reveal="3">
-      ORLO has already passed major milestones — it's flown, survived launch-level vibration
+      ORLO has already passed major milestones: it's flown, survived launch-level vibration
       testing, and has a working assembly-sequence planner (a graph-based optimization
       by labmate Leila Freitag, validated in microgravity). But underneath that success
       sit two brittle assumptions:
@@ -61,9 +61,9 @@ import { resolvePath } from '../lib/paths';
 
     <h3 data-reveal="4">Planning doesn't adapt</h3>
     <p data-reveal="4">
-      The sequencer computes an assembly order in advance and executes it open-loop — no
+      The sequencer computes an assembly order in advance and executes it open-loop, with no
       model of things going wrong mid-assembly. A module that doesn't fully seat, a connector
-      that fails continuity check, a gantry position that drifts outside tolerance — these
+      that fails continuity check, a gantry position that drifts outside tolerance: these
       are all fatal to the current system. At best it stops and waits for a human.
     </p>
 
@@ -71,14 +71,14 @@ import { resolvePath } from '../lib/paths';
       Neither gap is ORLO-specific. Every "autonomous assembly" claim in the in-space-servicing
       literature quietly assumes nominal conditions. <strong>The research question this project
       takes on is:</strong> Can an agent perceive the real state of a modular assembly system under
-      uncertainty, and use that perception to decide — in real time — whether to retry, reorder,
+      uncertainty, and use that perception to decide, in real time, whether to retry, reorder,
       or escalate, instead of just executing a fixed plan?
     </p>
 
     <h2 data-reveal="5">Why it matters</h2>
     <p data-reveal="5">
       Large tiled structures in orbit (mirrors, solar arrays, radiators) unlock missions that
-      cannot be launched fully assembled — they don't fit in any vehicle. The path to making
+      cannot be launched fully assembled; they don't fit in any vehicle. The path to making
       that capability real depends on two things happening: (1) the hardware must be mature and
       tested, which ORLO is getting there on; and (2) the autonomous assembly software must be
       robust enough that operators trust it. Today's open-loop pipeline is not yet trustworthy
@@ -92,7 +92,7 @@ import { resolvePath } from '../lib/paths';
     <ul class="text-base text-space-200 space-y-2" data-reveal="6">
       <li><strong>Perceive (O1):</strong> Read fiducial markers and/or learned pose estimates to build a state estimate of which module is where, along with a confidence score and an anomaly flag (none / occlusion / damage / misalignment).</li>
       <li><strong>Detect (O2):</strong> Consume the perception output plus execution telemetry (gantry torque, position error, continuity checks, vibration) and decide: is this step nominal, or is something wrong?</li>
-      <li><strong>Replan (O2):</strong> If something is wrong, choose an action — retry the current step, skip it and reorder the remaining sequence, or escalate to a human operator. Execute the chosen action and loop.</li>
+      <li><strong>Replan (O2):</strong> If something is wrong, choose an action: retry the current step, skip it and reorder the remaining sequence, or escalate to a human operator. Execute the chosen action and loop.</li>
     </ul>
 
     <p data-reveal="6" class="mt-4">
@@ -107,7 +107,7 @@ import { resolvePath } from '../lib/paths';
       Real hardware access is limited, so the project runs two tracks in parallel:
     </p>
     <ul class="text-base text-space-200 space-y-2" data-reveal="7">
-      <li><strong>Simulation track:</strong> Build a synthetic fault-injection environment (renders of the locker with injectable faults — occluded marker, misaligned module, failed connector). Test the perceive-detect-replan loop end-to-end in simulation before touching hardware.</li>
+      <li><strong>Simulation track:</strong> Build a synthetic fault-injection environment (renders of the locker with injectable faults: occluded marker, misaligned module, failed connector). Test the perceive-detect-replan loop end-to-end in simulation before touching hardware.</li>
       <li><strong>Hardware-in-the-loop track:</strong> Validate the perception model against real ORLO testbed imagery; if lab time allows, run the full agent loop against the actual gantry.</li>
     </ul>
 
@@ -129,7 +129,7 @@ import { resolvePath } from '../lib/paths';
 
     <h2 data-reveal="10">Data and restrictions</h2>
     <p data-reveal="10">
-      All data used in this project is public, synthetic, or redacted — no proprietary or
+      All data used in this project is public, synthetic, or redacted, with no proprietary or
       sensitive material. The simulation environment will use ORLO's public CAD geometry,
       and real testbed imagery will be anonymized or synthetic-render augmented before publication.
       This ensures all work can be shared with collaborators and the broader community.

@@ -114,19 +114,19 @@
   /* ===== Hologram easter egg ===== */
   .hologram {
     position: absolute;
-    left: 50%;
-    bottom: calc(100% + 10px);
-    transform: translateX(-50%) translateY(6px);
+    left: calc(100% + 16px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-6px);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease, transform 0.25s ease;
     white-space: nowrap;
-    z-index: 20;
+    z-index: 60;
   }
 
   .arc-reactor-wrap:hover .hologram {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(-50%) translateX(0);
   }
 
   .hologram-inner {
@@ -143,15 +143,15 @@
   .hologram-inner::after {
     content: '';
     position: absolute;
-    left: 50%;
-    width: 1px;
+    top: 50%;
+    height: 1px;
     background: rgba(103, 219, 235, 0.6);
-    transform: translateX(-50%);
+    transform: translateY(-50%);
   }
 
   .hologram-inner::before {
-    top: 100%;
-    height: 14px;
+    right: 100%;
+    width: 14px;
   }
 
   .hologram-text {
@@ -180,6 +180,28 @@
     .arc-reactor-pulse-dot,
     .hologram-inner {
       animation: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hologram {
+      left: 50%;
+      top: auto;
+      bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(6px);
+    }
+
+    .arc-reactor-wrap:hover .hologram {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .hologram-inner::before {
+      top: 100%;
+      right: auto;
+      left: 50%;
+      width: 1px;
+      height: 14px;
+      transform: translateX(-50%);
     }
   }
 </style>
