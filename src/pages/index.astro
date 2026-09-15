@@ -14,13 +14,8 @@ import { resolvePath } from '../lib/paths';
       MIT 16.S893 · AI AGENTS FOR ENGINEERING RESEARCH
     </p>
     <h1 class="text-center" data-reveal="2">AI Agent for In-Space Assembly</h1>
-    <p class="text-lg md:text-xl text-space-200 mt-6 max-w-3xl mx-auto text-center" data-reveal="3">
-      Perceive → Detect → Replan
-    </p>
-    <p class="text-base text-space-300 mt-4 max-w-3xl mx-auto text-center" data-reveal="3">
-      Building an autonomous agent that perceives the true state of the ORLO robotic
-      assembly system, detects when something has gone wrong, and dynamically replans
-      the assembly sequence instead of failing on the first anomaly.
+    <p class="text-base text-space-300 mt-6 max-w-2xl mx-auto text-center" data-reveal="3">
+      AI agent to accelerate in-space assembly engineering research.
     </p>
 
     <div class="flex flex-wrap gap-4 mt-10 justify-center" data-reveal="4">
@@ -45,29 +40,4 @@ import { resolvePath } from '../lib/paths';
     </div>
   </section>
 
-  <section class="max-w-4xl mx-auto px-6 py-16 border-t border-orbit/10 mt-8">
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="border border-orbit/15 rounded-xl p-6" data-reveal="1">
-        <h3 class="mt-0 text-orbit-light">Brittle perception</h3>
-        <p class="text-base text-space-300 m-0">
-          Fiducial-marker identification fails under real orbital lighting, occlusion,
-          and damage. No fallback when reads are ambiguous.
-        </p>
-      </div>
-      <div class="border border-orbit/15 rounded-xl p-6" data-reveal="2">
-        <h3 class="mt-0 text-orbit-light">Offline planning</h3>
-        <p class="text-base text-space-300 m-0">
-          The assembly sequence is computed once and executed open-loop. No mechanism
-          to react when a step fails mid-assembly.
-        </p>
-      </div>
-      <div class="border border-orbit/15 rounded-xl p-6" data-reveal="3">
-        <h3 class="mt-0 text-orbit-light">This project</h3>
-        <p class="text-base text-space-300 m-0">
-          An AI agent that pairs robust perception with real-time contingency replanning
-          to turn a brittle pipeline into one that detects and recovers.
-        </p>
-      </div>
-    </div>
-  </section>
 </BaseLayout>

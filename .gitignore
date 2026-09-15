@@ -7,6 +7,9 @@ dist/
 .env
 .env.local
 
+# Personal notes (private, not part of the public site)
+notes/
+
 # OS
 .DS_Store
 Thumbs.db

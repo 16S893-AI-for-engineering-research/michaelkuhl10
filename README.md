@@ -6,10 +6,12 @@ Portfolio and project site for **MIT 16.S893: AI Agents for Engineering Research
 
 ## Project
 
-An autonomous AI agent that plans, reasons about, and verifies the robotic
-assembly of large structures in orbit. See the [Project](https://16s893-ai-for-engineering-research.github.io/michaelkuhl10/project)
-page for the one-pager and the [Dev Log](https://16s893-ai-for-engineering-research.github.io/michaelkuhl10/dev-log)
-for progress.
+AI agent to accelerate in-space assembly engineering research. Project
+direction (visual fiducial markers vs. assembly under uncertainty, etc.) is
+still being decided — the [Project](https://16s893-ai-for-engineering-research.github.io/michaelkuhl10/project)
+page is intentionally minimal until that's settled. See the
+[Dev Log](https://16s893-ai-for-engineering-research.github.io/michaelkuhl10/dev-log)
+for session-by-session progress.
 
 ## Tech stack
 
@@ -44,6 +46,9 @@ src/
 
 ## Editing content
 
-- **Project one-pager:** `src/pages/project.astro`
+- **Project summary:** `src/pages/project.astro` (kept minimal on purpose)
 - **About you:** `src/pages/about.astro`
-- **Dev log entries:** add to the `entries` array in `src/pages/dev-log.astro`
+- **Dev log entries:** add to the `entries` array in `src/pages/dev-log.astro`.
+  Each entry is a list of fact-based bullets, written by hand, not AI-generated.
+- **Personal notes:** kept separately in `notes/` (untracked, private — see
+  `notes/README.md`), not on the public site.

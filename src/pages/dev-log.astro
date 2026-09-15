@@ -1,24 +1,44 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 
-// Add new entries to the top of this list as the project progresses.
+// Write your own entries here. Keep each bullet a single, concrete,
+// verifiable fact about what was done in that session — no marketing
+// language, no invented detail. This log is separate from personal
+// notes (see /notes in the repo, untracked/private).
 const entries = [
   {
-    date: '2026-09-11',
-    title: 'Project scoped: perceive-detect-replan for ORLO',
-    body: `Worked through the ORLO / ORLO STAR research landscape and picked this project's scope.
-      The two concrete gaps are fiducial-marker fragility (no fallback when a read is ambiguous or fails)
-      and a fully offline assembly-sequence planner with no mechanism to react to an off-nominal event during execution.
-      Chose this over five other candidate directions as the strongest one-semester target: buildable against
-      existing hardware and flight data, and unambiguously an agent rather than a bare model.`,
+    date: '2026-09-15',
+    title: 'Simplified project scope while direction is finalized',
+    bullets: [
+      'Reduced the Project page to a single description: "AI agent to accelerate in-space assembly engineering research."',
+      'Removed the AI-drafted problem statement, milestones, and success metrics from the Project page pending a settled project direction.',
+      'Removed AI-drafted publication and test-result claims from site content files.',
+      'Rebuilt the dev log to use plain, fact-based bullet points instead of narrative prose.',
+      'Set up a separate, private notes location (markdown files, untracked) for personal reflections and AI-interaction notes.',
+    ],
+  },
+  {
+    date: '2026-09-14',
+    title: 'Layout and styling fixes',
+    bullets: [
+      'Fixed a bug where the fixed header overlapped page content.',
+      'Repositioned the hologram easter-egg element on the home page.',
+      'Unified rounded-corner styling and button style across pages.',
+      'Removed a placeholder diagram from the Project page.',
+      'Removed an inaccurate personal-background detail from the About page.',
+    ],
   },
   {
     date: '2026-09-11',
-    title: 'Repository and site scaffolded',
-    body: `Created the class portfolio repo (michaelkuhl10) and stood up the Astro + Tailwind site following
-      the course convention. Added real project content, photos, and a diagram of the perceive-detect-replan loop.
-      Next: confirm what testbed imagery, CAD, and zero-g flight footage already exist before deciding how much
-      new synthetic data generation is needed.`,
+    title: 'Initial site build',
+    bullets: [
+      'Scaffolded an Astro + Tailwind CSS static site with a GitHub Actions deploy workflow to GitHub Pages.',
+      'Built the page structure: Home, About, Project, Dev Log.',
+      'Added personal photos and a short bio to the About page.',
+      'Added a header, footer, and base layout shared across pages.',
+      'Added an animated arc-reactor element and hover easter egg to the home page.',
+      'Drafted an initial project one-pager and dev log template (later revised — see 2026-09-15).',
+    ],
   },
 ];
 ---
@@ -27,9 +47,9 @@ const entries = [
   <section class="max-w-3xl mx-auto px-6 pt-12 pb-16">
     <h1 data-reveal="1">Dev Log</h1>
     <p class="mt-6 max-w-2xl text-base text-space-200" data-reveal="2">
-      A running, honest record of what I tried, what worked, what failed, and what I learned.
-      This is the part that matters most: the process, not just the result. Each entry is a snapshot
-      of one session's work, blockers, and next steps.
+      A plain, fact-based record of what was built or changed each session.
+      Written by me, not AI-generated. Personal notes and reflections on the
+      process live separately from this page.
     </p>
 
     <div class="mt-12 space-y-10">
@@ -43,13 +63,18 @@ const entries = [
             {entry.date}
           </time>
           <h3 class="mt-1 mb-2 text-orbit-light">{entry.title}</h3>
-          <p class="text-base text-space-300 m-0 whitespace-pre-line">{entry.body}</p>
+          <ul class="text-base text-space-300 m-0 space-y-1 list-disc pl-5">
+            {entry.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
         </article>
       ))}
     </div>
 
     <p class="mt-12 text-sm text-space-400 border-t border-orbit/10 pt-6">
-      New entries added weekly as work progresses. Template: Status, Did, Learned, Blocked on, Next.
+      New entries added per session. Each bullet should be a fact you can point to
+      (a file changed, a decision made, a test run) — not a summary of intent.
     </p>
   </section>
 </BaseLayout>
