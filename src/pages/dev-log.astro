@@ -14,6 +14,20 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 // Add new entries to the top of this list as the project progresses.
 const entries = [
   {
+    date: '2026-09-16',
+    title: 'Assignment: pull session stats from pi session log',
+    aiSummary: [
+      'Pulled the pi coding-agent session log for the 2026-09-14 "Layout and styling fixes" session from ~/.pi/agent/sessions.',
+      'Parsed the session\'s .jsonl file to count user-typed messages (4) and agent tool calls (141) for that session.',
+      'Extracted the text of all 4 prompts typed during that session:',
+      '1. "The website formatting is such that the JARVIS easter egg is hidden behind the navigation bar at the top. Also decrease emm dashes and be more succinct with communication."',
+      '2. "move the made by jarvis piece appear to the right instead of on top. the writing on top of the project tab is covered up as well. Adjust padding to correct this and the jarvis thing. there are still em dashes in the project tab"',
+      '3. "push and confirm. The link does not show the updated website"',
+      '4. "the jarvis tab is not fixed. When I hover over it, it appears above the tessaract thing. This might be becuase the title is now on 2 lines instead of one which makes the \'made by jarvis\' tab be hiddden behind the top bar. I want everything to be visible when the website view is at 100%"',
+    ],
+    personalNotes: `Add your own notes for this session here.`,
+  },
+  {
     date: '2026-09-15',
     title: 'Simplified project scope while direction is finalized',
     aiSummary: [
@@ -35,15 +49,7 @@ const entries = [
       'Removed a placeholder diagram from the Project page.',
       'Removed an inaccurate personal-background detail from the About page.',
     ],
-    personalNotes: `When revisiting the website on a different device, I noticed some of the padding and organization on the website was off - struggled for a bit to correct it
-
-Assignment - session stats: 4 user messages typed, 141 agent tool calls.
-
-The 4 prompts I typed this session:
-1. "The website formatting is such that the JARVIS easter egg is hidden behind the navigation bar at the top. Also decrease emm dashes and be more succinct with communication."
-2. "move the made by jarvis piece appear to the right instead of on top. the writing on top of the project tab is covered up as well. Adjust padding to correct this and the jarvis thing. there are still em dashes in the project tab"
-3. "push and confirm. The link does not show the updated website"
-4. "the jarvis tab is not fixed. When I hover over it, it appears above the tessaract thing. This might be becuase the title is now on 2 lines instead of one which makes the "made by jarvis" tab be hiddden behind the top bar. I want everything to be visible when the website view is at 100%"`,
+    personalNotes: `When revisiting the website on a different device, I noticed some of the padding and organization on the website was off - struggled for a bit to correct it`,
   },
   {
     date: '2026-09-11',
