@@ -1,0 +1,101 @@
+﻿“The more I learn, the less I know.”  - Einstein 
+09/18/2026 
+
+
+Research Proposal: Robotic Control for ORLO*
+
+
+  
+
+What I know: The Orbital Locker Surface Tile Assembly Robot is a novel in-space assembly technology that uses two robots to store and assemble tiles to make a large grid.  The two robots are R1 and R2.  R1 stores the tiles and moves only in the +/- y-direction.  It is responsible for loading tiles into R2, which then moves in the + x-direction, placing tiles as it goes, and returns in the - x-direction to be reloaded with tiles.
+
+
+Schematic of understanding below: 
+
+
+  
+
+
+
+Why ORLO*: Large grids can be mirrors (increase telescope fidelity or redirect light for power in shadow), solar panels for power generation (is this more useful than the roll-out solar arrays used?), or solar panel and radiator combinations for data centers in space (AI yay)
+Funny “artist” interpretation of the mission:
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Research Proposal: 
+
+
+I want to write a controls thesis.  This will develop my understanding of robotics, electrical engineering, computer science, math (lots of math), and ROS software.  
+
+
+Experience in controls: 
+* Systems and control class
+* Intro electrical engineering class
+* Dynamics class
+* Some robotics experience 
+
+
+My understanding of control:
+* Gathering data from on-board sensors and using that information to determine the state of the robot.  Based on the state, determine how the robot(s) should traverse, accelerate, cruise, slow down, pick up, place down, assemble, etc.
+
+
+What I do not understand: 
+* How space complicates control. How to use ROS.
+ 
+Question:
+* What is an appropriate scope for a controls thesis for ORLO*
+* Any ideas for a good research question for an AI Agent for Engineering Research?
+   * PhD/Master’s Thesis project accomplished in a semester with AI.
+
+
+Concern:
+* Robotic control does not feel like I am pushing the field.  Is this valid research?
+   * Hardware demonstration v controller method.
+
+
+
+
+Michael Kuhl
+AI Agents for Engineering Research
+09/20/2026
+
+
+Lightweight Computer Vision for Autonomous In-Space Robotic Assembly
+
+
+For my project, I will develop and evaluate a lightweight computer vision AI model for the Orbital Locker Surface Tile Assembly Robot (ORLO*). The system would run locally onboard two robots, interpreting camera images to support movement, panel placement, and docking.
+
+
+The assembly architecture uses two robots to construct a planar grid from panels measuring one square meter. Robot 1 (R1) houses robot 2 (R2), stores panels, and moves along the Y direction. R2 receives panels, assembles them along the X direction, and returns to dock with R1. After completing a row, R1 places a panel in the positive Y direction and advances to begin the next row.
+
+
+My research will investigate how model size and computational demand affect positioning accuracy and assembly reliability. I will adapt a compact vision model to identify docking interfaces and panel attachment features, then integrate its position estimates with a feedback controller that adjusts movement speed and stops when visual information is insufficient. The initial scope will focus on R2 docking with R1.
+
+
+AI agents will assist with simulation development, training code, and experimental analysis, with results independently checked. Using simulated camera images, I will evaluate performance under varied lighting, occlusion, and positioning errors. Comparisons against larger models and conventional vision methods will measure accuracy, inference latency, memory requirements, and docking success. Deliverables will include a reproducible simulation, a locally deployable model, and a quantitative assessment of the trade-offs between computational efficiency and reliable control.
