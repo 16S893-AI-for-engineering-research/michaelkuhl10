@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { resolvePath } from '../lib/paths';
 
 // Each entry has two independent halves, side by side:
 //   - aiSummary:    fact-based bullets, one line per concrete thing done.
@@ -13,6 +14,22 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 //
 // Add new entries to the top of this list as the project progresses.
 const entries = [
+  {
+    date: '2026-09-21',
+    title: 'The Sept 21 Tragedy: pi loses its hands',
+    attachment: {
+      href: '/docs/Sept_21_Tragedy.pdf',
+      label: 'Sept 21 Tragedy (PDF)',
+    },
+    aiSummary: [
+      'Pi (the coding-agent CLI) auto-updated itself, changing how it hands tools and the system prompt to provider extensions: instead of passing a simple tool list and system prompt, it now bundles both into the conversation history and expects the provider to pull them back out with helper functions.',
+      'The MIT Parley extension was written for the old, simpler approach, so every request it sent went out with no tools and, for most models, no system prompt — the AI silently pretended to read and write files while doing nothing, without ever erroring out.',
+      'Fix: patched the extension’s request-building code (dist/stream.js) to fetch tools and the system prompt via pi’s new helper functions (getCurrentTools, getInitialSystemMessage) instead of reading the old fields directly.',
+      'Verified with live tests that file reads, writes, and commands now actually execute.',
+      'The underlying bug lives in the mit-parley-pi-extension npm package (maintainer: prash; repo: git@github.mit.edu:prash/pi_parley.git) and needs the same fix applied to src/stream.ts, then a new npm version published so it survives future pi updates.',
+    ],
+    personalNotes: `I spent 45 minutes tonight developing my own skills, but ran into an issue with pi when I tried to write these to .pi/Agent/Skills.  Pi had lost all ability to utilize its tools.  I had assumed this was the result of irresponsibly executing code in my terminal.  I spent 1.5 hours on my own trying to solve the problem and 2 more hours with my roomate who spends all day in terminal, and neither of us could figure out the issue.  We even executed the forbidden rm rf command to completely get rid of pi and re-install.  It was useless.  It was not until I connected Claude in terminal that we (Claude) were able to diagnose the issue.  I (Claude) provided the summary of the issue and the solution to it on the left.`,
+  },
   {
     date: '2026-09-16',
     title: 'Assignment: pull session stats from pi session log',
@@ -106,6 +123,16 @@ render a result.`,
                   <li>{bullet}</li>
                 ))}
               </ul>
+              {entry.attachment && (
+                <a
+                  href={resolvePath(entry.attachment.href)}
+                  target="_blank"
+                  rel="noopener"
+                  class="inline-flex items-center gap-2 mt-4 text-sm text-orbit-light hover:text-orbit underline"
+                >
+                  ↓ {entry.attachment.label}
+                </a>
+              )}
             </div>
             <div class="p-5 bg-thruster-500/[0.04]">
               <p class="font-mono text-xs text-thruster-400 tracking-widest mb-3">MY NOTES</p>
