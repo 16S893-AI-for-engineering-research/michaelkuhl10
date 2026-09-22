@@ -15,6 +15,47 @@ import { resolvePath } from '../lib/paths';
 // Add new entries to the top of this list as the project progresses.
 const entries = [
   {
+    date: '2026-09-22',
+    title: 'Password-protected schedule page and project page rebuilt from the proposal',
+    aiSummary: [
+      'Read the syllabus at 16s893-ai-for-engineering-research.github.io/class-repo/syllabus to pull the real course calendar, rather than guessing dates: 23 sessions, Tue/Thu 9:30 to 11:00 in room 33-218, with no class on Tue 13 Oct (MIT Monday schedule) or Thu 26 Nov (Thanksgiving).',
+      'Built src/pages/schedule.astro: 14 weeks, each week listing its course sessions alongside two parallel task tracks, a course track and an ORLO* research track.',
+      'Used the published Block A dates and topics for sessions 1 through 8 verbatim. Block B and C dates, and the Assignment 2 to 4 due dates, are labeled projected on the page because the syllabus says exact dates are posted once the roster settles and that assignments are released as the term goes.',
+      'Carried the fixed deadlines onto the page: Assignment 1 Tue 15 Sep, one-pager Tue 22 Sep, lightning talks Thu 24 Sep, portfolio freeze Fri 4 Dec 5 pm, reflective one-on-ones week of 7 Dec.',
+      'Sized the research track so each week is completable with an agent doing the drafting and sweeps, and attached a verification step to every week that produces a number: hand-check the R2 to R1 transform math, overfit a 16-image batch before any real training run, golden-file tests on the eval harness, independent recompute of one reported metric.',
+      'Password protected the page with real encryption instead of a hidden div. The schedule HTML is rendered at build time, encrypted with AES-256-GCM using a key derived by PBKDF2-SHA256 at 150000 iterations, and only the ciphertext ships in the page. The browser decrypts with Web Crypto after the passphrase is entered.',
+      'Confirmed the protection by searching the built dist/schedule/index.html for content terms: docking, keypoint, PyBullet, Thanksgiving, and 33-218 are all absent from the plaintext. Only the intentional public intro blurb is readable in source.',
+      'Tested the gate in a real browser with Playwright: a wrong passphrase shows an error and leaves the content hidden, the passphrase Schedule unlocks all 14 weeks, the unlock survives a page reload via sessionStorage, and the lock again button re-hides the content. No console errors.',
+      'Added Schedule to the nav in src/components/Header.astro.',
+      'Rebuilt src/pages/project.astro from the submitted proposal, replacing the one-line placeholder: R1 and R2 architecture cards, the model-size versus positioning-accuracy research question, the R2-docks-with-R1 initial scope called out separately, the four evaluation metrics, the role of AI agents, and the three deliverables.',
+      'Published Kuhl_Project_Proposal.pdf to public/docs/ and linked it twice from the project page, with a footer note stating the PDF is the submitted version of record so the reformatted prose is not mistaken for the submission.',
+      'Removed the stale claim that the project direction was still being decided from both src/pages/index.astro and src/pages/about.astro, since it contradicted a settled proposal.',
+      'Verified on the deployed site: /project and /schedule return 200, the proposal PDF returns 200 as application/pdf, the Term schedule link resolves correctly under the /michaelkuhl10 base path, the passphrase gate still works in production, and neither page overflows horizontally at 390 px.',
+      'Left the earlier draft Robotic Control ORLO_ Proposal.txt untracked, since it contains advisor-facing open questions and candid self-assessment rather than public project description.',
+    ],
+    personalNotes: `I built out an internal schedule and updated the project page based on the submitted proposal.  Opus 5 produced the result.`,
+  },
+  {
+    date: '2026-09-22',
+    title: 'Built three pi skills for the ORLO* vision project',
+    aiSummary: [
+      'Read the project proposal text file (Robotic Control ORLO_ Proposal.txt) and the repo conventions, then scoped three skills against the proposal\'s stated deliverables: a reproducible simulation, a deployable model, and a quantitative trade-off study.',
+      'Built docking-sim-scenarios (global skill): expands a sweep config into deterministic scenarios with ground-truth pose labels, per-sample seeds, and a manifest recording the config hash and scenario checksum.',
+      'Generated 1944 scenarios (243 condition cells x 8 samples) from the example sweep, rendered all 1944 placeholder images in 16 seconds, and confirmed byte-identical regeneration from the manifest alone.',
+      'Verified the dataset guardrails by deliberately breaking them: a hand-edited manifest triggers a config hash mismatch, a deleted scenario line triggers an integrity failure, and an unrendered dataset is refused by the benchmark.',
+      'Built vision-model-benchmark (global skill): runs a model against a pinned dataset and records translation and rotation error at p50 and p95, latency at p50 and p95, peak memory, parameter count, docking success rate, abstention rate, and overconfident error rate.',
+      'Included four models: oracle and null as sanity checks, classical_blob as the classical CV baseline, and noisy_oracle as a labeled synthetic placeholder.',
+      'The oracle sanity model caught a real bug in the metric code: the standard 2*acos(|dot|) formula for quaternion rotation error reported 0.005 deg on an exact match because acos is ill-conditioned near dot=1. Replaced it with the atan2 form, which now returns exactly 0 and recovers a 0.001 deg rotation faithfully.',
+      'Benchmarked all four models on the 1944-scenario dataset. classical_blob scored 0.0638 docking success against the null baseline\'s 0.2984, so the report now flags automatically when a model fails to beat null or is confidently wrong on more than 10 percent of scenarios.',
+      'Per-condition breakdown showed classical_blob at 0 percent success under 5 degree grazing light versus 19 percent at 75 degrees, which is the low-light failure mode the space imaging notes predicted.',
+      'Built dev-log-entry (project skill in .pi/skills/): inserts an entry at the top of the entries array, escapes single-quoted aiSummary strings and template-literal personalNotes, copies PDF attachments into public/docs/, rejects hrefs containing the base path, and verifies with npm run build.',
+      'Tested dev-log-entry against adversarial input containing apostrophes, double quotes, a backtick, and a ${expr} sequence, confirmed the build passed and the rendered HTML preserved the text literally, then reverted the test entry.',
+      'Restored public/docs/Kuhl_Project_Proposal.pdf, which was tracked in git but missing from the working tree while project.astro linked to it in two places.',
+      'This entry was added using the dev-log-entry skill.',
+    ],
+    personalNotes: `I delivered my project proposal as a .txt in my local directory for Claude Opus 5 to read.  I had it come up with three skills that would be usefull as I progress in this project.  It developed docking simulation scenarios, a vision-model benchmark, and an update dev log skill which I am using now.  I still have to explore the skills to learn how to best use them.`,
+  },
+  {
     date: '2026-09-21',
     title: 'The Sept 21 Tragedy: pi loses its hands',
     attachment: {
