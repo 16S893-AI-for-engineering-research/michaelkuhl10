@@ -1,23 +1,159 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { resolvePath } from '../lib/paths';
+
+// Content on this page is a reformatting of the project proposal
+// (Kuhl_Project_Proposal.pdf, 20 Sept 2026) into the site's flow. The wording
+// is the proposal's own; only the structure is new.
+
+const architecture = [
+  {
+    label: 'R1',
+    role: 'Panel store / Y axis',
+    detail:
+      'Houses robot 2, stores the panels, and moves along the Y direction. After a row is finished, R1 places a panel in the positive Y direction and advances to begin the next row.',
+  },
+  {
+    label: 'R2',
+    role: 'Placement / X axis',
+    detail:
+      'Receives panels from R1, assembles them along the X direction, and returns to dock with R1 to be reloaded.',
+  },
+];
+
+const metrics = [
+  { name: 'Accuracy', note: 'Positioning accuracy against ground truth' },
+  { name: 'Inference latency', note: 'Time per frame under an onboard budget' },
+  { name: 'Memory', note: 'Footprint required to run locally' },
+  { name: 'Docking success', note: 'Reliability across trials' },
+];
+
+const deliverables = [
+  'A reproducible simulation.',
+  'A locally deployable model.',
+  'A quantitative assessment of the trade-offs between computational efficiency and reliable control.',
+];
 ---
 
-<BaseLayout title="Project">
+<BaseLayout
+  title="Project"
+  description="Lightweight computer vision for autonomous in-space robotic assembly — MIT 16.S893 project"
+>
   <section class="max-w-3xl mx-auto px-6 pt-12 pb-16">
     <p class="font-mono text-sm text-orbit tracking-widest mb-4" data-reveal="1">
-      MIT 16.S893 PROJECT
+      MIT 16.S893 PROJECT · 20 SEPT 2026
     </p>
-    <h1 data-reveal="1">Project</h1>
+    <h1 data-reveal="1">Lightweight Computer Vision for Autonomous In-Space Robotic Assembly</h1>
 
-    <p class="text-lg text-space-200 mt-6 max-w-2xl" data-reveal="2">
-      AI agent to accelerate in-space assembly engineering research.
+    <p class="text-lg text-space-200 mt-6 leading-relaxed" data-reveal="2">
+      I will develop and evaluate a lightweight computer vision AI model for the
+      <strong>Orbital Locker Surface Tile Assembly Robot (ORLO*)</strong>. The system would run
+      locally onboard two robots, interpreting camera images to support movement, panel placement,
+      and docking.
     </p>
 
-    <p class="text-base text-space-400 mt-6 max-w-2xl" data-reveal="3">
-      Project scope is still being defined. This page will be updated with real
-      details once the direction is settled — see the <a href={resolvePath('/dev-log')}>dev log</a>
-      for the current state of the work.
+    <div class="flex flex-wrap gap-4 mt-8" data-reveal="2">
+      <a
+        href={resolvePath('/docs/Kuhl_Project_Proposal.pdf')}
+        target="_blank"
+        rel="noopener"
+        class="px-5 py-2.5 rounded-xl border border-orbit/40 bg-orbit/10 text-orbit-light font-medium no-underline hover:bg-orbit/20 transition-all"
+      >
+        ↓ Full proposal (PDF)
+      </a>
+      <a
+        href={resolvePath('/schedule')}
+        class="px-5 py-2.5 rounded-xl border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
+      >
+        Term schedule
+      </a>
+    </div>
+
+    <!-- Architecture -->
+    <h2 class="mt-14" data-reveal="3">The assembly architecture</h2>
+    <p class="text-base text-space-300 mt-4 leading-relaxed" data-reveal="3">
+      The architecture uses two robots to construct a planar grid from panels measuring one square
+      meter.
+    </p>
+
+    <div class="grid sm:grid-cols-2 gap-4 mt-6" data-reveal="3">
+      {architecture.map((r) => (
+        <div class="rounded-xl border border-orbit/15 bg-space-900/30 p-5">
+          <div class="flex items-baseline gap-3 mb-2">
+            <span class="font-mono text-lg text-orbit-light">{r.label}</span>
+            <span class="font-mono text-[10px] tracking-widest text-space-400 uppercase">
+              {r.role}
+            </span>
+          </div>
+          <p class="text-sm text-space-300 m-0 leading-relaxed">{r.detail}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Research question -->
+    <h2 class="mt-14" data-reveal="4">The research question</h2>
+    <p class="text-base text-space-300 mt-4 leading-relaxed" data-reveal="4">
+      My research will investigate <strong class="text-space-100">how model size and
+      computational demand affect positioning accuracy and assembly reliability</strong>. I will
+      adapt a compact vision model to identify docking interfaces and panel attachment features,
+      then integrate its position estimates with a feedback controller that adjusts movement speed
+      and stops when visual information is insufficient.
+    </p>
+
+    <div
+      class="mt-6 rounded-xl border-l-2 border-thruster-400/50 bg-thruster-500/[0.06] px-5 py-4"
+      data-reveal="4"
+    >
+      <p class="font-mono text-xs text-thruster-400 tracking-widest mb-2">INITIAL SCOPE</p>
+      <p class="text-base text-space-200 m-0">R2 docking with R1.</p>
+    </div>
+
+    <!-- Method -->
+    <h2 class="mt-14" data-reveal="5">Method and evaluation</h2>
+    <p class="text-base text-space-300 mt-4 leading-relaxed" data-reveal="5">
+      Using simulated camera images, I will evaluate performance under varied lighting, occlusion,
+      and positioning errors. Comparisons against larger models and conventional vision methods
+      will measure:
+    </p>
+
+    <div class="grid sm:grid-cols-2 gap-3 mt-6" data-reveal="5">
+      {metrics.map((m) => (
+        <div class="rounded-xl border border-orbit/15 bg-space-900/30 px-4 py-3">
+          <p class="text-sm text-space-100 font-medium m-0">{m.name}</p>
+          <p class="text-xs text-space-400 m-0 mt-1">{m.note}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Role of agents -->
+    <h2 class="mt-14" data-reveal="5">How AI agents are used</h2>
+    <p class="text-base text-space-300 mt-4 leading-relaxed" data-reveal="5">
+      AI agents will assist with simulation development, training code, and experimental analysis,
+      <strong class="text-space-100">with results independently checked</strong>. The verification
+      practice behind that claim — tests, hand calculations, and independent recomputes — is
+      recorded session by session in the <a href={resolvePath('/dev-log')}>dev log</a>.
+    </p>
+
+    <!-- Deliverables -->
+    <h2 class="mt-14" data-reveal="5">Deliverables</h2>
+    <ul class="mt-4 space-y-2 list-none p-0 m-0" data-reveal="5">
+      {deliverables.map((d, i) => (
+        <li class="flex gap-3 text-base text-space-300">
+          <span class="font-mono text-xs text-orbit/70 mt-1.5">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <span>{d}</span>
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-14 pt-6 border-t border-orbit/10 text-sm text-space-400">
+      ORLO* — Orbital Locker Surface Tile Assembly Robot. This page reformats the project proposal
+      submitted 20 September 2026; the <a
+        href={resolvePath('/docs/Kuhl_Project_Proposal.pdf')}
+        target="_blank"
+        rel="noopener">original PDF</a
+      > is the submitted version of record.
     </p>
   </section>
 </BaseLayout>

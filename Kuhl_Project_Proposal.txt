@@ -1,0 +1,18 @@
+﻿Michael Kuhl
+AI Agents for Engineering Research
+09/20/2026
+
+
+Lightweight Computer Vision for Autonomous In-Space Robotic Assembly
+
+
+For my project, I will develop and evaluate a lightweight computer vision AI model for the Orbital Locker Surface Tile Assembly Robot (ORLO*). The system would run locally onboard two robots, interpreting camera images to support movement, panel placement, and docking.
+
+
+The assembly architecture uses two robots to construct a planar grid from panels measuring one square meter. Robot 1 (R1) houses robot 2 (R2), stores panels, and moves along the Y direction. R2 receives panels, assembles them along the X direction, and returns to dock with R1. After completing a row, R1 places a panel in the positive Y direction and advances to begin the next row.
+
+
+My research will investigate how model size and computational demand affect positioning accuracy and assembly reliability. I will adapt a compact vision model to identify docking interfaces and panel attachment features, then integrate its position estimates with a feedback controller that adjusts movement speed and stops when visual information is insufficient. The initial scope will focus on R2 docking with R1.
+
+
+AI agents will assist with simulation development, training code, and experimental analysis, with results independently checked. Using simulated camera images, I will evaluate performance under varied lighting, occlusion, and positioning errors. Comparisons against larger models and conventional vision methods will measure accuracy, inference latency, memory requirements, and docking success. Deliverables will include a reproducible simulation, a locally deployable model, and a quantitative assessment of the trade-offs between computational efficiency and reliable control.
