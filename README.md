@@ -39,7 +39,7 @@ src/
   components/   Header, Footer
   layouts/      BaseLayout.astro
   lib/          paths.ts (base-path helper)
-  pages/        index, about, project, dev-log
+  pages/        index, about, project, dev-log, schedule
   styles/       globals.css
 .github/workflows/deploy.yml   CI build + deploy to Pages
 ```
@@ -50,5 +50,17 @@ src/
 - **About you:** `src/pages/about.astro`
 - **Dev log entries:** add to the `entries` array in `src/pages/dev-log.astro`.
   Each entry is a list of fact-based bullets, written by hand, not AI-generated.
+- **Schedule:** `src/pages/schedule.astro`. Edit the `weeks`, `deadlines`, and
+  `grading` arrays. Each week has a `course` track (sessions and assignments
+  from the 16.S893 syllabus) and a parallel `research` track (ORLO* vision
+  work). Mark items complete with `done: true`.
+
+  The page is passphrase protected (**`Schedule`**). Since GitHub Pages is
+  static and has no server to check a password, the content is rendered at
+  build time, encrypted with AES-256-GCM (PBKDF2-SHA256, 150k iterations), and
+  only the ciphertext ships in the HTML — the browser decrypts it via Web
+  Crypto after the passphrase is entered. Viewing source does not reveal the
+  schedule. To change the passphrase, edit `PASSPHRASE` in that file and
+  rebuild.
 - **Personal notes:** kept separately in `notes/` (untracked, private — see
   `notes/README.md`), not on the public site.
