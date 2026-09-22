@@ -1,0 +1,714 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import crypto from 'node:crypto';
+
+// ---------------------------------------------------------------------------
+// Schedule page
+//
+// The schedule content below is rendered to an HTML string at BUILD time,
+// encrypted with AES-256-GCM using a key derived from the passphrase, and only
+// the ciphertext is shipped to the browser. The browser decrypts it in-page
+// after the correct passphrase is entered. Because this is a static site
+// (GitHub Pages) there is no server to check a password against, so real
+// encryption is used instead of merely hiding the markup with JS.
+//
+// Passphrase: "Schedule"
+// ---------------------------------------------------------------------------
+const PASSPHRASE = 'Schedule';
+const PBKDF2_ITERATIONS = 150_000;
+
+// Course calendar facts come from the 16.S893 syllabus:
+//   Tue/Thu 9:30-11:00, room 33-218. 23 sessions.
+//   No class Tue 13 Oct (MIT Monday schedule) or Thu 26 Nov (Thanksgiving).
+// Block A session dates/topics are published. Block B/C dates are projected
+// onto the Tue/Thu pattern and flagged as projected where the syllabus says
+// "exact dates will be posted".
+
+const deadlines = [
+  { date: 'Tue 15 Sep, 9 am', what: 'Assignment 1 — portfolio site live, pull request on the class repo', status: 'done' },
+  { date: 'Tue 22 Sep', what: 'Project one-pager, advisor sign-off by reply-all email', status: 'due' },
+  { date: 'Thu 24 Sep', what: 'Lightning talk on proposal, 3 minutes', status: 'due' },
+  { date: '~Tue 20 Oct', what: 'Assignment 2 (projected — released as we go, one every three weeks)', status: 'projected' },
+  { date: '~Tue 10 Nov', what: 'Assignment 3 (projected)', status: 'projected' },
+  { date: '~Tue 1 Dec', what: 'Assignment 4 (projected)', status: 'projected' },
+  { date: 'Fri 4 Dec, 5 pm', what: 'Final portfolio freeze — tagged commit or stable URL', status: 'upcoming' },
+  { date: 'Week of 7 Dec', what: 'Reflective one-on-one discussion, scheduled individually', status: 'upcoming' },
+];
+
+const grading = [
+  { c: 'Proposal + advisor sign-off + computer fluency', w: 'Required' },
+  { c: 'Four short practical, open-ended assignments', w: '30%' },
+  { c: 'GitHub portfolio + AI-use dev log', w: '30%' },
+  { c: 'Final presentation', w: '15%' },
+  { c: 'Final 1-1 reflective discussion', w: '15%' },
+  { c: 'Clinic & peer-feedback engagement', w: '10%' },
+];
+
+const weeks = [
+  {
+    n: 1,
+    range: 'Mon 7 – Sun 13 Sep',
+    block: 'Block A',
+    status: 'done',
+    sessions: [
+      { no: 1, date: 'Thu 10 Sep', topic: 'Introduction to the course, diagnostic poll, setup' },
+    ],
+    course: [
+      { t: 'Attend session 1; complete the ungraded diagnostic poll.', done: true },
+      { t: 'Bootcamp office hours (Thu 10, Fri 11, Mon 14 Sep) — git, shell, pi and Parley working.', done: true },
+      { t: 'Work through Missing Semester lectures 1–4 (shell, scripting, data wrangling, git).', done: true },
+      { t: 'Flag any IP / export-control constraints on ORLO* material in week 1.', done: true },
+    ],
+    research: [
+      { t: 'Pick the live research thread: ORLO* (Orbital Locker Surface Tile Assembly Robot) two-robot planar assembly.', done: true },
+      { t: 'Write down what is actually known about R1 (±Y, stores panels) and R2 (+X place, −X return to dock).', done: true },
+      { t: 'List the gaps honestly: how space complicates control, and no ROS experience yet.', done: true },
+    ],
+  },
+  {
+    n: 2,
+    range: 'Mon 14 – Sun 20 Sep',
+    block: 'Block A',
+    status: 'done',
+    sessions: [
+      { no: 2, date: 'Tue 15 Sep', topic: 'Mental models for LLMs, agents and harnesses — every portfolio site reviewed' },
+      { no: 3, date: 'Thu 17 Sep', topic: 'The model as a service, the harness by hand, and skills' },
+    ],
+    course: [
+      { t: 'Assignment 1 due Tue 15 Sep 9 am — portfolio site live, PR on the class repo.', done: true, due: true },
+      { t: 'Build the harness by hand once: raw API call, system prompt, one tool call answered manually.', done: true },
+      { t: 'Start the AI-use dev log; pull real session stats (prompt count, tool-call count) from the pi session log.', done: true },
+      { t: 'Write a first agent skill and check where pi stores it.', done: true },
+    ],
+    research: [
+      { t: 'Draft the controls-thesis framing and get the scope question in front of the advisor.', done: true },
+      { t: 'Narrow from "a controls thesis" to something a semester can hold: perception for docking.', done: true },
+      { t: 'Debug and document the pi / MIT Parley tool-loss failure (Sept 21 Tragedy) — a real agent failure mode for the portfolio.', done: true },
+    ],
+  },
+  {
+    n: 3,
+    range: 'Mon 21 – Sun 27 Sep',
+    block: 'Block A',
+    status: 'current',
+    sessions: [
+      { no: 4, date: 'Tue 22 Sep', topic: 'Sandboxing agents: threats, the lethal trifecta, isolation' },
+      { no: 5, date: 'Thu 24 Sep', topic: 'Lightning talks on project proposals — 3 minutes each' },
+    ],
+    course: [
+      { t: 'Project one-pager + advisor sign-off by reply-all email — due Tue 22 Sep.', due: true },
+      { t: 'Lightning talk Thu 24 Sep: 3 slides — what ORLO* is, the CV question, how the agent will be used.' },
+      { t: 'Post the one-page note 24 h before presenting: the takeaway, and the one thing to scrutinise.' },
+      { t: 'Run the agent inside a sandbox (container / restricted workdir); write down what it can and cannot reach.' },
+      { t: 'Audit for the lethal trifecta: private data + untrusted content + exfiltration path. Rotate any key that has been in a prompt.' },
+      { t: 'Dev-log entry for the week, including the sandbox setup.' },
+    ],
+    research: [
+      { t: 'Lock scope to one thing: monocular pose estimation for R2 → R1 docking. R1 row-advance is explicitly out of scope.' },
+      { t: 'Write the research question and hypothesis in one paragraph each: how model size and compute budget trade against docking reliability.' },
+      { t: 'Define the four metrics now, before any code: translation/rotation error at dock, inference latency, peak memory, docking success rate.' },
+      { t: 'Agent-assisted literature sweep (~15 papers): fiducial markers vs learned keypoints, lightweight backbones, space lighting and specular panels. Verify every citation actually exists.' },
+      { t: 'Create the research repo: pinned requirements, seeded runs, README that states the question, data/ and results/ separated.' },
+      { t: 'Decision memo: simulator choice (PyBullet vs Gazebo+ROS 2 vs Isaac) with the reason and the cost of being wrong.' },
+    ],
+  },
+  {
+    n: 4,
+    range: 'Mon 28 Sep – Sun 4 Oct',
+    block: 'Block A',
+    status: 'upcoming',
+    sessions: [
+      { no: 6, date: 'Tue 29 Sep', topic: 'Software-engineering practices: testing and verification' },
+      { no: 7, date: 'Thu 1 Oct', topic: 'Task decomposition, workflows, externalized memory and context rot' },
+    ],
+    course: [
+      { t: 'Assignment 2 expected to be released this week — read it the day it lands and scope it against the research plan.' },
+      { t: 'Stand up a test suite + CI on the research repo so agent output has an accept/reject signal.' },
+      { t: 'Write AGENTS.md: repo conventions, what the agent may touch, how to run the tests.' },
+      { t: 'Externalize memory — a running notes file the agent reads at session start instead of re-deriving context.' },
+      { t: 'Dev log: one instance of context rot, what it produced, and how it was caught.' },
+    ],
+    research: [
+      { t: 'Stand up the simulation: R1, R2, and 1 m² panel geometry with a mounted camera on R2.' },
+      { t: 'Camera model with real intrinsics and image noise; deterministic seeds so any run is reproducible.' },
+      { t: 'Ground-truth pose logging at every frame — this is the whole basis of every later number.' },
+      { t: 'Hand-verify the agent\'s transform math: check one R2→R1 relative pose against a pencil-and-paper calculation before trusting the suite.' },
+      { t: 'Unit tests on geometry: round-trip pose composition, reprojection of a known point, units and frame conventions.' },
+      { t: 'Render 20 frames and eyeball them. Wrong-but-plausible renders are the most expensive failure here.' },
+    ],
+  },
+  {
+    n: 5,
+    range: 'Mon 5 – Sun 11 Oct',
+    block: 'Block A → B',
+    status: 'upcoming',
+    sessions: [
+      { no: 8, date: 'Tue 6 Oct', topic: 'Subagents and orchestration' },
+      { no: 9, date: 'Thu 8 Oct', topic: 'Pod clinic, round 1 — presenter' },
+    ],
+    course: [
+      { t: 'Pod clinic Thu 8 Oct: bring the current repo and ONE focused question.' },
+      { t: 'One-page note 24 h before the clinic: takeaway + the one thing to scrutinise.' },
+      { t: 'File peer-review GitHub issues within 24 h — one specific thing per issue, with evidence and the one test that would settle it.' },
+      { t: 'Try an orchestration split: one subagent generating data, one writing the eval harness. Log whether it beat doing it serially.' },
+    ],
+    research: [
+      { t: 'Synthetic data pipeline with domain randomisation: sun angle, exposure, specular highlights, partial occlusion, initial pose offset.' },
+      { t: 'Label the docking-interface keypoints automatically from sim ground truth; reproject labels onto images as a correctness check.' },
+      { t: 'Generate ~5k train / ~1k held-out test frames. Hold out by condition, not at random, so generalisation is actually tested.' },
+      { t: 'Write the dataset card: generation seeds, condition ranges, label definition, known artefacts.' },
+      { t: 'Clinic question to ask the pod: is the held-out split honest, or is it leaking?' },
+    ],
+  },
+  {
+    n: 6,
+    range: 'Mon 12 – Sun 18 Oct',
+    block: 'Block B',
+    status: 'upcoming',
+    sessions: [
+      { no: null, date: 'Tue 13 Oct', topic: 'No class — MIT runs a Monday schedule', off: true },
+      { no: 10, date: 'Thu 15 Oct', topic: 'Pod clinic, round 1 (roles reverse) — reviewer' },
+    ],
+    course: [
+      { t: 'Reviewer role Thu 15 Oct: inspect the assigned repo and file issues with concrete evidence.' },
+      { t: 'Act on the issues filed against this repo last week; close each one with a commit or a written reason.' },
+      { t: 'Assignment 2 work — keep it inside the research repo rather than as a side exercise.' },
+      { t: 'Dev log: token/cost tracking for the week.' },
+    ],
+    research: [
+      { t: 'Build the classical baseline first: fiducial (ArUco/AprilTag) detection + PnP pose. This is the floor every learned model must beat.' },
+      { t: 'Eval harness: one command → pose error, latency, memory, per-condition breakdown, plots.' },
+      { t: 'Golden-file tests on the harness so a refactor cannot silently change a reported number.' },
+      { t: 'Record baseline numbers in results/ and commit them. Never overwrite a baseline.' },
+    ],
+  },
+  {
+    n: 7,
+    range: 'Mon 19 – Sun 25 Oct',
+    block: 'Block B',
+    status: 'upcoming',
+    sessions: [
+      { no: 11, date: 'Tue 20 Oct', topic: 'Project work / topic session (date projected)', projected: true },
+      { no: 12, date: 'Thu 22 Oct', topic: 'Project work / topic session (date projected)', projected: true },
+    ],
+    course: [
+      { t: 'Assignment 2 due ~Tue 20 Oct (projected — confirm the real date in class).', due: true },
+      { t: 'Publish the assignment by pushing it to the repo; make sure another student could re-run it.' },
+      { t: 'Show unfinished work in session — the failing training run is more useful to the class than a clean plot.' },
+    ],
+    research: [
+      { t: 'Train the compact keypoint model (MobileNetV3-small / nano-scale head, target < 5 M params).' },
+      { t: 'Sanity gate before any real run: overfit a 16-image batch to near-zero loss. If it cannot, the pipeline is broken, not the model.' },
+      { t: 'Config-driven training with logged runs (seed, config hash, git SHA on every result).' },
+      { t: 'First head-to-head: compact model vs fiducial baseline on the held-out set. Report it even if the baseline wins.' },
+      { t: 'Verify one agent-reported metric by recomputing it independently from the raw predictions.' },
+    ],
+  },
+  {
+    n: 8,
+    range: 'Mon 26 Oct – Sun 1 Nov',
+    block: 'Block B',
+    status: 'upcoming',
+    sessions: [
+      { no: 13, date: 'Tue 27 Oct', topic: 'Project work / pod clinic round 2 (date projected)', projected: true },
+      { no: 14, date: 'Thu 29 Oct', topic: 'Project work / pod clinic round 2 (date projected)', projected: true },
+    ],
+    course: [
+      { t: 'Clinic round 2 — bring the compute-vs-accuracy question, not a status update.' },
+      { t: 'Write as many peer reviews as received; they are graded.' },
+      { t: 'Dev log: where delegation to the agent stopped this week, and why.' },
+    ],
+    research: [
+      { t: 'Model-size sweep: tiny / small / medium + one deliberately oversized reference model, same data and schedule.' },
+      { t: 'Measure what onboard actually means: CPU-only latency, peak RAM, model file size — not just accuracy.' },
+      { t: 'Int8 quantisation pass; report the accuracy cost against the latency and memory win.' },
+      { t: 'Auto-generate the trade-off table from results/ so the paper numbers cannot drift from the runs.' },
+      { t: 'Start the failure gallery: the frames where pose error is worst, with the image attached.' },
+    ],
+  },
+  {
+    n: 9,
+    range: 'Mon 2 – Sun 8 Nov',
+    block: 'Block B',
+    status: 'upcoming',
+    sessions: [
+      { no: 15, date: 'Tue 3 Nov', topic: 'Project work (date projected)', projected: true },
+      { no: 16, date: 'Thu 5 Nov', topic: 'Project work (date projected)', projected: true },
+    ],
+    course: [
+      { t: 'Assignment 3 released/underway — keep it on the critical path of the project.' },
+      { t: 'Reproducibility check: fresh clone, one command, does it produce the committed numbers?' },
+      { t: 'Update the portfolio Project page with real results — it has been a placeholder long enough.' },
+    ],
+    research: [
+      { t: 'Close the loop: feed the pose estimate into a feedback controller for R2 approach and docking.' },
+      { t: 'Confidence gating — scale approach speed with prediction confidence, hold station when visual information is insufficient.' },
+      { t: 'Controller unit tests separate from the vision model: inject perfect poses first, then noisy ones, then the real model.' },
+      { t: 'First end-to-end simulated docking runs. Log success, contact error, and time to dock.' },
+      { t: 'Write down the safety rule explicitly: what the robot does when perception fails. That is the controls contribution.' },
+    ],
+  },
+  {
+    n: 10,
+    range: 'Mon 9 – Sun 15 Nov',
+    block: 'Block B ends',
+    status: 'upcoming',
+    sessions: [
+      { no: 17, date: 'Tue 10 Nov', topic: 'Project work (date projected)', projected: true },
+      { no: 18, date: 'Thu 12 Nov', topic: 'Project work — end of Block B (date projected)', projected: true },
+    ],
+    course: [
+      { t: 'Assignment 3 due ~Tue 10 Nov (projected — confirm in class).', due: true },
+      { t: 'Ask for a final-presentation slot and put the date in the calendar.' },
+      { t: 'Dev log: the agent failure modes catalogue, with the fix for each.' },
+    ],
+    research: [
+      { t: 'Docking campaign: 100+ trials per condition across the lighting / occlusion / initial-offset grid.' },
+      { t: 'Report success rate with confidence intervals, not a single hero run.' },
+      { t: 'Threshold study on the confidence gate: success rate vs how often it stops unnecessarily.' },
+      { t: 'Failure taxonomy — specular blowout, keypoint swap, occlusion dropout, pose ambiguity near-coaxial.' },
+      { t: 'Freeze the experiment set. Any further change goes to future work, not into the results.' },
+    ],
+  },
+  {
+    n: 11,
+    range: 'Mon 16 – Sun 22 Nov',
+    block: 'Block C',
+    status: 'upcoming',
+    sessions: [
+      { no: 19, date: 'Tue 17 Nov', topic: 'Final presentations begin — 15 min talk + 5 min questions (slot TBA)', projected: true },
+      { no: 20, date: 'Thu 19 Nov', topic: 'Final presentations (slot TBA)', projected: true },
+    ],
+    course: [
+      { t: 'Assignment 4 released — final one of the four.' },
+      { t: 'Build the 15-minute talk: the question, the agent setup, verification, the trade-off curve, where delegation stopped.' },
+      { t: 'One-page note 24 h before the talk slot.' },
+      { t: 'Peer reviews for everyone presenting in the same block.' },
+    ],
+    research: [
+      { t: 'Consolidate results into final figures: compute budget vs docking reliability as the headline plot.' },
+      { t: 'Write the results and discussion sections against the metrics defined back in week 3 — no new metrics now.' },
+      { t: 'Have the agent argue against the conclusion, then check whether the objection survives the data.' },
+      { t: 'Pull one clean example of an agent-generated result that was wrong and caught by the test suite. That belongs in the talk.' },
+    ],
+  },
+  {
+    n: 12,
+    range: 'Mon 23 – Sun 29 Nov',
+    block: 'Block C',
+    status: 'upcoming',
+    sessions: [
+      { no: 21, date: 'Tue 24 Nov', topic: 'Final presentations (slot TBA)', projected: true },
+      { no: null, date: 'Thu 26 Nov', topic: 'No class — Thanksgiving', off: true },
+    ],
+    course: [
+      { t: 'Present or review, depending on the assigned slot.' },
+      { t: 'Rehearse to time: 15 minutes is short for this much material.' },
+      { t: 'Assignment 4 work over the short week.' },
+    ],
+    research: [
+      { t: 'Buffer week — re-run anything that was flaky and settle it.' },
+      { t: 'Release artefacts: frozen model weights, dataset generation seeds, one-command repro script.' },
+      { t: 'Write limitations honestly: sim-only, monocular, R2→R1 docking only, no R1 row-advance, no hardware.' },
+      { t: 'Future work memo: the path from this result to the actual controls thesis, including a hardware demonstration.' },
+    ],
+  },
+  {
+    n: 13,
+    range: 'Mon 30 Nov – Sun 6 Dec',
+    block: 'Block C ends',
+    status: 'upcoming',
+    sessions: [
+      { no: 22, date: 'Tue 1 Dec', topic: 'Final presentations (slot TBA)', projected: true },
+      { no: 23, date: 'Thu 3 Dec', topic: 'Final presentations — last session (slot TBA)', projected: true },
+    ],
+    course: [
+      { t: 'Assignment 4 due ~Tue 1 Dec (projected — confirm in class).', due: true },
+      { t: 'Final portfolio freeze Fri 4 Dec, 5 pm — tagged commit or stable URL.', due: true },
+      { t: 'Final peer reviews filed.' },
+      { t: 'Dev log closing entry: total cost, session count, what the agent was and was not good for.' },
+    ],
+    research: [
+      { t: 'Ship the three deliverables: reproducible simulation, locally deployable model, quantitative trade-off assessment.' },
+      { t: 'Final repro test from a clean machine or container. If it only runs on this laptop, it is not reproducible.' },
+      { t: 'Send the results memo to the advisor framed as thesis scope, not as coursework.' },
+    ],
+  },
+  {
+    n: 14,
+    range: 'Mon 7 – Fri 11 Dec',
+    block: 'Wrap-up',
+    status: 'upcoming',
+    sessions: [
+      { no: null, date: 'Week of 7 Dec', topic: 'Reflective one-on-one discussion, scheduled individually' },
+    ],
+    course: [
+      { t: 'Reflective 1-1 (15% of the grade) — be ready to explain any line of the repo without the agent.' },
+      { t: 'Bring the evidence: verification suites, caught failures, the delegation boundary.' },
+    ],
+    research: [
+      { t: 'Decide the thesis direction: extend the perception work, or pivot to controller method vs hardware demonstration.' },
+      { t: 'Write the January plan while the context is still loaded.' },
+    ],
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Render the protected content to an HTML string, then encrypt it.
+// ---------------------------------------------------------------------------
+const esc = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const statusBadge = (status: string) => {
+  const map: Record<string, [string, string]> = {
+    done: ['COMPLETE', 'text-space-400 border-space-400/30 bg-space-400/5'],
+    current: ['CURRENT WEEK', 'text-thruster-300 border-thruster-400/40 bg-thruster-500/10'],
+    upcoming: ['PLANNED', 'text-orbit border-orbit/30 bg-orbit/5'],
+  };
+  const [label, cls] = map[status] ?? map.upcoming;
+  return `<span class="font-mono text-[10px] tracking-widest px-2 py-1 rounded border ${cls}">${label}</span>`;
+};
+
+const taskList = (items: { t: string; done?: boolean; due?: boolean }[]) => `
+  <ul class="m-0 p-0 list-none space-y-2">
+    ${items
+      .map(
+        (it) => `
+      <li class="flex gap-3 text-sm leading-relaxed ${it.done ? 'text-space-500' : 'text-space-300'}">
+        <span class="shrink-0 mt-[3px] font-mono text-xs ${
+          it.done ? 'text-space-500' : it.due ? 'text-thruster-400' : 'text-orbit/60'
+        }">${it.done ? '[x]' : '[ ]'}</span>
+        <span class="${it.done ? 'line-through decoration-space-600' : ''}">${esc(it.t)}${
+          it.due && !it.done
+            ? ' <span class="font-mono text-[10px] tracking-widest text-thruster-400 align-middle">DUE</span>'
+            : ''
+        }</span>
+      </li>`,
+      )
+      .join('')}
+  </ul>`;
+
+const deadlineRows = deadlines
+  .map((d) => {
+    const tone =
+      d.status === 'done'
+        ? 'text-space-500'
+        : d.status === 'projected'
+          ? 'text-space-300'
+          : 'text-space-200';
+    return `
+      <tr class="border-b border-orbit/10 last:border-0">
+        <td class="py-2 pr-4 font-mono text-xs text-orbit-light whitespace-nowrap align-top">${esc(d.date)}</td>
+        <td class="py-2 text-sm ${tone}">${esc(d.what)}${
+          d.status === 'done'
+            ? ' <span class="font-mono text-[10px] tracking-widest text-space-500">DONE</span>'
+            : ''
+        }</td>
+      </tr>`;
+  })
+  .join('');
+
+const gradingRows = grading
+  .map(
+    (g) => `
+      <tr class="border-b border-orbit/10 last:border-0">
+        <td class="py-2 pr-4 text-sm text-space-300">${esc(g.c)}</td>
+        <td class="py-2 font-mono text-xs text-thruster-300 whitespace-nowrap text-right">${esc(g.w)}</td>
+      </tr>`,
+  )
+  .join('');
+
+const weekCards = weeks
+  .map(
+    (w) => `
+  <article id="week-${w.n}" class="rounded-xl border ${
+    w.status === 'current' ? 'border-thruster-400/40' : 'border-orbit/15'
+  } bg-space-900/30 overflow-hidden scroll-mt-28">
+    <header class="flex flex-wrap items-center gap-3 px-5 py-4 border-b border-orbit/15 bg-space-950/40">
+      <span class="font-mono text-xs tracking-widest text-orbit">WEEK ${String(w.n).padStart(2, '0')}</span>
+      <span class="text-sm text-space-100 font-medium">${esc(w.range)}</span>
+      <span class="font-mono text-[10px] tracking-widest text-space-400">${esc(w.block)}</span>
+      <span class="ml-auto">${statusBadge(w.status)}</span>
+    </header>
+
+    <div class="px-5 py-4 border-b border-orbit/10 space-y-1">
+      ${w.sessions
+        .map(
+          (s) => `
+        <div class="flex flex-wrap gap-x-3 gap-y-1 text-sm ${s.off ? 'text-space-500' : 'text-space-300'}">
+          <span class="font-mono text-xs ${s.off ? 'text-space-600' : 'text-orbit/70'} w-12 shrink-0">${
+            s.no ? 'S' + String(s.no).padStart(2, '0') : '—'
+          }</span>
+          <span class="font-mono text-xs text-space-400 w-24 shrink-0">${esc(s.date)}</span>
+          <span class="flex-1 min-w-[12rem]">${esc(s.topic)}</span>
+        </div>`,
+        )
+        .join('')}
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-0">
+      <div class="p-5 border-b md:border-b-0 md:border-r border-orbit/15">
+        <p class="font-mono text-xs text-orbit tracking-widest mb-3">COURSE TRACK</p>
+        ${taskList(w.course)}
+      </div>
+      <div class="p-5 bg-thruster-500/[0.04]">
+        <p class="font-mono text-xs text-thruster-400 tracking-widest mb-3">RESEARCH TRACK — ORLO* VISION</p>
+        ${taskList(w.research)}
+      </div>
+    </div>
+  </article>`,
+  )
+  .join('');
+
+const protectedHtml = `
+  <div class="space-y-10">
+    <section>
+      <h2 class="text-orbit-light">Fixed deadlines</h2>
+      <p class="text-sm text-space-400 mt-2 mb-4">
+        From the 16.S893 syllabus. Assignments 2–4 are released with their due dates as the term
+        goes; the syllabus states the plan is one every three weeks from late September, so those
+        three rows are projections to plan against, not announced dates.
+      </p>
+      <div class="rounded-xl border border-orbit/15 bg-space-900/30 px-5 py-3">
+        <table class="w-full border-collapse"><tbody>${deadlineRows}</tbody></table>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-orbit-light">Where the grade comes from</h2>
+      <div class="mt-4 rounded-xl border border-orbit/15 bg-space-900/30 px-5 py-3">
+        <table class="w-full border-collapse"><tbody>${gradingRows}</tbody></table>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-orbit-light">Week by week</h2>
+      <p class="text-sm text-space-400 mt-2 mb-2">
+        Sessions meet Tuesday and Thursday, 9:30–11:00 am, room 33-218; twenty-three sessions total.
+        Block A session dates and topics are published. Block B and C dates below follow the
+        Tue/Thu pattern and are marked as projected, since the syllabus says exact dates and
+        presentation slots are posted once the roster settles.
+      </p>
+      <p class="text-sm text-space-400 mb-6">
+        The left column is coursework. The right column is the ORLO* research thread running in
+        parallel — sized so each week is completable with an AI agent doing the drafting and
+        sweeps, and with a verification step attached wherever the agent produces a number.
+      </p>
+      <div class="space-y-6">${weekCards}</div>
+    </section>
+
+    <section class="rounded-xl border border-orbit/15 bg-space-900/30 p-5">
+      <p class="font-mono text-xs text-orbit tracking-widest mb-3">STANDING WEEKLY HABITS</p>
+      <ul class="m-0 p-0 list-none space-y-2 text-sm text-space-300">
+        <li class="flex gap-3"><span class="text-orbit/60 font-mono text-xs mt-[3px]">01</span><span>One dev-log entry per working session: what was built, what the agent got wrong, token and cost tally.</span></li>
+        <li class="flex gap-3"><span class="text-orbit/60 font-mono text-xs mt-[3px]">02</span><span>Nothing agent-generated gets committed as a result until a test, a hand calculation, or an independent recompute agrees with it.</span></li>
+        <li class="flex gap-3"><span class="text-orbit/60 font-mono text-xs mt-[3px]">03</span><span>Agent stays sandboxed: restricted working directory, no long-lived credentials in context.</span></li>
+        <li class="flex gap-3"><span class="text-orbit/60 font-mono text-xs mt-[3px]">04</span><span>Write as many peer reviews as received, within 24 hours, one specific issue per GitHub issue.</span></li>
+        <li class="flex gap-3"><span class="text-orbit/60 font-mono text-xs mt-[3px]">05</span><span>Every result carries its git SHA, config hash, and seed. Baselines are never overwritten.</span></li>
+      </ul>
+    </section>
+  </div>`;
+
+// AES-256-GCM, key derived with PBKDF2-SHA256. Salt and IV are fresh per build.
+const salt = crypto.randomBytes(16);
+const iv = crypto.randomBytes(12);
+const key = crypto.pbkdf2Sync(PASSPHRASE, salt, PBKDF2_ITERATIONS, 32, 'sha256');
+const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+const ciphertext = Buffer.concat([
+  cipher.update(protectedHtml, 'utf8'),
+  cipher.final(),
+  cipher.getAuthTag(), // Web Crypto expects the tag appended to the ciphertext
+]);
+
+const payload = {
+  salt: salt.toString('base64'),
+  iv: iv.toString('base64'),
+  data: ciphertext.toString('base64'),
+  iterations: PBKDF2_ITERATIONS,
+};
+---
+
+<BaseLayout
+  title="Schedule"
+  description="Week-by-week course and research schedule for MIT 16.S893 (password protected)"
+>
+  <section class="max-w-5xl mx-auto px-6 pt-12 pb-16">
+    <p class="font-mono text-sm text-orbit tracking-widest mb-4" data-reveal="1">
+      MIT 16.S893 · FALL 2026
+    </p>
+    <h1 data-reveal="1">Schedule</h1>
+    <p class="mt-6 max-w-2xl text-base text-space-200" data-reveal="2">
+      Week-by-week plan for the term: course sessions and assignments on one side, the ORLO*
+      vision research thread running in parallel on the other.
+    </p>
+
+    <!-- Lock screen -->
+    <div id="gate" class="mt-10 max-w-md" data-reveal="3">
+      <div class="rounded-xl border border-orbit/20 bg-space-900/40 p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <svg
+            class="w-5 h-5 text-orbit"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            aria-hidden="true"
+          >
+            <rect x="4" y="10" width="16" height="10" rx="2"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+          </svg>
+          <p class="font-mono text-xs tracking-widest text-orbit m-0">PROTECTED</p>
+        </div>
+
+        <label for="pw" class="block text-sm text-space-300 mb-2">
+          Enter the passphrase to view the schedule.
+        </label>
+        <form id="gate-form" class="flex gap-2" autocomplete="off">
+          <input
+            id="pw"
+            type="password"
+            name="passphrase"
+            autocomplete="current-password"
+            placeholder="Passphrase"
+            class="flex-1 rounded-lg border border-orbit/25 bg-space-950/60 px-3 py-2 text-sm text-space-100 placeholder:text-space-500 outline-none focus:border-orbit/60"
+          />
+          <button
+            type="submit"
+            class="rounded-lg border border-orbit/40 bg-orbit/10 px-4 py-2 font-mono text-xs tracking-widest text-orbit-light hover:bg-orbit/20 transition-colors"
+          >
+            UNLOCK
+          </button>
+        </form>
+        <p id="gate-error" class="mt-3 text-sm text-thruster-300 hidden m-0">
+          Incorrect passphrase.
+        </p>
+        <p class="mt-4 text-xs text-space-500 m-0">
+          Contents are AES-256-GCM encrypted in the page source and decrypted in the browser, so
+          the schedule is not readable by viewing source.
+        </p>
+      </div>
+    </div>
+
+    <!-- Decrypted content lands here -->
+    <div id="schedule-content" class="mt-10 hidden"></div>
+
+    <div id="locked-actions" class="mt-6 hidden">
+      <button
+        id="relock"
+        class="font-mono text-xs tracking-widest text-space-400 hover:text-orbit border-none bg-transparent cursor-pointer p-0"
+      >
+        ↺ LOCK AGAIN
+      </button>
+    </div>
+  </section>
+
+  <script type="application/json" id="schedule-payload" set:html={JSON.stringify(payload)} />
+
+  <script>
+    const payloadEl = document.getElementById('schedule-payload');
+    const gate = document.getElementById('gate');
+    const form = document.getElementById('gate-form');
+    const input = document.getElementById('pw') as HTMLInputElement | null;
+    const errorEl = document.getElementById('gate-error');
+    const content = document.getElementById('schedule-content');
+    const lockedActions = document.getElementById('locked-actions');
+    const relock = document.getElementById('relock');
+    const STORAGE_KEY = 'mk-schedule-pw';
+
+    if (payloadEl && gate && form && input && errorEl && content && lockedActions) {
+      const payload = JSON.parse(payloadEl.textContent || '{}');
+
+      const b64 = (s: string) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+      async function decrypt(passphrase: string): Promise<string | null> {
+        try {
+          const enc = new TextEncoder();
+          const baseKey = await crypto.subtle.importKey(
+            'raw',
+            enc.encode(passphrase),
+            'PBKDF2',
+            false,
+            ['deriveKey'],
+          );
+          const key = await crypto.subtle.deriveKey(
+            {
+              name: 'PBKDF2',
+              salt: b64(payload.salt),
+              iterations: payload.iterations,
+              hash: 'SHA-256',
+            },
+            baseKey,
+            { name: 'AES-GCM', length: 256 },
+            false,
+            ['decrypt'],
+          );
+          const plain = await crypto.subtle.decrypt(
+            { name: 'AES-GCM', iv: b64(payload.iv) },
+            key,
+            b64(payload.data),
+          );
+          return new TextDecoder().decode(plain);
+        } catch {
+          return null; // wrong passphrase → auth tag check fails
+        }
+      }
+
+      function unlock(html: string) {
+        content.innerHTML = html;
+        content.classList.remove('hidden');
+        lockedActions.classList.remove('hidden');
+        gate.classList.add('hidden');
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorEl.classList.add('hidden');
+        const pass = input.value;
+        if (!pass) return;
+        const html = await decrypt(pass);
+        if (html) {
+          try {
+            sessionStorage.setItem(STORAGE_KEY, pass);
+          } catch {}
+          unlock(html);
+        } else {
+          errorEl.classList.remove('hidden');
+          input.select();
+        }
+      });
+
+      relock?.addEventListener('click', () => {
+        try {
+          sessionStorage.removeItem(STORAGE_KEY);
+        } catch {}
+        content.innerHTML = '';
+        content.classList.add('hidden');
+        lockedActions.classList.add('hidden');
+        gate.classList.remove('hidden');
+        input.value = '';
+      });
+
+      // Stay unlocked while the tab is open.
+      (async () => {
+        let saved: string | null = null;
+        try {
+          saved = sessionStorage.getItem(STORAGE_KEY);
+        } catch {}
+        if (saved) {
+          const html = await decrypt(saved);
+          if (html) unlock(html);
+        }
+      })();
+    }
+  </script>
+</BaseLayout>
+
+<style is:global>
+  #schedule-content h2 {
+    font-size: 1.35rem;
+    margin: 0;
+  }
+  #schedule-content table {
+    margin: 0;
+  }
+</style>
