@@ -19,7 +19,20 @@ import { resolvePath } from '../lib/paths';
       locally-deployable model for panel placement and docking on the ORLO* assembly robots.
     </p>
 
-    <div class="flex flex-wrap gap-4 mt-10 justify-center" data-reveal="4">
+    <div class="mt-10 flex justify-center" data-reveal="4">
+      <figure class="max-w-2xl">
+        <img
+          src={resolvePath('/images/assembly_3d.gif')}
+          alt="Animated 3D plot of the ORLO* structure's changing orientation during robotic assembly"
+          class="w-full h-auto border border-orbit/15 rounded-xl"
+        />
+        <figcaption class="text-xs text-space-400 italic mt-2 text-center">
+          3D assembly animation: structure orientation over the course of robotic assembly.
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="flex flex-wrap gap-4 mt-10 justify-center" data-reveal="5">
       <a
         href={resolvePath('/project')}
         class="px-6 py-3 rounded-xl border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
