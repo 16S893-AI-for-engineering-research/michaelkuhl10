@@ -15,6 +15,18 @@ import { resolvePath } from '../lib/paths';
 // Add new entries to the top of this list as the project progresses.
 const entries = [
   {
+    date: '2026-09-28',
+    title: '3D assembly animation added to the front page',
+    aiSummary: [
+      'Copied assembly_3d.gif (855x648, 7.3 MB) from the ORLO* report figures into public/images/.',
+      'Added the animation to src/pages/index.astro below the intro copy, using resolvePath for the base path.',
+      'Wrapped it in a Figure-style block with a caption describing structure orientation during assembly.',
+      'Renumbered the trailing data-reveal index so the button row still animates in sequence.',
+      'Ran npm run build to verify the static site compiles with the new asset in place.',
+    ],
+    personalNotes: `I collected all fundamental, physical information about the robotic assembly system including mass, motors, gears, geometries, sizes, etc. and created several python scripts to organize and run physics checks as robotic control systems were built out.  With that, I was able to prompt the agent to build out basic controls for the robots that meet design criteria (speed of assembly, size of assembly, within force specs, etc.).  Afterward, I was able to render a 3D assembly plot that describes the changing orientation of the structure as it is assembled.`,
+  },
+  {
     date: '2026-09-22',
     title: 'Password-protected schedule page and project page rebuilt from the proposal',
     aiSummary: [
