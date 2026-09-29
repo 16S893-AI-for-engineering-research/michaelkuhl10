@@ -15,6 +15,36 @@ import { resolvePath } from '../lib/paths';
 // Add new entries to the top of this list as the project progresses.
 const entries = [
   {
+    date: '2026-09-29',
+    title: 'Reproduced Figure 2 from the Astrom and Hagglund PID paper',
+    aiSummary: [
+      'Located Figure 2 in PID.pdf on page 3, journal page 1165, not page 4 which holds the similar looking Figure 3.',
+      'Implemented the Eq. (8) stability boundary for G(s) = 1/(s+1)^4 in scripts/fig2_pid_stability.py.',
+      'Recovered the axis ranges from tick pixel positions in the rendered PDF instead of guessing: k from -1 to 10, ki from 0 to 40.',
+      'Validated the calibration independently: Eq. (8) puts the ki = 0 crossings at k = 4.00, 7.44, 7.75 and 4.94 for kd = 0, 5, 10 and 15, which match the detected curve endpoints.',
+      'Measured agreement over 2251 sampled points: median error 0.40 to 0.53 px on the three solid curves, 100 percent within 6 px.',
+      'Saved output, an overlay check against the original raster, and the extracted original to figures/.',
+      'Found that matplotlib in the default Python 3.11 could not import: its compiled extension was an x86_64 build on an arm64 Mac. Used a temporary Homebrew Python 3.12 venv to finish the figure.',
+      'Traced the cause to two site-packages directories for the same interpreter: x86_64 copies in /Library/Frameworks from the 2023 installer, and arm64 copies in ~/Library/Python/3.11 that take precedence. numpy imported because it had an arm64 copy in the user site, while matplotlib existed only as the broken framework copy.',
+      'Ran pip3 install --force-reinstall matplotlib, which wrote arm64 wheels into the user site and shadowed the broken ones. Confirmed _c_internal_utils resolves to a Mach-O arm64 bundle and that a headless Agg render succeeds.',
+      'Re-ran the figure script on the system python3 with no venv and got identical results, then deleted the temporary venv.',
+      'Total runtime was under 20 minutes with no crash, in contrast to the two earlier failed attempts.',
+    ],
+    personalNotes: `Add your own notes for this session here.`,
+  },
+  {
+    date: '2026-09-29',
+    title: 'Figure reproduction attempts from downloaded papers failed on both models',
+    aiSummary: [
+      'Downloaded the source papers locally and gave the agent the file paths plus the specific figure to recreate.',
+      'First attempt used Claude Sonnet on a simple graph: about 30 minutes of runtime and roughly $7 of compute before the session was ended manually.',
+      'Second attempt used Claude Opus 5 on a somewhat more complex graph: over 30 minutes of runtime.',
+      'The Opus 5 run terminated with \'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory\'.',
+      'No figure was reproduced in either attempt.',
+    ],
+    personalNotes: `I prompted for sonnet to reproduce a simple graph and it spent 30 minutes and took up $7 of compute before I ended the session and tried a different (somewhat complex) graph with Opus 5 which also took 30+ minutes and resulted in a FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory.  I dowloaded the papers, cited its location, and specified the figure I wanted to recreate.`,
+  },
+  {
     date: '2026-09-28',
     title: '3D assembly animation added to the front page',
     aiSummary: [
