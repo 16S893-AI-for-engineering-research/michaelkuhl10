@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { resolvePath } from '../lib/paths';
+import { Content as DebateEssay } from '../essays/ai-research-debate-paper.md';
 
 // Each entry has two independent halves, side by side:
 //   - aiSummary:    fact-based bullets, one line per concrete thing done.
@@ -15,8 +16,32 @@ import { resolvePath } from '../lib/paths';
 // Add new entries to the top of this list as the project progresses.
 const entries = [
   {
+    date: '2026-10-01',
+    title: 'Two subagents debated AI acceleration, then the parent agent wrote the essay',
+    attachment: {
+      href: '/docs/AI_Research_Debate_Essay.pdf',
+      label: 'To Accelerate or to Restrain (PDF)',
+    },
+    essay: 'debate',
+    aiSummary: [
+      'Installed the pi-multiagent extension and used it to run two subagents as opposing debaters.',
+      'Agent one argued for continued acceleration of AI research; agent two argued for slowing or halting it.',
+      'Ran the exchange over six stages: opening cases, claim-by-claim rebuttals, and closings.',
+      'Had the parent agent read both transcripts and synthesize them into a single 5 to 6 page essay.',
+      'The essay reconstructs five claims per side, the direct exchange, three cruxes, and the common ground.',
+      'Noted in the essay that the empirical examples the debaters cited were not independently re-verified.',
+      'Saved the output as ai-research-debate-paper.md and a PDF, and published both the full text and the PDF on this page.',
+    ],
+    personalNotes: `I installed the multi-agent extension and tasked two subagents to be pinned against each other in a "debate" style argument.  One agent argued for the continued acceleration of AI while the other argued for slowing or halting all research.  I had the parent agent take their arguments and produce this 5-6 page essay.`,
+  },
+  {
     date: '2026-09-29',
     title: 'Reproduced Figure 2 from the Astrom and Hagglund PID paper',
+    image: {
+      src: '/images/fig2_pid_stability_reproduction.png',
+      alt: 'Reproduced Figure 2: stability boundaries in the k and ki plane for kd = 0, 5, 10 and 15',
+      caption: 'Recreated Figure 2 from the Astrom and Hagglund PID paper: Eq. (8) stability boundaries for G(s) = 1/(s+1)^4 at kd = 0, 5, 10 and 15. Median error against the original raster was 0.40 to 0.53 px over 2251 sampled points.',
+    },
     aiSummary: [
       'Located Figure 2 in PID.pdf on page 3, journal page 1165, not page 4 which holds the similar looking Figure 3.',
       'Implemented the Eq. (8) stability boundary for G(s) = 1/(s+1)^4 in scripts/fig2_pid_stability.py.',
@@ -212,6 +237,32 @@ render a result.`,
               </p>
             </div>
           </div>
+
+          {entry.image && (
+            <figure class="mt-5 rounded-xl border border-orbit/15 overflow-hidden bg-space-900/30">
+              <img
+                src={resolvePath(entry.image.src)}
+                alt={entry.image.alt}
+                class="w-full h-auto block"
+              />
+              {entry.image.caption && (
+                <figcaption class="text-xs text-space-400 italic px-5 py-3 m-0">
+                  {entry.image.caption}
+                </figcaption>
+              )}
+            </figure>
+          )}
+
+          {entry.essay === 'debate' && (
+            <details class="mt-5 rounded-xl border border-orbit/15 bg-space-900/30 overflow-hidden">
+              <summary class="cursor-pointer px-5 py-4 font-mono text-xs text-orbit tracking-widest list-none">
+                FULL ESSAY: TO ACCELERATE OR TO RESTRAIN?
+              </summary>
+              <div class="px-5 pb-6 pt-1 border-t border-orbit/15 essay-body">
+                <DebateEssay />
+              </div>
+            </details>
+          )}
         </article>
       ))}
     </div>
@@ -221,3 +272,30 @@ render a result.`,
     </p>
   </section>
 </BaseLayout>
+
+<style is:global>
+  /* Long-form essay rendered inside a dev log entry. */
+  .essay-body h1 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .essay-body h2 {
+    font-size: 1.1rem;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-orbit-light);
+  }
+
+  .essay-body p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+  }
+
+  .essay-body em {
+    color: var(--color-text-muted);
+  }
+</style>
