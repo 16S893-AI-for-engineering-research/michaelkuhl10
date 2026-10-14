@@ -16,6 +16,20 @@ import { Content as DebateEssay } from '../essays/ai-research-debate-paper.md';
 // Add new entries to the top of this list as the project progresses.
 const entries = [
   {
+    date: '2026-10-13',
+    title: 'Recapped sessions, updated this log, and split ZO-23 into six cheaper tasks',
+    aiSummary: [
+      'Asked for a recap of the last session. Read the pi session files in ~/.pi/agent/sessions and found that sessions after Oct 8 were only questions, /logout and pi update.',
+      'Added seven dev log entries covering the ORLO-Zig sessions from 10/01 to 10/06 using the dev-log-entry skill, then pushed them. The deploy workflow passed in 41 seconds and the live page showed the new entries.',
+      'Asked how to finish ZO-23 (stress test of the shortlisted assembly strategies). Checked the cost of one evaluation: 558 to 740 s, with about 170,000 physics calls plus a second tighter-tolerance solve.',
+      'Split ZO-23 into subtasks ZO-23.1 to ZO-23.6 with the Backlog CLI. Each has exit criteria: mass-override code, run matrix and driver, background runs, analysis, evidence review, and report with one review.',
+      'Cut SHAPE100 and timing-only sweeps from ZO-23. The core matrix is 20 runs, about 1 hour at 4 to 5 in parallel on this 18-core Mac, or 3 to 4 hours one at a time.',
+      'Wrote backlog doc-11 with the task order, which tasks run in parallel, the model for each (Sonnet 5.5 for work, Opus 5.5 for one review in ZO-23.6), cost rules, and a copy-paste prompt for each task.',
+      'Reviewed what the simulation does and its gaps: rigid bodies only, no joint loads, unverified motor and rail limits, provisional robot inertia, and no controller. Noted that a physical tile-joint test may be the most useful next experiment.',
+    ],
+    personalNotes: `Add your own notes for this session here.`,
+  },
+  {
     date: '2026-10-06',
     title: 'Fixed missing Opus 5.5 and Sonnet 5.5 models, closed ZO-22, ZO-23 stalled',
     aiSummary: [
