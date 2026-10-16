@@ -17,6 +17,20 @@ import { Content as DebateEssay } from '../essays/ai-research-debate-paper.md';
 const entries = [
   {
     date: '2026-10-15',
+    title: 'Made a plain-language rule file that shapes every agent reply, not a tool or a skill',
+    aiSummary: [
+      'Goal: short, plain replies in every session, using words inspired by Simplified Technical English (ASD-STE100).',
+      'I asked if this should be a tool or a skill. The answer was neither.',
+      'A tool is an action the agent calls. A skill loads only when the agent decides it needs it.',
+      'Chose ~/.pi/agent/APPEND_SYSTEM.md. Pi adds it to the base instructions in every session and folder.',
+      'First version: rules for sentences, words and structure, plus a list of plain replacement words.',
+      'Added a rule for vague references like "per note 4.1S": restate the point and say where it came from.',
+      'Limits: a project-level file replaces this one, and the full 900-word STE dictionary was left out.',
+    ],
+    personalNotes: `Add your own notes for this session here.`,
+  },
+  {
+    date: '2026-10-15',
     title: 'Closed ZO-23 robustness study and built the ZO-24 animations, figures and decision package',
     aiSummary: [
       'ZO-23.3 and 23.4: 20 robustness runs finished (12 pass, 8 unknown, 0 fail); snake passed 10 of 10.',
