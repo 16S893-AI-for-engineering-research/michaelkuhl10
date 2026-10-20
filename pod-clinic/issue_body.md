@@ -8,7 +8,9 @@ Feedback on processes, and advice for next steps: tools or ways of completing th
 
 ## What I will show
 
-I want to show the evolution of the simulations, resulting in an outward spiral as the best balance of speed, attitude change, complexity, and stability (by always connecting new tiles to two new tiles).
+I want to show the evolution of the simulations, resulting in an outward spiral as the best balance of speed, attitude change, complexity, and stability (by always connecting new tiles to two existing tiles).
+
+**Why spiral outward:** The snake path has a lower peak attitude change (61.7 deg against about 180 deg) and is about 5 s faster. The outward spiral has a lower final attitude change (46.4 deg against 61.7 deg). We have settled on the outward spiral because of the added security: after the first two tiles, every new tile always connects to two anchors (two tiles that are already in place). In the snake path, most new tiles connect to only one tile until the next row starts.
 
 ### 1. Two robots (A1) vs. one robot (A2)
 
@@ -44,6 +46,8 @@ Four-way comparison (MP4): [sq100_four_way.mp4](https://github.com/16S893-AI-for
 | Spiral outward | 309.1 | ~180 (not resolved) | 46.4 |
 | Spiral inward | 308.6 | ~180 (failed sampling check) | 29.2 |
 
+**Selected: spiral outward.** It trades a higher peak attitude change for a lower final attitude change and two-anchor connections for every tile after the first two.
+
 ### 4. Outward spiral: start, middle, and end
 
 | Start | Middle | Final |
@@ -72,6 +76,19 @@ Repo files to look at:
 ## Where I want feedback
 
 Issues that I have encountered with compute cost and time of task completion after using Backlog to plan.
+
+Examples:
+- **Planning made the work very large.** Backlog split the project into 24 main tasks (ZO-1 to ZO-24) and many subtasks. Each task had 3 to 10 acceptance criteria, tests, and an independent agent review. The repo now has 37 test files and a full suite of more than 800 tests. Was this level of checking needed for an early design study?
+- **One simulation is slow.** One 100-tile run takes about 9 to 12 minutes and about 200,000 to 270,000 solver steps, because each case runs a nominal solve and a tighter refined solve. A single robustness study needed 10 variants for each strategy.
+- **The agent waited and re-ran work.** The agent often waited for long runs to finish, and re-ran checks and full test suites after small changes. Some runs failed the sampling check and needed a tighter re-run, which still failed (spiral-inward and snake without final travel).
+- **Review loops added cost.** Each independent review found small problems (wording, file traceability, report layout). Each fix started another round of checks and builds.
+- **What helped:** In ZO-23.3, I ran the robustness matrix as a background script with no agent reasoning. This cost much less than having the agent watch each run.
+- **Smaller model:** Moving to a lighter-weight model (Sonnet 5.5) for smaller tasks lowered cost, but the total time stayed long.
+
+Questions for the class:
+- How do you decide how much testing and review an agent should do on an early study?
+- Do you run long simulations outside the agent and give the agent only the results?
+- Do you set a budget for cost or time for each task, and how do you enforce it?
 
 ## What I want help brainstorming
 
