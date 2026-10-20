@@ -10,7 +10,7 @@ Feedback on processes, and advice for next steps: tools or ways of completing th
 
 I want to show the evolution of the simulations, resulting in an outward spiral as the best balance of speed, attitude change, complexity, and stability (by always connecting new tiles to two existing tiles).
 
-**Why spiral outward:** The snake path has a lower peak attitude change (61.7 deg against about 180 deg) and is about 5 s faster. The outward spiral has a lower final attitude change (46.4 deg against 61.7 deg). We have settled on the outward spiral because of the added security from two-anchor connections (a new tile joins to two tiles that are already in place). In the outward spiral, two-anchor connections start at the third tile. The few one-anchor tiles are the corner tiles where the spiral starts a new ring, and the structure stays compact around them. In the snake path, the full first row of 10 tiles is a straight line where each tile has only one anchor.
+**Why spiral outward:** The snake path has a lower peak attitude change (61.7 deg against about 180 deg) and is about 5 s faster. The outward spiral has a lower final attitude change (46.4 deg against 61.7 deg). We have settled on the outward spiral because of the added security from two-anchor connections (a new tile joins to two tiles that are already in place). In the outward spiral, two-anchor connections start at the fourth tile. Both paths have 18 one-anchor tiles. In the spiral, these are spread out: each is the first tile of a new side of the spiral, next to a compact block. In the snake path, the full first row of 10 tiles is a straight line where each tile has only one anchor.
 
 ### 1. Two robots (A1) vs. one robot (A2)
 
