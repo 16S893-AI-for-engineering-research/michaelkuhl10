@@ -10,7 +10,7 @@ Feedback on processes, and advice for next steps: tools or ways of completing th
 
 I want to show the evolution of the simulations, resulting in an outward spiral as the best balance of speed, attitude change, complexity, and stability (by always connecting new tiles to two existing tiles).
 
-**Why spiral outward:** The snake path has a lower peak attitude change (61.7 deg against about 180 deg) and is about 5 s faster. The outward spiral has a lower final attitude change (46.4 deg against 61.7 deg). We have settled on the outward spiral because of the added security: after the first two tiles, every new tile always connects to two anchors (two tiles that are already in place). In the snake path, most new tiles connect to only one tile until the next row starts.
+**Why spiral outward:** The snake path has a lower peak attitude change (61.7 deg against about 180 deg) and is about 5 s faster. The outward spiral has a lower final attitude change (46.4 deg against 61.7 deg). We have settled on the outward spiral because of the added security from two-anchor connections (a new tile joins to two tiles that are already in place). In the outward spiral, two-anchor connections start at the third tile. The few one-anchor tiles are the corner tiles where the spiral starts a new ring, and the structure stays compact around them. In the snake path, the full first row of 10 tiles is a straight line where each tile has only one anchor.
 
 ### 1. Two robots (A1) vs. one robot (A2)
 
@@ -46,7 +46,7 @@ Four-way comparison (MP4): [sq100_four_way.mp4](https://github.com/16S893-AI-for
 | Spiral outward | 309.1 | ~180 (not resolved) | 46.4 |
 | Spiral inward | 308.6 | ~180 (failed sampling check) | 29.2 |
 
-**Selected: spiral outward.** It trades a higher peak attitude change for a lower final attitude change and two-anchor connections for every tile after the first two.
+**Selected: spiral outward.** It trades a higher peak attitude change for a lower final attitude change and earlier, more evenly spread two-anchor connections.
 
 ### 4. Outward spiral: start, middle, and end
 
