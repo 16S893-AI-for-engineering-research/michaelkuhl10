@@ -1,0 +1,22 @@
+{
+  "name": "Literature review toolkit",
+  "site_folder": "litkit",
+  "repo_url": "https://github.com/michaelkuhl10/lit-review-toolkit",
+  "public": true,
+  "about": "A public literature-review tool for the lab: search, verify, Zotero sync, and paper cards with checked quotes.",
+  "items": [
+    {
+      "id": "about",
+      "kind": "text",
+      "file": "text/about.md",
+      "title": "Literature review toolkit (public)",
+      "caption": "",
+      "alt": "Literature review toolkit (public)",
+      "section": "about",
+      "order": 1,
+      "url": "/show/litkit/text/about.md",
+      "body": "What it is\nA free, open tool for a literature review that lasts. It joins a spreadsheet workbook, a Zotero library and short paper cards. Every claim on a card has a page number and an exact quote, and the tool checks each quote against the PDF.\n\nWho it is for\nAnyone in the lab. You set your own topics, stages and research context in one config file. A 5-minute quick start uses a built-in synthetic example, so you need no Zotero account to try it.\n\nHow to start\n1. git clone https://github.com/michaelkuhl10/lit-review-toolkit\n2. python3 -m pip install -r requirements.txt\n3. python3 -m litkit init\n4. Follow docs/ZOTERO_SETUP.md to connect Zotero (about 15 minutes).\n",
+      "updated": "2026-11-03"
+    }
+  ]
+}

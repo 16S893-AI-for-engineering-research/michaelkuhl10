@@ -6,6 +6,19 @@
   "about": "ORLO* controls baseline: plant models (modal, drive, rigid body), the baseline controller, and the 3D assembly animation.",
   "items": [
     {
+      "id": "how-it-works",
+      "kind": "text",
+      "file": "text/how-it-works.md",
+      "title": "How the controls baseline works",
+      "caption": "",
+      "alt": "How the controls baseline works",
+      "section": "about",
+      "order": 1,
+      "url": "/show/controls/text/how-it-works.md",
+      "body": "What it is\nA baseline control system for the ORLO* tile-assembly robot. It is a reference design. Later thesis work (gain-scheduled control) will be measured against it.\n\nHow it works\n1. config/ holds the tile, drive, sensor and requirement values as YAML files.\n2. src/orlo/plant/ models the hardware: flexible tile modes, the drive with backlash and friction, and the free-floating rigid body.\n3. src/orlo/control/ holds the controller: PID feedback, feedforward, and input shaping that stops the tiles from ringing.\n4. analysis/ scripts make the figures: mode frequencies, drive hysteresis, and the 3D assembly animation.\n5. make test runs the physics regression tests. make figures makes the figures again.\n\nSource code: private repository (michaelkuhl10/orlo-controls). Ask me if you want access.\n",
+      "updated": "2026-11-03"
+    },
+    {
       "id": "assembly-3d",
       "kind": "video",
       "file": "media/assembly-3d.mp4",
