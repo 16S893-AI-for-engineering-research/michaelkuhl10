@@ -1,159 +1,359 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { resolvePath } from '../lib/paths';
+import Figure from '@components/Figure.astro';
+import { resolvePath } from '@lib/paths';
 
-// Content on this page is a reformatting of the project proposal
-// (Kuhl_Project_Proposal.pdf, 20 Sept 2026) into the site's flow. The wording
-// is the proposal's own; only the structure is new.
+// The project story, in the order the work happened. Numbers come from the
+// ORLO-Zig simulation repo (deliverables/zo24, deliverables/zo25) and the pod
+// clinic briefing (pod-clinic/issue_body.md).
 
-const architecture = [
-  {
-    label: 'R1',
-    role: 'Panel store / Y axis',
-    detail:
-      'Houses robot 2, stores the panels, and moves along the Y direction. After a row is finished, R1 places a panel in the positive Y direction and advances to begin the next row.',
-  },
-  {
-    label: 'R2',
-    role: 'Placement / X axis',
-    detail:
-      'Receives panels from R1, assembles them along the X direction, and returns to dock with R1 to be reloaded.',
-  },
+const sections = [
+  { id: 'problem', label: 'The problem' },
+  { id: 'robots', label: 'One robot or two' },
+  { id: 'paths', label: 'Shapes and paths' },
+  { id: 'spiral', label: 'The outward spiral' },
+  { id: 'wheel', label: 'Reaction wheel sizing' },
+  { id: 'limits', label: 'What is not yet known' },
+  { id: 'next', label: 'Next steps' },
+  { id: 'literature', label: 'Side project: literature toolkit' },
 ];
 
-const metrics = [
-  { name: 'Accuracy', note: 'Positioning accuracy against ground truth' },
-  { name: 'Inference latency', note: 'Time per frame under an onboard budget' },
-  { name: 'Memory', note: 'Footprint required to run locally' },
-  { name: 'Docking success', note: 'Reliability across trials' },
+const pathTable = [
+  { path: 'Snake (baseline)', time: '303.8', peak: '61.7', final: '61.7' },
+  { path: 'Spiral outward (selected)', time: '309.1', peak: '~180, not resolved', final: '46.4', pick: true },
+  { path: 'Spiral inward', time: '308.6', peak: '~180, failed sampling check', final: '29.2' },
 ];
 
-const deliverables = [
-  'A reproducible simulation.',
-  'A locally deployable model.',
-  'A quantitative assessment of the trade-offs between computational efficiency and reliable control.',
+const wheelTable = [
+  { set: 'No wheel limit (ideal)', time: '5.15', mass: 'none' },
+  { set: 'BCT RW4-HT ×3 (recommended)', time: '13.5', mass: '9.6', pick: true },
+  { set: 'BCT RW4 ×3', time: '18.6', mass: '9.6' },
+  { set: 'BCT RW8 ×3', time: '18.6', mass: '13.2' },
+  { set: 'BCT RW1 ×3', time: '37.1', mass: '3.3' },
+  { set: 'NanoAvionics 4RW0', time: '290.4', mass: '0.7' },
 ];
 ---
 
 <BaseLayout
   title="Project"
-  description="Lightweight computer vision for autonomous in-space robotic assembly — MIT 16.S893 project"
+  description="How the assembly strategy for a 10x10 tile structure in space was chosen, and how a reaction wheel was sized to hold its attitude."
 >
-  <section class="max-w-3xl mx-auto px-6 pt-12 pb-16">
-    <p class="font-mono text-sm text-orbit tracking-widest mb-4" data-reveal="1">
-      MIT 16.S893 PROJECT · 20 SEPT 2026
-    </p>
-    <h1 data-reveal="1">Lightweight Computer Vision for Autonomous In-Space Robotic Assembly</h1>
-
-    <p class="text-lg text-space-200 mt-6 leading-relaxed" data-reveal="2">
-      I will develop and evaluate a lightweight computer vision AI model for the
-      <strong>Orbital Locker Surface Tile Assembly Robot (ORLO*)</strong>. The system would run
-      locally onboard two robots, interpreting camera images to support movement, panel placement,
-      and docking.
-    </p>
-
-    <div class="flex flex-wrap gap-4 mt-8" data-reveal="2">
-      <a
-        href={resolvePath('/docs/Kuhl_Project_Proposal.pdf')}
-        target="_blank"
-        rel="noopener"
-        class="px-5 py-2.5 rounded-xl border border-orbit/40 bg-orbit/10 text-orbit-light font-medium no-underline hover:bg-orbit/20 transition-all"
-      >
-        ↓ Full proposal (PDF)
-      </a>
-      <a
-        href={resolvePath('/schedule')}
-        class="px-5 py-2.5 rounded-xl border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
-      >
-        Term schedule
-      </a>
+  <section class="border-b border-slate-200 bg-gradient-to-b from-arc-50/60 to-white">
+    <div class="container-page pt-14 pb-12">
+      <p class="eyebrow">Project · MIT 16.S893</p>
+      <h1 class="mt-2 max-w-3xl">Assembling a tile structure in space without tumbling it</h1>
+      <p class="mt-5 max-w-prose text-lg text-slate-600">
+        A robot that builds a structure in free space pushes on that structure with every move. With
+        no ground to push against, the structure turns. This project simulates how the ORLO* assembly
+        robots build a 10×10 grid of 1 m tiles. It then picks a build order and sizes a reaction wheel
+        that holds the structure still.
+      </p>
+      <div class="mt-8 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
+        <div><p class="stat m-0">100</p><p class="m-0 text-sm text-slate-500">tiles, 1 m each</p></div>
+        <div><p class="stat m-0">6</p><p class="m-0 text-sm text-slate-500">layouts compared</p></div>
+        <div><p class="stat m-0">46.4°</p><p class="m-0 text-sm text-slate-500">final tilt, no wheel</p></div>
+        <div><p class="stat m-0">13.5 min</p><p class="m-0 text-sm text-slate-500">robot motion with a wheel</p></div>
+      </div>
     </div>
-
-    <!-- Architecture -->
-    <h2 class="mt-14" data-reveal="3">The assembly architecture</h2>
-    <p class="text-base text-space-300 mt-4 leading-relaxed" data-reveal="3">
-      The architecture uses two robots to construct a planar grid from panels measuring one square
-      meter.
-    </p>
-
-    <div class="grid sm:grid-cols-2 gap-4 mt-6" data-reveal="3">
-      {architecture.map((r) => (
-        <div class="rounded-xl border border-orbit/15 bg-space-900/30 p-5">
-          <div class="flex items-baseline gap-3 mb-2">
-            <span class="font-mono text-lg text-orbit-light">{r.label}</span>
-            <span class="font-mono text-[10px] tracking-widest text-space-400 uppercase">
-              {r.role}
-            </span>
-          </div>
-          <p class="text-sm text-space-300 m-0 leading-relaxed">{r.detail}</p>
-        </div>
-      ))}
-    </div>
-
-    <!-- Research question -->
-    <h2 class="mt-14" data-reveal="4">The research question</h2>
-    <p class="text-base text-space-300 mt-4 leading-relaxed" data-reveal="4">
-      My research will investigate <strong class="text-space-100">how model size and
-      computational demand affect positioning accuracy and assembly reliability</strong>. I will
-      adapt a compact vision model to identify docking interfaces and panel attachment features,
-      then integrate its position estimates with a feedback controller that adjusts movement speed
-      and stops when visual information is insufficient.
-    </p>
-
-    <div
-      class="mt-6 rounded-xl border-l-2 border-thruster-400/50 bg-thruster-500/[0.06] px-5 py-4"
-      data-reveal="4"
-    >
-      <p class="font-mono text-xs text-thruster-400 tracking-widest mb-2">INITIAL SCOPE</p>
-      <p class="text-base text-space-200 m-0">R2 docking with R1.</p>
-    </div>
-
-    <!-- Method -->
-    <h2 class="mt-14" data-reveal="5">Method and evaluation</h2>
-    <p class="text-base text-space-300 mt-4 leading-relaxed" data-reveal="5">
-      Using simulated camera images, I will evaluate performance under varied lighting, occlusion,
-      and positioning errors. Comparisons against larger models and conventional vision methods
-      will measure:
-    </p>
-
-    <div class="grid sm:grid-cols-2 gap-3 mt-6" data-reveal="5">
-      {metrics.map((m) => (
-        <div class="rounded-xl border border-orbit/15 bg-space-900/30 px-4 py-3">
-          <p class="text-sm text-space-100 font-medium m-0">{m.name}</p>
-          <p class="text-xs text-space-400 m-0 mt-1">{m.note}</p>
-        </div>
-      ))}
-    </div>
-
-    <!-- Role of agents -->
-    <h2 class="mt-14" data-reveal="5">How AI agents are used</h2>
-    <p class="text-base text-space-300 mt-4 leading-relaxed" data-reveal="5">
-      AI agents will assist with simulation development, training code, and experimental analysis,
-      <strong class="text-space-100">with results independently checked</strong>. The verification
-      practice behind that claim — tests, hand calculations, and independent recomputes — is
-      recorded session by session in the <a href={resolvePath('/dev-log')}>dev log</a>.
-    </p>
-
-    <!-- Deliverables -->
-    <h2 class="mt-14" data-reveal="5">Deliverables</h2>
-    <ul class="mt-4 space-y-2 list-none p-0 m-0" data-reveal="5">
-      {deliverables.map((d, i) => (
-        <li class="flex gap-3 text-base text-space-300">
-          <span class="font-mono text-xs text-orbit/70 mt-1.5">
-            {String(i + 1).padStart(2, '0')}
-          </span>
-          <span>{d}</span>
-        </li>
-      ))}
-    </ul>
-
-    <p class="mt-14 pt-6 border-t border-orbit/10 text-sm text-space-400">
-      ORLO* — Orbital Locker Surface Tile Assembly Robot. This page reformats the project proposal
-      submitted 20 September 2026; the <a
-        href={resolvePath('/docs/Kuhl_Project_Proposal.pdf')}
-        target="_blank"
-        rel="noopener">original PDF</a
-      > is the submitted version of record.
-    </p>
   </section>
+
+  <div class="container-page grid gap-12 pt-12 lg:grid-cols-[12rem_1fr]">
+    <aside class="hidden lg:block">
+      <nav class="sticky top-24 text-sm">
+        <p class="eyebrow mb-3 text-slate-400">On this page</p>
+        <ol class="m-0 list-none space-y-1 p-0">
+          {sections.map((s, i) => (
+            <li>
+              <a href={`#${s.id}`} class="block rounded px-2 py-1 text-slate-500 no-underline hover:bg-slate-50 hover:text-arc-700">
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </aside>
+
+    <article class="article max-w-3xl">
+      <Figure
+        number={1}
+        src="/media/project-flow.svg"
+        alt="Flow chart: problem, robot count, path search, robustness, decision on the outward spiral, wheel sizing; then next steps on a mirrored two-robot team and failure recovery; the literature toolkit feeds all steps."
+        caption="The research path. Each step narrowed the design. The literature toolkit runs beside the main track and feeds test methods and prior work into each step."
+      />
+
+      <!-- 1 -->
+      <section id="problem" class="scroll-mt-24">
+        <h2>1. The problem</h2>
+        <p>
+          ORLO* (Orbital Locker Surface Tile Assembly Robot) builds a flat grid from 1 m tiles. The
+          study starts with a 10×10 grid in free space. Nothing holds the structure, so its total
+          angular momentum stays zero. When a robot and its tile move one way, the structure turns
+          the other way.
+        </p>
+        <p>
+          The questions are simple. How long does the build take? How far does the structure turn
+          during the build, and at the end? The simulation tracks every moving body: robots, gantry
+          and tiles. Every number on this page comes from that simulation.
+        </p>
+        <Figure
+          number={2}
+          src="/media/assembly-3d.mp4"
+          poster="/media/assembly-3d-poster.jpg"
+          video
+          alt="3D animation of the structure's orientation changing as robots add tiles."
+          caption="An early 3D run. The structure's orientation changes as the robots add tiles."
+        />
+      </section>
+
+      <!-- 2 -->
+      <section id="robots" class="mt-16 scroll-mt-24">
+        <h2>2. One robot or two</h2>
+        <p>
+          The original ORLO* design uses two robots. R1 stores the tiles and moves along the Y axis.
+          R2 carries 10 tiles at a time along the X axis, places them, and returns to R1 to reload.
+          This is strategy <strong>A1</strong>. Strategy <strong>A2</strong> uses one robot that
+          carries every tile along a single path and never reloads.
+        </p>
+        <Figure
+          number={3}
+          src="/media/a1-vs-a2.mp4"
+          poster="/media/a1-vs-a2-poster.jpg"
+          video
+          alt="Side-by-side animation of the two-robot A1 build and the one-robot A2 build."
+          caption="Two robots with return trips (A1, left) against one robot on a single path (A2, right)."
+        />
+        <Figure
+          number={4}
+          src="/media/a1-vs-a2-results.png"
+          alt="Bar charts of build time and attitude change for strategies A1 and A2."
+          caption="A1 tilts the structure less, but it takes 3.6 times longer. It also needs 19 in-place turns that are not yet shown to be possible."
+        />
+        <div class="card my-6 grid grid-cols-1 divide-y divide-slate-200 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+          <div class="p-5">
+            <p class="eyebrow text-slate-500">A1 · two robots</p>
+            <p class="m-0 mt-2 text-sm">1086 s motion · peak tilt 24.4° · final tilt 14.0°</p>
+          </div>
+          <div class="p-5">
+            <p class="eyebrow">A2 · one robot</p>
+            <p class="m-0 mt-2 text-sm">304 s motion · peak and final tilt 61.7°</p>
+          </div>
+        </div>
+        <p>
+          A2 was faster and simpler, so the next studies used one robot. The two-robot idea comes back
+          later in a new form. In that form, two robots move in opposite directions so that their
+          effects cancel.
+        </p>
+      </section>
+
+      <!-- 3 -->
+      <section id="paths" class="mt-16 scroll-mt-24">
+        <h2>3. Shapes and paths for one robot</h2>
+        <p>
+          The build order sets how far the structure turns. I tested six layouts with the same
+          assumptions. Three were 10×10 squares: snake, outward spiral and inward spiral. Three were
+          free 100-tile shapes: straight, staircase and elbow. A seeded search found two more square
+          routes, but the snake beat both of them.
+        </p>
+        <Figure
+          number={5}
+          src="/media/square-paths.mp4"
+          poster="/media/square-paths-poster.jpg"
+          video
+          alt="Animation of the snake, outward spiral and backbite paths building the 10x10 square."
+          caption="Three build orders for the same 10×10 square: snake, outward spiral and a search-found backbite route."
+        />
+        <Figure
+          number={6}
+          src="/media/square-tradeoff.png"
+          alt="Scatter plot of motion time against attitude change for each 10x10 path."
+          caption="Time against tilt for each 10×10 path. Only the snake and the outward spiral are not beaten on both measures."
+        />
+        <div class="my-6 overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-slate-300 text-left text-slate-500">
+                <th class="py-2 pr-4 font-medium">Path (10×10)</th>
+                <th class="py-2 pr-4 text-right font-medium">Motion time (s)</th>
+                <th class="py-2 pr-4 text-right font-medium">Peak tilt (°)</th>
+                <th class="py-2 text-right font-medium">Final tilt (°)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pathTable.map((r) => (
+                <tr class:list={['border-b border-slate-200', r.pick && 'bg-arc-50 font-medium text-slate-900']}>
+                  <td class="py-2 pr-4">{r.path}</td>
+                  <td class="py-2 pr-4 text-right font-mono">{r.time}</td>
+                  <td class="py-2 pr-4 text-right font-mono">{r.peak}</td>
+                  <td class="py-2 text-right font-mono">{r.final}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p>
+          I also changed the mass and inertia values in 20 robustness runs. 12 runs passed, 8 gave no
+          clear result, and none failed. The snake passed all 10 of its runs, with a peak tilt between 56° and 78°.
+        </p>
+      </section>
+
+      <!-- 4 -->
+      <section id="spiral" class="mt-16 scroll-mt-24">
+        <h2>4. The decision: build in an outward spiral</h2>
+        <p>
+          The snake has a lower peak tilt and is about 5 s faster. I chose the outward spiral because
+          of how each new tile joins the structure. From the fourth tile on, most new tiles join
+          <strong>two</strong> tiles that are already in place. That gives a stronger joint.
+        </p>
+        <p>
+          Both paths have 18 tiles with only one anchor. In the snake, the full first row of 10 tiles
+          is a straight line with one anchor each. In the spiral, the single-anchor tiles are spread
+          out. Each one starts a new side next to a compact block. The spiral also ends with less tilt
+          (46.4° against 61.7°). A reaction wheel can take care of the high peak.
+        </p>
+        <Figure
+          number={7}
+          src="/media/spiral-outward-stages.jpg"
+          alt="Three frames of the outward spiral build: start, middle and final."
+          caption="The outward spiral at the start, the middle and the end of the build."
+        />
+      </section>
+
+      <!-- 5 -->
+      <section id="wheel" class="mt-16 scroll-mt-24">
+        <h2>5. Sizing a reaction wheel to hold the structure still</h2>
+        <p>
+          A reaction wheel stores momentum so that the structure does not have to. To hold the
+          structure still, the wheels must store the opposite of the robot's momentum at every moment.
+          The wheel motors must supply the matching torque:
+        </p>
+        <div class="card my-5 px-5 py-4 font-mono text-sm text-slate-800">
+          h<sub>wheel</sub>(t) = −h<sub>robot</sub>(t)&nbsp;&nbsp;&nbsp;&nbsp;τ<sub>motor</sub>(t) = −dh<sub>robot</sub>/dt
+        </div>
+        <p>
+          At full robot speed, the spiral needs a peak of <strong>7.33 N·m·s</strong> of momentum and
+          <strong>18.0 N·m</strong> of torque on the z axis. No flown wheel has that much torque. The
+          best set has 0.50 N·m, which is about 36 times too small. The fix is to slow each robot move
+          until the wheel can keep up.
+        </p>
+        <Figure
+          number={8}
+          src="/media/reaction-wheel-results.png"
+          alt="Left: wheel momentum needed on x, y and z axes over the build, with the RW4-HT limit. Right: robot motion time for each wheel set on a log scale."
+          caption="Left: the momentum each wheel must store during the spiral. Right: robot motion time when each move slows until the wheel keeps up."
+        />
+        <div class="my-6 overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-slate-300 text-left text-slate-500">
+                <th class="py-2 pr-4 font-medium">Wheel set</th>
+                <th class="py-2 pr-4 text-right font-medium">Robot motion (min)</th>
+                <th class="py-2 text-right font-medium">Wheel mass (kg)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {wheelTable.map((r) => (
+                <tr class:list={['border-b border-slate-200', r.pick && 'bg-arc-50 font-medium text-slate-900']}>
+                  <td class="py-2 pr-4">{r.set}</td>
+                  <td class="py-2 pr-4 text-right font-mono">{r.time}</td>
+                  <td class="py-2 text-right font-mono">{r.mass}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Torque, not momentum, limits the build. The RW8 has more momentum than the RW4, but they give
+          the same time because both have 0.25 N·m of torque. I chose three BCT RW4-HT wheels. A
+          flight-style controller with a noisy gyro and star tracker held the attitude within
+          <strong>0.01°</strong> in simulation.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a class="btn-secondary" href={resolvePath('/walkthroughs/reaction-wheel-sizing-walkthrough.html')} target="_blank" rel="noopener">Sizing walkthrough ↗</a>
+          <a class="btn-secondary" href={resolvePath('/docs/Reaction_Wheel_Comparison.pdf')} target="_blank" rel="noopener">Wheel comparison (PDF) ↗</a>
+          <a class="btn-secondary" href={resolvePath('/docs/Reaction_Wheel_Sizing_Equations.pdf')} target="_blank" rel="noopener">Sizing equations (PDF) ↗</a>
+        </div>
+      </section>
+
+      <!-- 6 -->
+      <section id="limits" class="mt-16 scroll-mt-24">
+        <h2>6. What is not yet known</h2>
+        <p>
+          The model treats every body as rigid and isolated. It has no gravity gradient, no joint loads
+          and no flexible modes. The motor limits are not checked against real hardware, and the
+          wheel mass is not yet added to the structure. The map below shows what is checked, what is
+          assumed and what is still unknown.
+        </p>
+        <Figure
+          number={9}
+          src="/media/validation-gap-map.png"
+          alt="Grid showing which parts of the model are verified, assumed or unknown."
+          caption="Validation gap map: what is verified, what is assumed and what is unknown."
+        />
+        <p>
+          Joining the seams sets the real finish time. If each seam takes 600 s, joining takes about
+          30 hours, and robot motion is less than 0.3 % of the total.
+        </p>
+      </section>
+
+      <!-- 7 -->
+      <section id="next" class="mt-16 scroll-mt-24">
+        <h2>7. Next steps</h2>
+        <ol class="space-y-3 pl-5">
+          <li>
+            <strong>Mirrored two-robot team.</strong> Two robots move in opposite directions so that
+            their momentum cancels. The goal is to reduce the need for a reaction wheel, or remove it.
+          </li>
+          <li>
+            <strong>Failure recovery.</strong> If one robot fails, the other robot must detect the
+            failure, find the state of the build, and finish. I plan to test this with simple
+            simulations and with test methods from the literature.
+          </li>
+          <li>
+            <strong>Path count.</strong> Count and score all build orders on the MIT ORCD Engaging
+            cluster.
+          </li>
+        </ol>
+      </section>
+
+      <!-- Side project -->
+      <section id="literature" class="mt-16 scroll-mt-24">
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-6 md:p-8">
+          <p class="eyebrow">Side project</p>
+          <h2 class="mt-1">A literature review toolkit</h2>
+          <p>
+            This tool is not a step in the main track. It supports my research workflow. Zotero holds
+            the PDFs, and a spreadsheet holds the notes. A Better BibTeX citekey joins the two. Papers
+            are sorted into four stages: value, method, improvement and robustness. Each paper also
+            gets a read level from 0 (skip) to 3 (study).
+          </p>
+          <div class="my-6 grid grid-cols-3 gap-4">
+            <div><p class="stat m-0">235</p><p class="m-0 text-sm text-slate-500">papers logged</p></div>
+            <div><p class="stat m-0">332</p><p class="m-0 text-sm text-slate-500">search queries logged</p></div>
+            <div><p class="stat m-0">9</p><p class="m-0 text-sm text-slate-500">paper cards, 140 quotes checked</p></div>
+          </div>
+          <Figure
+            number={10}
+            src="/media/literature-pipeline.png"
+            alt="Pipeline diagram: seed papers and database searches feed the workbook, which feeds Zotero, the reading queue and paper cards."
+            caption="How papers enter the workbook and become checked paper cards."
+          />
+          <p class="mb-0">
+            Every paper must have a DOI or another stable ID, so nothing is cited from memory. Every
+            takeaway on a card has a page number and an exact quote. A script checks each quote
+            against the PDF text.
+          </p>
+          <div class="mt-6">
+            <a class="btn-secondary" href={resolvePath('/walkthroughs/literature-toolkit-walkthrough.html')} target="_blank" rel="noopener">Literature toolkit walkthrough ↗</a>
+          </div>
+        </div>
+      </section>
+
+      <p class="mt-16 border-t border-slate-200 pt-6 text-sm text-slate-500">
+        This work started from the <a href={resolvePath('/docs/Kuhl_Project_Proposal.pdf')} target="_blank" rel="noopener">project proposal</a>
+        (20 September 2026) on lightweight computer vision for ORLO*. The work moved to assembly strategy
+        and attitude control first, because the vision task depends on them. Session details are in the
+        <a href={resolvePath('/dev-log')}>dev log</a>.
+      </p>
+    </article>
+  </div>
 </BaseLayout>

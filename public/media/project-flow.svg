@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" font-family="Inter, Helvetica, Arial, sans-serif">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#94a3b8"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#0090c0"/></marker></defs>
+<rect width="1200" height="430" fill="#ffffff"/>
+<text x="30" y="38" font-size="13" font-weight="600" fill="#475569" letter-spacing="1.5">MAIN RESEARCH TRACK</text>
+<rect x="30" y="58" width="170" height="118" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+<circle cx="54" cy="84" r="13" fill="#0090c0"/><text x="54" y="89" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+<text x="74" y="89" font-size="15" font-weight="600" fill="#0f172a">Problem</text>
+<text x="46" y="128" font-size="13" fill="#475569">10×10 tile grid,</text><text x="46" y="148" font-size="13" fill="#475569">free-floating base</text>
+<line x1="202" y1="117.0" x2="223" y2="117.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="226" y="58" width="170" height="118" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+<circle cx="250" cy="84" r="13" fill="#0090c0"/><text x="250" y="89" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+<text x="270" y="89" font-size="15" font-weight="600" fill="#0f172a">Robot count</text>
+<text x="242" y="128" font-size="13" fill="#475569">Two robots (A1) vs</text><text x="242" y="148" font-size="13" fill="#475569">one robot (A2)</text>
+<line x1="398" y1="117.0" x2="419" y2="117.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="422" y="58" width="170" height="118" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+<circle cx="446" cy="84" r="13" fill="#0090c0"/><text x="446" y="89" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+<text x="466" y="89" font-size="15" font-weight="600" fill="#0f172a">Path search</text>
+<text x="438" y="128" font-size="13" fill="#475569">Shapes and paths</text><text x="438" y="148" font-size="13" fill="#475569">for one robot</text>
+<line x1="594" y1="117.0" x2="615" y2="117.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="618" y="58" width="170" height="118" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+<circle cx="642" cy="84" r="13" fill="#0090c0"/><text x="642" y="89" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+<text x="662" y="89" font-size="15" font-weight="600" fill="#0f172a">Robustness</text>
+<text x="634" y="128" font-size="13" fill="#475569">Mass and inertia</text><text x="634" y="148" font-size="13" fill="#475569">changes, 20 runs</text>
+<line x1="790" y1="117.0" x2="811" y2="117.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="814" y="58" width="170" height="118" rx="10" fill="#e0f6ff" stroke="#0090c0" stroke-width="2"/>
+<circle cx="838" cy="84" r="13" fill="#0090c0"/><text x="838" y="89" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">5</text>
+<text x="858" y="89" font-size="15" font-weight="600" fill="#0f172a">Decision</text>
+<text x="830" y="128" font-size="13" fill="#475569">Outward spiral,</text><text x="830" y="148" font-size="13" fill="#475569">two-anchor joins</text>
+<line x1="986" y1="117.0" x2="1007" y2="117.0" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="1010" y="58" width="170" height="118" rx="10" fill="#e0f6ff" stroke="#0090c0" stroke-width="2"/>
+<circle cx="1034" cy="84" r="13" fill="#0090c0"/><text x="1034" y="89" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">6</text>
+<text x="1054" y="89" font-size="15" font-weight="600" fill="#0f172a">Wheel sizing</text>
+<text x="1026" y="128" font-size="13" fill="#475569">Hold attitude</text><text x="1026" y="148" font-size="13" fill="#475569">with a reaction wheel</text>
+<text x="30" y="238" font-size="13" font-weight="600" fill="#475569" letter-spacing="1.5">NEXT STEPS</text>
+<rect x="30" y="250" width="280" height="104" rx="10" fill="#fff" stroke="#0090c0" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="48" y="282" font-size="15" font-weight="600" fill="#0f172a">Mirrored two-robot team</text><text x="48" y="312" font-size="13" fill="#475569">Robots move in opposite directions</text><text x="48" y="332" font-size="13" fill="#475569">to cancel attitude change</text>
+<rect x="330" y="250" width="280" height="104" rx="10" fill="#fff" stroke="#0090c0" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="348" y="282" font-size="15" font-weight="600" fill="#0f172a">Failure recovery</text><text x="348" y="312" font-size="13" fill="#475569">If one robot fails, the other finds</text><text x="348" y="332" font-size="13" fill="#475569">the build state and finishes</text>
+<line x1="310" y1="302" x2="327" y2="302" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M1095.0,178 V210 H160 V247" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+<text x="720" y="238" font-size="13" font-weight="600" fill="#475569" letter-spacing="1.5">SIDE PROJECT</text>
+<rect x="720" y="250" width="450" height="104" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+<text x="738" y="282" font-size="15" font-weight="600" fill="#0f172a">Literature review toolkit</text><text x="738" y="312" font-size="13" fill="#475569">Zotero + workbook + checked paper cards.</text><text x="738" y="332" font-size="13" fill="#475569">Supplies test methods and prior work to every step.</text>
+<path d="M717,302 H614" fill="none" stroke="#0090c0" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ab)"/>
+<text x="30" y="408" font-size="12" fill="#94a3b8">Solid boxes: done. Dashed boxes: planned. Highlighted: the current design.</text>
+</svg>

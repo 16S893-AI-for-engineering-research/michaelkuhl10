@@ -24,7 +24,7 @@ from pathlib import Path
 
 # repo root = .pi/skills/dev-log-entry/scripts/ -> up 4
 REPO = Path(__file__).resolve().parents[4]
-DEV_LOG = REPO / "src" / "pages" / "dev-log.astro"
+DEV_LOG = REPO / "src" / "data" / "dev-log.ts"
 NOTES = REPO / "notes" / "ai-interactions.md"
 DOCS_DIR = REPO / "public" / "docs"
 
@@ -148,7 +148,7 @@ def insert_entry(block, entry_date):
         fail(f"{DEV_LOG} not found")
     content = DEV_LOG.read_text()
 
-    marker = "const entries = ["
+    marker = "export const entries: DevLogEntry[] = ["
     idx = content.find(marker)
     if idx == -1:
         fail(f"could not find '{marker}' in {DEV_LOG.name}; the file structure changed")
@@ -199,7 +199,7 @@ def verify_build():
         fail(
             "build FAILED. The entry was inserted but breaks the site.\n"
             "Most likely an escaping issue in aiSummary or personalNotes; "
-            "check git diff on src/pages/dev-log.astro."
+            "check git diff on src/data/dev-log.ts."
         )
     print("build OK")
 

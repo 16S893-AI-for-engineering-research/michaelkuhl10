@@ -1,6 +1,6 @@
 ---
 name: dev-log-entry
-description: Add a dated entry to the public Astro dev log (src/pages/dev-log.astro) and the private notes/ai-interactions.md log, following this repo's conventions for entry shape, PDF attachments, base-path handling, and hand-written personal notes. Use when recording a work session or adding a dev log entry.
+description: Add a dated entry to the public Astro dev log (src/data/dev-log.ts) and the private notes/ai-interactions.md log, following this repo's conventions for entry shape, PDF attachments, base-path handling, and hand-written personal notes. Use when recording a work session or adding a dev log entry.
 metadata:
   project: michaelkuhl10 (MIT 16.S893 portfolio site)
 ---
@@ -10,7 +10,7 @@ metadata:
 Adds a session entry to **both** logs this repo keeps, which are deliberately
 different in kind:
 
-| | `src/pages/dev-log.astro` | `notes/ai-interactions.md` |
+| | `src/data/dev-log.ts` | `notes/ai-interactions.md` |
 |---|---|---|
 | Visibility | Public, deployed | Private, gitignored |
 | Content | Factual bullets: what was built | Unfiltered reasoning, what you kept vs. reverted |

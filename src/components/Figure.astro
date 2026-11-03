@@ -1,18 +1,44 @@
 ---
+// One figure: an image, or a looping video with a poster frame.
+import { resolvePath } from '@lib/paths';
+
 interface Props {
   src: string;
   alt: string;
   caption?: string;
+  number?: number;
+  video?: boolean;
+  poster?: string;
 }
 
-const { src, alt, caption } = Astro.props;
+const { src, alt, caption, number, video = false, poster } = Astro.props;
 ---
 
-<figure class="my-6">
-  <img
-    {src}
-    {alt}
-    class="w-full h-auto border border-orbit/15 rounded-xl"
-  />
-  {caption && <figcaption class="text-xs text-space-400 italic mt-2">{caption}</figcaption>}
+<figure class="my-8">
+  <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
+    {video ? (
+      <video
+        src={resolvePath(src)}
+        poster={poster ? resolvePath(poster) : undefined}
+        aria-label={alt}
+        class="block w-full h-auto"
+        autoplay
+        muted
+        loop
+        playsinline
+        controls
+        preload="metadata"
+      ></video>
+    ) : (
+      <a href={resolvePath(src)} target="_blank" rel="noopener" class="block">
+        <img src={resolvePath(src)} alt={alt} loading="lazy" class="block w-full h-auto" />
+      </a>
+    )}
+  </div>
+  {caption && (
+    <figcaption class="mt-2.5 text-sm leading-6 text-slate-500">
+      {number && <span class="font-semibold text-slate-700">Figure {number}. </span>}
+      {caption}
+    </figcaption>
+  )}
 </figure>

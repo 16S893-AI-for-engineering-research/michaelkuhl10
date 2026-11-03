@@ -1,57 +1,75 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import ArcReactor from '@components/ArcReactor.astro';
-import { resolvePath } from '../lib/paths';
+import { resolvePath } from '@lib/paths';
+import { entries } from '@data/dev-log';
+
+const latest = entries.slice(0, 3);
+
+const milestones = [
+  { step: '01', title: 'Compared robot strategies', text: 'Two robots with reloads against one robot on a single path. One robot was 3.6 times faster.', href: '/project#robots' },
+  { step: '02', title: 'Chose the outward spiral', text: 'Six layouts compared. The spiral ends with less tilt and joins most new tiles to two existing tiles.', href: '/project#spiral' },
+  { step: '03', title: 'Sized a reaction wheel', text: 'Three BCT RW4-HT wheels hold the attitude within 0.01°, with 13.5 min of robot motion.', href: '/project#wheel' },
+  { step: '04', title: 'Built a literature toolkit', text: 'A side project: Zotero plus a checked workbook of 235 papers and quote-checked paper cards.', href: '/project#literature' },
+];
 ---
 
 <BaseLayout title="Home">
-  <section class="max-w-4xl mx-auto px-6 pt-16 pb-12">
-    <div class="flex justify-center">
-      <ArcReactor />
-    </div>
-
-    <p class="font-mono text-sm text-orbit tracking-widest mb-4 text-center" data-reveal="1">
-      MIT 16.S893 · AI AGENTS FOR ENGINEERING RESEARCH
-    </p>
-    <h1 class="text-center" data-reveal="2">AI Agent for In-Space Assembly</h1>
-    <p class="text-base text-space-300 mt-6 max-w-2xl mx-auto text-center" data-reveal="3">
-      Lightweight computer vision for autonomous in-space robotic assembly — a compact,
-      locally-deployable model for panel placement and docking on the ORLO* assembly robots.
-    </p>
-
-    <div class="mt-10 flex justify-center" data-reveal="4">
-      <figure class="max-w-2xl">
-        <img
-          src={resolvePath('/images/assembly_3d.gif')}
-          alt="Animated 3D plot of the ORLO* structure's changing orientation during robotic assembly"
-          class="w-full h-auto border border-orbit/15 rounded-xl"
-        />
-        <figcaption class="text-xs text-space-400 italic mt-2 text-center">
-          3D assembly animation: structure orientation over the course of robotic assembly.
-        </figcaption>
+  <section class="border-b border-slate-200 bg-gradient-to-b from-arc-50/70 via-white to-white">
+    <div class="container-page grid items-center gap-10 pt-16 pb-14 md:grid-cols-[1.1fr_1fr]">
+      <div>
+        <p class="eyebrow">MIT 16.S893 · AI Agents for Engineering Research</p>
+        <h1 class="mt-3">Robotic assembly in space, without tumbling the structure</h1>
+        <p class="mt-5 text-lg text-slate-600">
+          I simulate how the ORLO* robots build a 10×10 grid of tiles in free space. I measure how far
+          each build order turns the structure, and I size the reaction wheels that hold it still. AI
+          agents write and run much of the code, and I check the results.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={resolvePath('/project')} class="btn-primary">Read the project</a>
+          <a href={resolvePath('/dev-log')} class="btn-secondary">Dev log</a>
+          <a href={resolvePath('/documents')} class="btn-secondary">Documents</a>
+        </div>
+      </div>
+      <figure class="m-0">
+        <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <video
+            src={resolvePath('/media/square-paths.mp4')}
+            poster={resolvePath('/media/square-paths-poster.jpg')}
+            aria-label="Animation of three build orders for the 10x10 tile square."
+            class="block h-auto w-full"
+            autoplay muted loop playsinline preload="metadata"
+          ></video>
+        </div>
+        <figcaption class="mt-2 text-sm text-slate-500">Three build orders for the same 10×10 square.</figcaption>
       </figure>
-    </div>
-
-    <div class="flex flex-wrap gap-4 mt-10 justify-center" data-reveal="5">
-      <a
-        href={resolvePath('/project')}
-        class="px-6 py-3 rounded-xl border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
-      >
-        The project →
-      </a>
-      <a
-        href={resolvePath('/about')}
-        class="px-6 py-3 rounded-xl border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
-      >
-        About the work
-      </a>
-      <a
-        href={resolvePath('/dev-log')}
-        class="px-6 py-3 rounded-xl border border-space-600 text-space-200 font-medium no-underline hover:border-orbit/40 transition-all"
-      >
-        Dev log
-      </a>
     </div>
   </section>
 
+  <section class="container-page pt-14">
+    <h2>Progress so far</h2>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {milestones.map((m) => (
+        <a href={resolvePath(m.href)} class="card group flex flex-col p-5 no-underline transition-colors hover:border-arc-400">
+          <span class="font-mono text-xs font-medium text-arc-600">{m.step}</span>
+          <span class="mt-2 font-semibold text-slate-900 group-hover:text-arc-700">{m.title}</span>
+          <span class="mt-2 text-sm leading-6 text-slate-600">{m.text}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-page pt-16">
+    <div class="flex items-baseline justify-between">
+      <h2>Latest sessions</h2>
+      <a href={resolvePath('/dev-log')} class="text-sm">All entries →</a>
+    </div>
+    <ul class="mt-4 list-none divide-y divide-slate-200 border-y border-slate-200 p-0">
+      {latest.map((e) => (
+        <li class="flex flex-col gap-1 py-4 sm:flex-row sm:gap-6">
+          <time class="w-28 shrink-0 font-mono text-xs text-slate-400 sm:pt-1">{e.date}</time>
+          <span class="text-slate-800">{e.title}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
 </BaseLayout>

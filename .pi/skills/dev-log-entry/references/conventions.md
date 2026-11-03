@@ -1,10 +1,10 @@
 # Dev Log Conventions
 
-Extracted from `src/pages/dev-log.astro`, `notes/README.md`, and `README.md`.
+Extracted from `src/data/dev-log.ts`, `notes/README.md`, and `README.md`.
 
 ## Two logs, different purposes
 
-**Public** (`src/pages/dev-log.astro`): factual bullets, safe for an advisor or
+**Public** (`src/data/dev-log.ts`): factual bullets, safe for an advisor or
 grader. **Private** (`notes/ai-interactions.md`): unfiltered reasoning; `notes/`
 is gitignored repo-wide, so it never deploys and never commits.
 
@@ -82,7 +82,7 @@ Two different quoting styles in one object, each with its own hazard:
   `whitespace-pre-line`.
 
 The script handles both. A build failure right after insertion is almost always
-an escaping problem: check `git diff src/pages/dev-log.astro`.
+an escaping problem: check `git diff src/data/dev-log.ts`.
 
 ## Em dashes
 

@@ -1,5 +1,5 @@
 ---
-import { resolvePath } from '../lib/paths';
+import { resolvePath } from '@lib/paths';
 
 interface Props {
   currentPath?: string;
@@ -8,56 +8,41 @@ interface Props {
 const { currentPath = '/' } = Astro.props;
 
 const navItems = [
-  { label: 'Home', href: resolvePath('/') },
-  { label: 'About', href: resolvePath('/about') },
   { label: 'Project', href: resolvePath('/project') },
   { label: 'Dev Log', href: resolvePath('/dev-log') },
-  { label: 'Schedule', href: resolvePath('/schedule') },
+  { label: 'Documents', href: resolvePath('/documents') },
+  { label: 'About', href: resolvePath('/about') },
 ];
 
-const isActive = (href: string) => {
-  if (href === resolvePath('/') && (currentPath === '/' || currentPath === resolvePath('/'))) return true;
-  if (href !== resolvePath('/') && currentPath?.startsWith(href)) return true;
-  return false;
-};
+const strip = (p: string) => p.replace(/\/$/, '');
+const isActive = (href: string) => strip(currentPath).startsWith(strip(href));
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-space-950/80 border-b border-orbit/20">
-  <nav class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-    <a href={resolvePath('/')} class="font-mono text-sm tracking-widest text-orbit no-underline border-none hover:text-orbit-light">
-      MK · ISA
+<header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+  <nav class="container-page flex h-16 items-center justify-between gap-4">
+    <a href={resolvePath('/')} class="flex items-center gap-2.5 no-underline">
+      <span class="relative inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-arc-500">
+        <span class="h-2.5 w-2.5 rounded-full bg-arc-400 shadow-[0_0_8px_2px_rgba(51,199,242,0.6)]"></span>
+      </span>
+      <span class="text-[15px] font-semibold text-slate-900">Michael Kuhl</span>
+      <span class="hidden sm:inline text-sm text-slate-400">In-Space Assembly</span>
     </a>
-
-    <ul class="flex gap-6 md:gap-8 items-center list-none m-0 p-0">
+    <ul class="flex items-center gap-1 sm:gap-2 list-none m-0 p-0">
       {navItems.map((item) => (
         <li>
           <a
             href={item.href}
-            class={`relative font-sans text-sm font-medium tracking-wide transition-all duration-300 group border-none ${
+            class:list={[
+              'rounded-md px-2.5 py-1.5 text-sm font-medium no-underline transition-colors',
               isActive(item.href)
-                ? 'text-orbit-light'
-                : 'text-space-300 hover:text-orbit'
-            }`}
+                ? 'bg-arc-50 text-arc-700'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50',
+            ]}
           >
             {item.label}
-            <span
-              class={`absolute -bottom-1 left-0 h-0.5 bg-orbit transition-all duration-300 ${
-                isActive(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
-              }`}
-            ></span>
           </a>
         </li>
       ))}
     </ul>
   </nav>
-
-  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orbit/30 to-transparent"></div>
 </header>
-
-<div class="h-20 shrink-0" aria-hidden="true"></div>
-
-<style>
-  @media (prefers-reduced-motion: reduce) {
-    a, span { transition: none; }
-  }
-</style>

@@ -1,89 +1,50 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { resolvePath } from '../lib/paths';
+import { resolvePath } from '@lib/paths';
+
+const photos = [
+  { src: '/images/Grad.jpeg', alt: 'Michael Kuhl at Harvard graduation', label: 'Harvard, 2026' },
+  { src: '/images/Hockey.jpeg', alt: 'Playing club hockey', label: 'Club hockey' },
+  { src: '/images/Surf.jpeg', alt: 'Surfing', label: 'Surfing' },
+  { src: '/images/Fish.jpeg', alt: 'Fishing', label: 'Fishing' },
+  { src: '/images/Travel.jpeg', alt: 'Travel', label: 'Travel' },
+];
 ---
 
 <BaseLayout title="About">
-  <section class="max-w-4xl mx-auto px-6 pt-12 pb-16">
-    <h1 data-reveal="1">About</h1>
-
-    <div class="mt-8 mb-12" data-reveal="2">
-      <p class="text-base text-space-200 leading-relaxed max-w-2xl">
-        I'm <strong>Michael Kuhl</strong>, a graduate student in the MIT Department of
-        Aeronautics and Astronautics, working in the <strong>Space Telecommunications,
-        Astronomy and Radiation Laboratory (STAR Lab)</strong> under <strong>Prof. Kerri
-        Cahoy</strong>. For this course, I'm developing and evaluating a lightweight
-        computer vision model for autonomous in-space robotic assembly — see the{' '}
-        <a href={resolvePath('/project')}>project page</a> for the full proposal. For more
-        on the lab's broader research,
-        visit the <a href="https://starlab.mit.edu">STAR Lab website</a>.
-      </p>
-    </div>
-
-    <h2 data-reveal="3">Beyond research</h2>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" data-reveal="3">
-      <div class="border border-orbit/15 rounded-xl p-3">
-        <div class="aspect-square overflow-hidden rounded-lg mb-2">
-          <img
-            src={resolvePath('/images/Grad.jpeg')}
-            alt="Michael Kuhl, Harvard graduation"
-            class="w-full h-full object-cover"
-          />
-        </div>
-        <p class="text-xs text-space-400 m-0">Harvard, 2026</p>
-      </div>
-      <div class="border border-orbit/15 rounded-xl p-3">
-        <div class="aspect-square overflow-hidden rounded-lg mb-2">
-          <img
-            src={resolvePath('/images/Hockey.jpeg')}
-            alt="Hockey"
-            class="w-full h-full object-cover"
-          />
-        </div>
-        <p class="text-xs text-space-400 m-0">Club hockey</p>
-      </div>
-      <div class="border border-orbit/15 rounded-xl p-3">
-        <div class="aspect-square overflow-hidden rounded-lg mb-2">
-          <img
-            src={resolvePath('/images/Surf.jpeg')}
-            alt="Surfing"
-            class="w-full h-full object-cover object-center"
-          />
-        </div>
-        <p class="text-xs text-space-400 m-0">Surfing</p>
-      </div>
-      <div class="border border-orbit/15 rounded-xl p-3">
-        <div class="aspect-square overflow-hidden rounded-lg mb-2">
-          <img
-            src={resolvePath('/images/Fish.jpeg')}
-            alt="Fishing"
-            class="w-full h-full object-cover"
-          />
-        </div>
-        <p class="text-xs text-space-400 m-0">Fishing</p>
-      </div>
-      <div class="border border-orbit/15 rounded-xl p-3">
-        <div class="aspect-square overflow-hidden rounded-lg mb-2">
-          <img
-            src={resolvePath('/images/Travel.jpeg')}
-            alt="Travel"
-            class="w-full h-full object-cover"
-          />
-        </div>
-        <p class="text-xs text-space-400 m-0">Travel</p>
-      </div>
-    </div>
-
-    <h2 data-reveal="4">Contact & links</h2>
-    <div class="space-y-2 text-base text-space-300" data-reveal="4">
+  <section class="container-page pt-14">
+    <p class="eyebrow">About</p>
+    <h1 class="mt-2">Michael Kuhl</h1>
+    <div class="mt-6 max-w-prose space-y-4 text-lg text-slate-600">
       <p>
-        <strong>GitHub:</strong>{' '}
-        <a href="https://github.com/michaelkuhl10">@michaelkuhl10</a>
+        I am a graduate student in the MIT Department of Aeronautics and Astronautics. I work in the
+        <strong class="text-slate-800">Space Telecommunications, Astronomy and Radiation Laboratory (STAR Lab)</strong>
+        under <strong class="text-slate-800">Prof. Kerri Cahoy</strong>.
       </p>
       <p>
-        <strong>MIT STAR Lab:</strong>{' '}
-        <a href="https://starlab.mit.edu">starlab.mit.edu</a>
+        For this course, I study how robots can assemble large structures in space. My current work is
+        on assembly strategy, attitude effects and reaction wheel sizing for the ORLO* tile robots. The
+        <a href={resolvePath('/project')}>project page</a> has the full story. For the lab's broader
+        research, visit the <a href="https://starlab.mit.edu">STAR Lab website</a>.
       </p>
     </div>
+
+    <h2 class="mt-14">Beyond research</h2>
+    <div class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-5">
+      {photos.map((p) => (
+        <figure class="m-0">
+          <div class="aspect-square overflow-hidden rounded-xl border border-slate-200">
+            <img src={resolvePath(p.src)} alt={p.alt} loading="lazy" class="h-full w-full object-cover" />
+          </div>
+          <figcaption class="mt-2 text-sm text-slate-500">{p.label}</figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <h2 class="mt-14">Contact and links</h2>
+    <ul class="mt-4 list-none space-y-2 p-0 text-slate-600">
+      <li><span class="inline-block w-28 font-medium text-slate-800">GitHub</span><a href="https://github.com/michaelkuhl10">@michaelkuhl10</a></li>
+      <li><span class="inline-block w-28 font-medium text-slate-800">MIT STAR Lab</span><a href="https://starlab.mit.edu">starlab.mit.edu</a></li>
+    </ul>
   </section>
 </BaseLayout>

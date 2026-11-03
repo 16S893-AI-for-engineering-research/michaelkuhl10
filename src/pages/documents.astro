@@ -1,0 +1,75 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { resolvePath } from '@lib/paths';
+
+const repo = 'https://github.com/16S893-AI-for-engineering-research/michaelkuhl10';
+
+const groups = [
+  {
+    title: 'Assembly strategy',
+    items: [
+      { title: 'ORLO-Zig assembly report', note: '16-page report: robot count, path search, robustness and the validation gap map.', href: `${repo}/blob/main/pod-clinic/ORLO_Zig_assembly_report.pdf`, kind: 'PDF', external: true },
+      { title: 'Pod clinic briefing', note: 'Class briefing on attitude and time effects of a 10x10 tile build, with figures.', href: `${repo}/issues/2`, kind: 'GitHub issue', external: true },
+    ],
+  },
+  {
+    title: 'Reaction wheel sizing',
+    items: [
+      { title: 'Reaction wheel sizing walkthrough', note: 'How the code sizes the wheels, what the spiral needs, and the checks that ran.', href: '/walkthroughs/reaction-wheel-sizing-walkthrough.html', kind: 'HTML' },
+      { title: 'Wheel comparison', note: 'Flown wheel sets against the full-speed need, and the assembly time with each set.', href: '/docs/Reaction_Wheel_Comparison.pdf', kind: 'PDF' },
+      { title: 'Sizing equations', note: 'Two-page summary of the seven equations from momentum balance to wheel mass.', href: '/docs/Reaction_Wheel_Sizing_Equations.pdf', kind: 'PDF' },
+    ],
+  },
+  {
+    title: 'Literature review toolkit',
+    items: [
+      { title: 'Literature toolkit walkthrough', note: 'How the 235-paper workbook is built and what its checks catch.', href: '/walkthroughs/literature-toolkit-walkthrough.html', kind: 'HTML' },
+      { title: 'Top 10 papers: robotic control and in-space assembly', note: 'An early reading list for the project.', href: '/docs/Top10_Robotic_Control_Space_Assembly.pdf', kind: 'PDF' },
+    ],
+  },
+  {
+    title: 'Proposal and course work',
+    items: [
+      { title: 'Project proposal', note: 'The submitted proposal, 20 September 2026.', href: '/docs/Kuhl_Project_Proposal.pdf', kind: 'PDF' },
+      { title: 'To Accelerate or to Restrain?', note: 'Essay written from a debate between two AI subagents.', href: '/docs/AI_Research_Debate_Essay.pdf', kind: 'PDF' },
+      { title: 'The Sept 21 Tragedy', note: 'How a Pi update broke tool calls, and the fix.', href: '/docs/Sept_21_Tragedy.pdf', kind: 'PDF' },
+    ],
+  },
+];
+---
+
+<BaseLayout title="Documents" description="Reports, walkthroughs, essays and references for the in-space assembly project.">
+  <section class="container-page pt-14">
+    <p class="eyebrow">Documents</p>
+    <h1 class="mt-2">Reports, walkthroughs and essays</h1>
+    <p class="mt-4 max-w-prose text-lg text-slate-600">
+      Every long-form document from the project in one place. Each one opens in a new tab.
+    </p>
+
+    <div class="mt-12 space-y-12">
+      {groups.map((g) => (
+        <section>
+          <h2 class="text-lg">{g.title}</h2>
+          <ul class="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
+            {g.items.map((d) => (
+              <li>
+                <a
+                  href={d.external ? d.href : resolvePath(d.href)}
+                  target="_blank"
+                  rel="noopener"
+                  class="card group flex h-full flex-col p-5 no-underline transition-colors hover:border-arc-400"
+                >
+                  <span class="flex items-start justify-between gap-3">
+                    <span class="font-semibold text-slate-900 group-hover:text-arc-700">{d.title}</span>
+                    <span class="shrink-0 rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] text-slate-500">{d.kind}</span>
+                  </span>
+                  <span class="mt-2 text-sm leading-6 text-slate-600">{d.note}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

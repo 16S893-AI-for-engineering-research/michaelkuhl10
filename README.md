@@ -1,24 +1,44 @@
-# michaelkuhl10 — AI Agent for In-Space Assembly
+# michaelkuhl10 — Robotic assembly in space
 
-Portfolio and project site for **MIT 16.S893: AI Agents for Engineering Research**.
+Project site for **MIT 16.S893: AI Agents for Engineering Research**.
 
 **Live site:** https://16s893-ai-for-engineering-research.github.io/michaelkuhl10/
 
-## Project
+The site follows the ORLO* in-space assembly project: robot strategy, build
+order (outward spiral), reaction wheel sizing, and a literature review toolkit
+built on the side. The simulation code lives in a separate repo (ORLO-Zig);
+this repo holds the website and the figures it shows.
 
-AI agent to accelerate in-space assembly engineering research. Project
-direction (visual fiducial markers vs. assembly under uncertainty, etc.) is
-still being decided — the [Project](https://16s893-ai-for-engineering-research.github.io/michaelkuhl10/project)
-page is intentionally minimal until that's settled. See the
-[Dev Log](https://16s893-ai-for-engineering-research.github.io/michaelkuhl10/dev-log)
-for session-by-session progress.
+## Pages
 
-## Tech stack
+| Page | File | Content |
+|---|---|---|
+| Home | `src/pages/index.astro` | Summary, progress cards, latest sessions |
+| Project | `src/pages/project.astro` | The project story with figures 1–10 |
+| Dev Log | `src/pages/dev-log.astro` | Renders `src/data/dev-log.ts` |
+| Documents | `src/pages/documents.astro` | Every report, walkthrough, essay and reference |
+| About | `src/pages/about.astro` | Bio and photos |
 
-- [Astro](https://astro.build) (static output)
-- [Tailwind CSS](https://tailwindcss.com)
-- React (via `@astrojs/react`)
-- Deployed to GitHub Pages via GitHub Actions
+## Structure
+
+```
+src/
+  data/dev-log.ts     Dev log entries (newest first) — edit this to add sessions
+  pages/              One file per page
+  components/         Header, Footer, Figure
+  layouts/            BaseLayout
+  essays/             Debate essay (Markdown, shown in the dev log)
+  lib/paths.ts        resolvePath() for the GitHub Pages base path
+  styles/globals.css  Tailwind base and shared classes
+public/
+  media/              Figures and videos used on the site
+  docs/               PDFs linked from the Documents page
+  walkthroughs/       Standalone HTML walkthrough pages
+  images/             About-page photos
+pod-clinic/           Class pod clinic briefing; GitHub issue 2 links these files
+research/             Proposal source text, reference papers, PID figure reproduction
+.pi/skills/           dev-log-entry skill (adds entries to src/data/dev-log.ts)
+```
 
 ## Local development
 
@@ -29,38 +49,10 @@ npm run build    # outputs to ./dist
 npm run preview  # preview the production build
 ```
 
-> `npm run dev` sets `DEV=true`, which serves from `/`. Production builds use
-> the base path `/michaelkuhl10` to match the GitHub Pages project URL.
+`npm run dev` sets `DEV=true`, which serves from `/`. Production builds use the
+base path `/michaelkuhl10`. A push to `main` deploys to GitHub Pages.
 
-## Structure
+## Tech stack
 
-```
-src/
-  components/   Header, Footer
-  layouts/      BaseLayout.astro
-  lib/          paths.ts (base-path helper)
-  pages/        index, about, project, dev-log, schedule
-  styles/       globals.css
-.github/workflows/deploy.yml   CI build + deploy to Pages
-```
-
-## Editing content
-
-- **Project summary:** `src/pages/project.astro` (kept minimal on purpose)
-- **About you:** `src/pages/about.astro`
-- **Dev log entries:** add to the `entries` array in `src/pages/dev-log.astro`.
-  Each entry is a list of fact-based bullets, written by hand, not AI-generated.
-- **Schedule:** `src/pages/schedule.astro`. Edit the `weeks`, `deadlines`, and
-  `grading` arrays. Each week has a `course` track (sessions and assignments
-  from the 16.S893 syllabus) and a parallel `research` track (ORLO* vision
-  work). Mark items complete with `done: true`.
-
-  The page is passphrase protected (**`Schedule`**). Since GitHub Pages is
-  static and has no server to check a password, the content is rendered at
-  build time, encrypted with AES-256-GCM (PBKDF2-SHA256, 150k iterations), and
-  only the ciphertext ships in the HTML — the browser decrypts it via Web
-  Crypto after the passphrase is entered. Viewing source does not reveal the
-  schedule. To change the passphrase, edit `PASSPHRASE` in that file and
-  rebuild.
-- **Personal notes:** kept separately in `notes/` (untracked, private — see
-  `notes/README.md`), not on the public site.
+[Astro](https://astro.build) (static output) and [Tailwind CSS](https://tailwindcss.com).
+Accent colour: arc-reactor blue (`arc` palette in `tailwind.config.mjs`).
