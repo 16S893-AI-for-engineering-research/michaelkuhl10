@@ -1,0 +1,26 @@
+{
+  "_comment": "Project repos whose public_show/ folder feeds this site. Paths are on Michael's Mac. Run: python3 scripts/sync_public_show.py --apply",
+  "sources": [
+    {
+      "name": "ORLO-Zig (simulation)",
+      "path": "~/Zig_ORLO*",
+      "site_folder": "zig",
+      "repo_url": "https://github.com/michaelkuhl10/orlo-zig",
+      "public": false
+    },
+    {
+      "name": "ORLO* controls",
+      "path": "~/ORLO*",
+      "site_folder": "controls",
+      "repo_url": "https://github.com/michaelkuhl10/orlo-controls",
+      "public": false
+    },
+    {
+      "name": "Literature review toolkit",
+      "path": "~/Programming/lit-review-toolkit",
+      "site_folder": "litkit",
+      "repo_url": "https://github.com/michaelkuhl10/lit-review-toolkit",
+      "public": true
+    }
+  ]
+}

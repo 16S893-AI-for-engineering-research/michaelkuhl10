@@ -1,0 +1,23 @@
+{
+  "name": "ORLO* controls",
+  "site_folder": "controls",
+  "repo_url": "https://github.com/michaelkuhl10/orlo-controls",
+  "public": false,
+  "about": "ORLO* controls baseline: plant models (modal, drive, rigid body), the baseline controller, and the 3D assembly animation.",
+  "items": [
+    {
+      "id": "assembly-3d",
+      "kind": "video",
+      "file": "media/assembly-3d.mp4",
+      "title": "Early 3D assembly run",
+      "caption": "An early 3D run. The structure's orientation changes as the robots add tiles.",
+      "alt": "3D animation of the structure's orientation changing as robots add tiles.",
+      "section": "intro",
+      "order": 2,
+      "poster": "media/assembly-3d-poster.jpg",
+      "url": "/show/controls/media/assembly-3d.mp4",
+      "poster_url": "/show/controls/media/assembly-3d-poster.jpg",
+      "updated": "2026-11-03"
+    }
+  ]
+}

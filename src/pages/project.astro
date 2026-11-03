@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Figure from '@components/Figure.astro';
+import ShowFigure from '@components/ShowFigure.astro';
 import { resolvePath } from '@lib/paths';
 
 // The project story, in the order the work happened. Numbers come from the
@@ -95,14 +96,7 @@ const wheelTable = [
           during the build, and at the end? The simulation tracks every moving body: robots, gantry
           and tiles. Every number on this page comes from that simulation.
         </p>
-        <Figure
-          number={2}
-          src="/media/assembly-3d.mp4"
-          poster="/media/assembly-3d-poster.jpg"
-          video
-          alt="3D animation of the structure's orientation changing as robots add tiles."
-          caption="An early 3D run. The structure's orientation changes as the robots add tiles."
-        />
+        <ShowFigure from="controls" id="assembly-3d" number={2} />
       </section>
 
       <!-- 2 -->
@@ -114,20 +108,8 @@ const wheelTable = [
           This is strategy <strong>A1</strong>. Strategy <strong>A2</strong> uses one robot that
           carries every tile along a single path and never reloads.
         </p>
-        <Figure
-          number={3}
-          src="/media/a1-vs-a2.mp4"
-          poster="/media/a1-vs-a2-poster.jpg"
-          video
-          alt="Side-by-side animation of the two-robot A1 build and the one-robot A2 build."
-          caption="Two robots with return trips (A1, left) against one robot on a single path (A2, right)."
-        />
-        <Figure
-          number={4}
-          src="/media/a1-vs-a2-results.png"
-          alt="Bar charts of build time and attitude change for strategies A1 and A2."
-          caption="A1 tilts the structure less, but it takes 3.6 times longer. It also needs 19 in-place turns that are not yet shown to be possible."
-        />
+        <ShowFigure from="zig" id="a1-vs-a2" number={3} />
+        <ShowFigure from="zig" id="a1-vs-a2-results" number={4} />
         <div class="card my-6 grid grid-cols-1 divide-y divide-slate-200 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
           <div class="p-5">
             <p class="eyebrow text-slate-500">A1 · two robots</p>
@@ -154,20 +136,8 @@ const wheelTable = [
           free 100-tile shapes: straight, staircase and elbow. A seeded search found two more square
           routes, but the snake beat both of them.
         </p>
-        <Figure
-          number={5}
-          src="/media/square-paths.mp4"
-          poster="/media/square-paths-poster.jpg"
-          video
-          alt="Animation of the snake, outward spiral and backbite paths building the 10x10 square."
-          caption="Three build orders for the same 10×10 square: snake, outward spiral and a search-found backbite route."
-        />
-        <Figure
-          number={6}
-          src="/media/square-tradeoff.png"
-          alt="Scatter plot of motion time against attitude change for each 10x10 path."
-          caption="Time against tilt for each 10×10 path. Only the snake and the outward spiral are not beaten on both measures."
-        />
+        <ShowFigure from="zig" id="square-paths" number={5} />
+        <ShowFigure from="zig" id="square-tradeoff" number={6} />
         <div class="my-6 overflow-x-auto">
           <table class="w-full border-collapse text-sm">
             <thead>
@@ -210,12 +180,7 @@ const wheelTable = [
           out. Each one starts a new side next to a compact block. The spiral also ends with less tilt
           (46.4° against 61.7°). A reaction wheel can take care of the high peak.
         </p>
-        <Figure
-          number={7}
-          src="/media/spiral-outward-stages.jpg"
-          alt="Three frames of the outward spiral build: start, middle and final."
-          caption="The outward spiral at the start, the middle and the end of the build."
-        />
+        <ShowFigure from="zig" id="spiral-outward-stages" number={7} />
       </section>
 
       <!-- 5 -->
@@ -235,12 +200,7 @@ const wheelTable = [
           best set has 0.50 N·m, which is about 36 times too small. The fix is to slow each robot move
           until the wheel can keep up.
         </p>
-        <Figure
-          number={8}
-          src="/media/reaction-wheel-results.png"
-          alt="Left: wheel momentum needed on x, y and z axes over the build, with the RW4-HT limit. Right: robot motion time for each wheel set on a log scale."
-          caption="Left: the momentum each wheel must store during the spiral. Right: robot motion time when each move slows until the wheel keeps up."
-        />
+        <ShowFigure from="zig" id="reaction-wheel-results" number={8} />
         <div class="my-6 overflow-x-auto">
           <table class="w-full border-collapse text-sm">
             <thead>
@@ -268,9 +228,9 @@ const wheelTable = [
           <strong>0.01°</strong> in simulation.
         </p>
         <div class="mt-6 flex flex-wrap gap-3">
-          <a class="btn-secondary" href={resolvePath('/walkthroughs/reaction-wheel-sizing-walkthrough.html')} target="_blank" rel="noopener">Sizing walkthrough ↗</a>
-          <a class="btn-secondary" href={resolvePath('/docs/Reaction_Wheel_Comparison.pdf')} target="_blank" rel="noopener">Wheel comparison (PDF) ↗</a>
-          <a class="btn-secondary" href={resolvePath('/docs/Reaction_Wheel_Sizing_Equations.pdf')} target="_blank" rel="noopener">Sizing equations (PDF) ↗</a>
+          <a class="btn-secondary" href={resolvePath('/show/zig/walkthroughs/reaction-wheel-sizing-walkthrough.html')} target="_blank" rel="noopener">Sizing walkthrough ↗</a>
+          <a class="btn-secondary" href={resolvePath('/show/zig/docs/Reaction_Wheel_Comparison.pdf')} target="_blank" rel="noopener">Wheel comparison (PDF) ↗</a>
+          <a class="btn-secondary" href={resolvePath('/show/zig/docs/Reaction_Wheel_Sizing_Equations.pdf')} target="_blank" rel="noopener">Sizing equations (PDF) ↗</a>
         </div>
       </section>
 
@@ -283,12 +243,7 @@ const wheelTable = [
           wheel mass is not yet added to the structure. The map below shows what is checked, what is
           assumed and what is still unknown.
         </p>
-        <Figure
-          number={9}
-          src="/media/validation-gap-map.png"
-          alt="Grid showing which parts of the model are verified, assumed or unknown."
-          caption="Validation gap map: what is verified, what is assumed and what is unknown."
-        />
+        <ShowFigure from="zig" id="validation-gap-map" number={9} />
         <p>
           Joining the seams sets the real finish time. If each seam takes 600 s, joining takes about
           30 hours, and robot motion is less than 0.3 % of the total.
@@ -331,19 +286,14 @@ const wheelTable = [
             <div><p class="stat m-0">332</p><p class="m-0 text-sm text-slate-500">search queries logged</p></div>
             <div><p class="stat m-0">9</p><p class="m-0 text-sm text-slate-500">paper cards, 140 quotes checked</p></div>
           </div>
-          <Figure
-            number={10}
-            src="/media/literature-pipeline.png"
-            alt="Pipeline diagram: seed papers and database searches feed the workbook, which feeds Zotero, the reading queue and paper cards."
-            caption="How papers enter the workbook and become checked paper cards."
-          />
+          <ShowFigure from="zig" id="literature-pipeline" number={10} />
           <p class="mb-0">
             Every paper must have a DOI or another stable ID, so nothing is cited from memory. Every
             takeaway on a card has a page number and an exact quote. A script checks each quote
             against the PDF text.
           </p>
           <div class="mt-6">
-            <a class="btn-secondary" href={resolvePath('/walkthroughs/literature-toolkit-walkthrough.html')} target="_blank" rel="noopener">Literature toolkit walkthrough ↗</a>
+            <a class="btn-secondary" href={resolvePath('/show/zig/walkthroughs/literature-toolkit-walkthrough.html')} target="_blank" rel="noopener">Literature toolkit walkthrough ↗</a>
           </div>
         </div>
       </section>

@@ -17,7 +17,25 @@ this repo holds the website and the figures it shows.
 | Project | `src/pages/project.astro` | The project story with figures 1–10 |
 | Dev Log | `src/pages/dev-log.astro` | Renders `src/data/dev-log.ts` |
 | Documents | `src/pages/documents.astro` | Every report, walkthrough, essay and reference |
+| How it is built | `src/pages/how-it-is-built.astro` | Each project repo and what it shares |
 | About | `src/pages/about.astro` | Bio and photos |
+
+## Content from the project repos
+
+Each project repo (`orlo-zig`, `orlo-controls`, `lit-review-toolkit`) has a `public_show/`
+folder with a `manifest.json`. The sync script copies those folders here:
+
+```bash
+python3 scripts/sync_public_show.py           # dry run: show what changes
+python3 scripts/sync_public_show.py --apply   # copy into public/show/ and src/data/show/
+npm run build                                  # check that every page still builds
+git add -A && git commit -m "Sync public_show" && git push
+```
+
+Sources are listed in `scripts/show_sources.json`. Pages use
+`<ShowFigure from="zig" id="square-tradeoff" />` (`src/components/ShowFigure.astro`) or
+`showItem()` / `showSources` from `src/lib/show.ts`, so captions come from the source repo.
+The "How it is built" page (`src/pages/how-it-is-built.astro`) lists every repo and its items.
 
 ## Structure
 
@@ -31,7 +49,8 @@ src/
   lib/paths.ts        resolvePath() for the GitHub Pages base path
   styles/globals.css  Tailwind base and shared classes
 public/
-  media/              Figures and videos used on the site
+  show/<repo>/        Synced from each project repo's public_show/ folder (do not edit here)
+  media/              Site-only figures (flow chart, PID reproduction)
   docs/               PDFs linked from the Documents page
   walkthroughs/       Standalone HTML walkthrough pages
   images/             About-page photos

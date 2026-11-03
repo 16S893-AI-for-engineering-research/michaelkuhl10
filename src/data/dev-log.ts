@@ -47,7 +47,7 @@ export const entries: DevLogEntry[] = [
     date: '2026-10-30',
     title: 'Checked the wheel masses and wrote a summary of the wheel sizing equations',
     attachment: {
-      href: '/docs/Reaction_Wheel_Sizing_Equations.pdf',
+      href: '/show/zig/docs/Reaction_Wheel_Sizing_Equations.pdf',
       label: 'Reaction wheel sizing equations (PDF)',
     },
     aiSummary: [
@@ -64,7 +64,7 @@ export const entries: DevLogEntry[] = [
     date: '2026-10-28',
     title: 'Installed the figure tools and rebuilt the literature toolkit walkthrough with diagrams',
     attachment: {
-      href: '/walkthroughs/literature-toolkit-walkthrough.html',
+      href: '/show/zig/walkthroughs/literature-toolkit-walkthrough.html',
       label: 'Literature toolkit walkthrough (HTML)',
     },
     aiSummary: [
@@ -142,7 +142,7 @@ I do not yet know how to check step 4, and I plan to check it through simplified
     date: '2026-10-25',
     title: 'Recorded the ZO-24 decision and sized a reaction wheel for spiral-outward assembly (ZO-25)',
     attachment: {
-      href: '/walkthroughs/reaction-wheel-sizing-walkthrough.html',
+      href: '/show/zig/walkthroughs/reaction-wheel-sizing-walkthrough.html',
       label: 'Reaction wheel sizing walkthrough (HTML)',
     },
     aiSummary: [

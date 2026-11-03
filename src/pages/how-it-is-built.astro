@@ -1,0 +1,76 @@
+---
+// How the project is built: one card per project repo, with everything that
+// repo shares through its public_show/ folder. Data comes from
+// src/data/show/*.json, written by scripts/sync_public_show.py.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { resolvePath } from '@lib/paths';
+import { showSources } from '@lib/show';
+
+const kindLabel: Record<string, string> = {
+  figure: 'Figure', video: 'Video', doc: 'PDF', walkthrough: 'Walkthrough', text: 'Notes',
+};
+---
+
+<BaseLayout title="How it is built" description="The repositories behind the project, what each one does, and what each one shares.">
+  <section class="container-page pt-14">
+    <p class="eyebrow">How it is built</p>
+    <h1 class="mt-2">The code behind the project</h1>
+    <div class="mt-4 max-w-prose text-lg text-slate-600">
+      <p>
+        The work lives in separate repositories. Each repository has a <code>public_show/</code>
+        folder. Only files in that folder come to this site. A sync script copies them here, so
+        every figure on this site traces back to the code that made it.
+      </p>
+    </div>
+
+    <div class="card mt-8 max-w-3xl p-5 text-sm leading-6 text-slate-600">
+      <p class="m-0 font-semibold text-slate-900">How content gets here</p>
+      <ol class="mb-0 mt-2 list-decimal pl-5">
+        <li>A script in a project repository makes a figure or a report.</li>
+        <li>The script writes the file and its caption into that repository's <code>public_show/</code> folder.</li>
+        <li><code>scripts/sync_public_show.py</code> in this site's repository copies each <code>public_show/</code> folder to <code>public/show/&lt;repo&gt;/</code>.</li>
+        <li>The pages read the captions from the synced data, and GitHub Pages publishes the site.</li>
+      </ol>
+    </div>
+
+    <div class="mt-12 space-y-12">
+      {showSources.map((src) => (
+        <section>
+          <div class="flex flex-wrap items-baseline justify-between gap-3">
+            <h2 class="text-lg">{src.name}</h2>
+            {src.public ? (
+              <a class="btn-secondary" href={src.repo_url} target="_blank" rel="noopener">Open the repository ↗</a>
+            ) : (
+              <span class="rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] text-slate-500">private source code</span>
+            )}
+          </div>
+          {src.about && <p class="mt-2 max-w-prose text-slate-600">{src.about}</p>}
+          <ul class="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
+            {src.items.filter((it) => it.kind !== 'text').map((it) => (
+              <li>
+                <a
+                  href={resolvePath(it.url)}
+                  target="_blank"
+                  rel="noopener"
+                  class="card group flex h-full flex-col p-5 no-underline transition-colors hover:border-arc-400"
+                >
+                  <span class="flex items-start justify-between gap-3">
+                    <span class="font-semibold text-slate-900 group-hover:text-arc-700">{it.title}</span>
+                    <span class="shrink-0 rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] text-slate-500">{kindLabel[it.kind] ?? it.kind}</span>
+                  </span>
+                  {it.caption && <span class="mt-2 text-sm leading-6 text-slate-600">{it.caption}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+          {src.items.filter((it) => it.kind === 'text').map((it) => (
+            <div class="card mt-4 max-w-3xl p-5">
+              <p class="m-0 font-semibold text-slate-900">{it.title}</p>
+              <pre class="mt-2 whitespace-pre-wrap font-sans text-sm leading-6 text-slate-600">{it.body}</pre>
+            </div>
+          ))}
+        </section>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

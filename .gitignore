@@ -24,3 +24,9 @@ Thumbs.db
 
 # Build
 *.tsbuildinfo
+
+# Papers by other people: keep local only, never publish
+research/references/
+*.pdf
+!public/docs/*.pdf
+!pod-clinic/*.pdf

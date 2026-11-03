@@ -1,0 +1,26 @@
+---
+// A figure or video from a project repo's public_show/ folder.
+// The file, alt text and caption come from that repo's manifest.json.
+// Usage: <ShowFigure from="zig" id="square-tradeoff" number={6} />
+import Figure from '@components/Figure.astro';
+import { showItem } from '@lib/show';
+
+interface Props {
+  from: string;
+  id: string;
+  number?: number;
+  caption?: string; // optional override
+}
+
+const { from, id, number, caption } = Astro.props;
+const it = showItem(from, id);
+---
+
+<Figure
+  number={number}
+  src={it.url}
+  poster={it.poster_url}
+  video={it.kind === 'video'}
+  alt={it.alt}
+  caption={caption ?? it.caption}
+/>
