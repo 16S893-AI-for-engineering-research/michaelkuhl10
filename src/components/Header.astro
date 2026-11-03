@@ -1,5 +1,6 @@
 ---
 import { resolvePath } from '@lib/paths';
+import ArcReactor from '@components/ArcReactor.astro';
 
 interface Props {
   currentPath?: string;
@@ -20,13 +21,13 @@ const isActive = (href: string) => strip(currentPath).startsWith(strip(href));
 
 <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
   <nav class="container-page flex h-16 items-center justify-between gap-4">
-    <a href={resolvePath('/')} class="flex items-center gap-2.5 no-underline">
-      <span class="relative inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-arc-500">
-        <span class="h-2.5 w-2.5 rounded-full bg-arc-400 shadow-[0_0_8px_2px_rgba(51,199,242,0.6)]"></span>
-      </span>
-      <span class="text-[15px] font-semibold text-slate-900">Michael Kuhl</span>
-      <span class="hidden sm:inline text-sm text-slate-400">In-Space Assembly</span>
-    </a>
+    <div class="flex items-center gap-2.5">
+      <ArcReactor />
+      <a href={resolvePath('/')} class="flex items-center gap-2.5 no-underline">
+        <span class="text-[15px] font-semibold text-slate-900">Michael Kuhl</span>
+        <span class="hidden sm:inline text-sm text-slate-400">In-Space Assembly</span>
+      </a>
+    </div>
     <ul class="flex items-center gap-1 sm:gap-2 list-none m-0 p-0">
       {navItems.map((item) => (
         <li>
