@@ -16,6 +16,21 @@ export interface DevLogEntry {
 
 export const entries: DevLogEntry[] = [
   {
+    date: '2026-11-04',
+    title: 'Tested two mirrored robots: in step, they cancel the yaw and remove the yaw wheel (ZO-26)',
+    aiSummary: [
+      'Split the 10x10 grid 50-50 at the centre line; each robot starts on its own seed tile and carries 49 tiles.',
+      'Each half uses a U-cutback path (nested U shapes from the centre line); robot B is the mirror image of robot A.',
+      'Robot dry mass placeholder: 56.7 kg each (2/3 of 85 kg), system 163.3 kg; ZO-31 tracks the re-calculation.',
+      'In step, the pair needs 1.13 / 0 / 0 N m s of wheel momentum on x / y / z, against 1.09 / 1.14 / 7.33 for one robot.',
+      'Turning one path 180 degrees instead of mirroring it doubles the yaw: 31.1 N m s on z.',
+      'Timing test: yaw grows about 0.5 degrees per 10 ms of delay; the 1 degree limit is at about 0.02 s.',
+      'Added two_robot.py, zo26_analysis.py, render_two_robot.py and 6 tests; the full suite passed with 1011 tests.',
+      'Rendered an animation of the pair in step against robot B 0.25 s late, with roll and pitch wheels only.',
+    ],
+    personalNotes: `Add your own notes for this session here.`,
+  },
+  {
     date: '2026-11-03',
     title: 'Rebuilt this website: light design, one project story, a Documents page, and no schedule',
     aiSummary: [

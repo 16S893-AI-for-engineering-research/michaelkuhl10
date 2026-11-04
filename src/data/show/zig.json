@@ -144,6 +144,44 @@
       "updated": "2026-11-03"
     },
     {
+      "id": "two-robot-mirror",
+      "kind": "video",
+      "file": "media/two-robot-mirror.mp4",
+      "title": "Two mirrored robots, no yaw wheel",
+      "caption": "Two mirror-image robots build the 10x10 with roll and pitch wheels only. In step, the structure does not yaw. If robot B is 0.25 s late, the structure yaws up to 12 degrees.",
+      "alt": "Side-by-side top-view animation of two robots building each half of a 10x10 tile grid, with a yaw-angle plot below.",
+      "section": "two-robot",
+      "order": 1,
+      "poster": "media/two-robot-mirror-poster.jpg",
+      "url": "/show/zig/media/two-robot-mirror.mp4",
+      "poster_url": "/show/zig/media/two-robot-mirror-poster.jpg",
+      "updated": "2026-11-04"
+    },
+    {
+      "id": "two-robot-timing",
+      "kind": "figure",
+      "file": "media/two-robot-timing.png",
+      "title": "Timing between the two robots",
+      "caption": "Yaw cancellation against the delay of robot B. The 1 degree yaw limit is reached at a delay of about 0.02 s.",
+      "alt": "Three plots against robot B delay: peak z momentum, peak z torque and peak yaw angle with no z wheel, with a 1 degree limit line.",
+      "section": "two-robot",
+      "order": 2,
+      "url": "/show/zig/media/two-robot-timing.png",
+      "updated": "2026-11-04"
+    },
+    {
+      "id": "two-robot-momentum",
+      "kind": "figure",
+      "file": "media/two-robot-momentum.png",
+      "title": "Wheel momentum: one robot against the mirrored pair",
+      "caption": "Wheel momentum needed on each axis. The mirrored pair cancels the y and z axes; the x axis stays.",
+      "alt": "Three stacked plots of wheel momentum on x, y and z against time, for one robot on its half and for the mirrored pair.",
+      "section": "two-robot",
+      "order": 3,
+      "url": "/show/zig/media/two-robot-momentum.png",
+      "updated": "2026-11-04"
+    },
+    {
       "id": "reaction-wheel-results",
       "kind": "figure",
       "file": "media/reaction-wheel-results.png",
