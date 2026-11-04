@@ -27,12 +27,12 @@ const pathTable = [
 ];
 
 const wheelTable = [
-  { set: 'No wheel limit (ideal)', time: '5.15', mass: 'none' },
-  { set: 'BCT RW4-HT ×3 (recommended)', time: '13.5', mass: '9.6', pick: true },
-  { set: 'BCT RW4 ×3', time: '18.6', mass: '9.6' },
-  { set: 'BCT RW8 ×3', time: '18.6', mass: '13.2' },
-  { set: 'BCT RW1 ×3', time: '37.1', mass: '3.3' },
-  { set: 'NanoAvionics 4RW0', time: '290.4', mass: '0.7' },
+  { set: 'No wheel limit (ideal)', time: '4.40', mass: 'none' },
+  { set: 'BCT RW4-HT ×3 (recommended)', time: '13.1', mass: '9.6', pick: true },
+  { set: 'BCT RW4 ×3', time: '18.1', mass: '9.6' },
+  { set: 'BCT RW8 ×3', time: '18.1', mass: '13.2' },
+  { set: 'BCT RW1 ×3', time: '36.2', mass: '3.3' },
+  { set: 'NanoAvionics 4RW0', time: '233.7', mass: '0.7' },
 ];
 ---
 
@@ -54,7 +54,7 @@ const wheelTable = [
         <div><p class="stat m-0">100</p><p class="m-0 text-sm text-slate-500">tiles, 160 mm each</p></div>
         <div><p class="stat m-0">6</p><p class="m-0 text-sm text-slate-500">layouts compared</p></div>
         <div><p class="stat m-0">46.4°</p><p class="m-0 text-sm text-slate-500">final tilt, no wheel</p></div>
-        <div><p class="stat m-0">13.5 min</p><p class="m-0 text-sm text-slate-500">robot motion with a wheel</p></div>
+        <div><p class="stat m-0">13.1 min</p><p class="m-0 text-sm text-slate-500">robot motion with a wheel</p></div>
       </div>
     </div>
   </section>
@@ -165,6 +165,11 @@ const wheelTable = [
           I also changed the mass and inertia values in 20 robustness runs. 12 runs passed, 8 gave no
           clear result, and none failed. The snake passed all 10 of its runs, with a peak tilt between 56° and 78°.
         </p>
+        <p class="text-sm text-slate-500">
+          The path results in sections 1 to 4 use the first robot and tile values (85 kg robot, 0.5 kg
+          tiles). I re-ran the wheel sizing and the two-robot study with the new values (sections 5 and 6),
+          but not the path search or the robustness runs.
+        </p>
       </section>
 
       <!-- 4 -->
@@ -196,10 +201,11 @@ const wheelTable = [
           h<sub>wheel</sub>(t) = −h<sub>robot</sub>(t)&nbsp;&nbsp;&nbsp;&nbsp;τ<sub>motor</sub>(t) = −dh<sub>robot</sub>/dt
         </div>
         <p>
-          At full robot speed, the spiral needs a peak of <strong>7.33 N·m·s</strong> of momentum and
-          <strong>18.0 N·m</strong> of torque on the z axis. No flown wheel has that much torque. The
-          best set has 0.50 N·m, which is about 36 times too small. The fix is to slow each robot move
-          until the wheel can keep up.
+          At full robot speed, the spiral needs a peak of <strong>6.9 N·m·s</strong> of momentum and
+          <strong>25.5 N·m</strong> of torque on the z axis. It needs 3.5 and 4.0 N·m·s on x and y.
+          These numbers use the new robot (35.5 kg) and the new plastic tiles (0.4375 kg, 30 mm thick).
+          No flown wheel has that much torque. The best set has 0.50 N·m, which is about 51 times too
+          small. The fix is to slow each robot move until the wheel can keep up.
         </p>
         <ShowFigure from="zig" id="reaction-wheel-results" number={8} />
         <div class="my-6 overflow-x-auto">
@@ -247,15 +253,15 @@ const wheelTable = [
           A mirror reverses the turning push of each robot about two of the three axes. When the robots
           move in step, their yaw (z) and pitch (y) momentum cancel to zero. Roll (x) does not cancel.
           Both robots drive the same way along the rows and lift tiles at the same row, so their roll
-          pushes add. With no wheels at all, the structure rolls up to 16° during the build and ends
-          within 0.5° of where it started.
+          pushes add. With no wheels at all, the structure rolls up to 13° during the build and ends
+          rolled by 8°.
         </p>
         <ShowFigure from="zig" id="two-robot-no-wheels" number={9} />
         <p>
           With a wheel on roll (and none on yaw), the structure stays still. One flown BCT RW4-HT wheel
-          (3.2 kg) on roll is enough. Robot motion then takes 3.3 min, against 13.5 min for one robot
-          with three of these wheels. Turning one path 180° instead of mirroring it makes yaw four
-          times worse.
+          (3.2 kg) on roll is enough. Robot motion then takes 4.0 min, against 13.1 min for one robot
+          with three of these wheels. Turning one path 180° instead of mirroring it makes the yaw
+          wheel need about three times larger than for one robot.
         </p>
         <ShowFigure from="zig" id="two-robot-mirror" number={10} />
         <div class="my-6 overflow-x-auto">
@@ -267,23 +273,25 @@ const wheelTable = [
               </tr>
             </thead>
             <tbody>
-              <tr class="border-b border-slate-200"><td class="py-2 pr-4">One robot, outward spiral</td><td class="py-2 pr-4 text-right font-mono">1.09 / 1.14 / 7.33</td></tr>
-              <tr class="border-b border-slate-200 bg-arc-50 font-medium text-slate-900"><td class="py-2 pr-4">Mirrored pair, in step</td><td class="py-2 pr-4 text-right font-mono">1.13 / 0 / 0</td></tr>
-              <tr class="border-b border-slate-200"><td class="py-2 pr-4">Pair, one path turned 180°</td><td class="py-2 pr-4 text-right font-mono">0 / 0 / 31.1</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-2 pr-4">One robot, outward spiral</td><td class="py-2 pr-4 text-right font-mono">3.51 / 4.01 / 6.90</td></tr>
+              <tr class="border-b border-slate-200 bg-arc-50 font-medium text-slate-900"><td class="py-2 pr-4">Mirrored pair, in step</td><td class="py-2 pr-4 text-right font-mono">1.80 / 0 / 0</td></tr>
+              <tr class="border-b border-slate-200"><td class="py-2 pr-4">Pair, one path turned 180°</td><td class="py-2 pr-4 text-right font-mono">0 / 0 / 22.8</td></tr>
             </tbody>
           </table>
         </div>
         <p>
           The catch is timing. If robot B is late, the push from robot A has no partner for that time.
-          The yaw grows by about 0.5° for each 10 ms of delay. To keep yaw below 1°, the robots must
-          stay within about <strong>0.02 s</strong> of each other. That needs a shared clock and the
+          The yaw grows by about 0.7° for each 10 ms of delay. To keep yaw below 1°, the robots must
+          stay within about <strong>0.015 s</strong> of each other. That needs a shared clock and the
           same motion plan.
         </p>
         <ShowFigure from="zig" id="two-robot-timing" number={11} />
         <p>
-          Each robot here has a placeholder dry mass of 56.7 kg, which is two thirds of the single
-          robot, because each robot carries half the tiles. I will re-run these results when the new
-          tile and robot masses are set. One mirror pair cannot cancel all three axes. Four robots, one
+          Each robot here weighs 29.3 kg: a 20 kg crawler (the old lumped value, no parts list yet) and a
+          9.3 kg structure sized for its own 49-tile stack. Every mass is still an estimate. The first run used
+          a placeholder of 56.7 kg per robot. With the new values the roll wheel need rose from 1.13 to 1.80 N·m·s, and the
+          no-wheel structure ends rolled by 8° instead of 0.4°. The cause appears to be the higher robot centre of mass,
+          but I have not traced the mechanism. One mirror pair cannot cancel all three axes. Four robots, one
           in each quadrant and mirrored across both centre lines, could cancel roll too. I have not
           simulated that yet.
         </p>

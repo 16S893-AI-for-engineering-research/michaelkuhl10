@@ -22,14 +22,14 @@
       "id": "design-v2-progress",
       "kind": "text",
       "file": "text/design-v2-progress.md",
-      "title": "Next step: a lighter tile and structure (in progress)",
+      "title": "A lighter tile and structure, and what changed",
       "caption": "",
-      "alt": "Next step: a lighter tile and structure (in progress)",
+      "alt": "A lighter tile and structure, and what changed",
       "section": "design",
-      "order": 1,
+      "order": 100,
       "url": "/show/zig/text/design-v2-progress.md",
-      "body": "What changed\nThe tile is now thicker (30 mm, up from 10 mm). It is mostly ABS plastic, with 8 small servo motors and 4 steel pads. The old structure weight of 65 kg was a guess based on a solid tube. That is too heavy for plastic tiles.\n\nNew numbers (first estimate, not checked by a test run)\n1. Structure: about 15.5 kg. It is four thin steel posts, ring frames, a base plate and small brackets.\n2. Robot dry mass: about 35.5 kg, down from 85 kg. This is the structure plus the 20 kg crawler.\n3. System total: about 79 kg, down from 135 kg.\n\nHow it was sized\nA hand calculation assumes a launch load of 10 g along the stack and 3 g sideways. The post margins are thin (about 1.5 to 2.2). The load case is an assumption, not a real launch vehicle.\n\nWhat is still open\n1. The servo, ABS fill and fastener masses are guesses.\n2. The 20 kg crawler has no parts list.\n3. The 3 m tall stack on a 0.2 m base has not been checked for tipping or stiffness.\n4. The current simulation cannot take a new tile thickness or stack height. It needs a code change before the old analyses can be re-run with these numbers.\n\nEvery value in the new sheet carries a status: measured, CAD, datasheet, estimate or guess. Fusion CAD data will replace the guesses.\n",
-      "updated": "2026-11-03"
+      "body": "What changed\nThe tile is now thicker (30 mm, up from 10 mm). It is mostly ABS plastic, with 8 small servo motors and 4 steel pads. The old structure weight of 65 kg was a guess based on a solid tube. That is too heavy for plastic tiles.\n\nNew numbers (first estimate)\n1. Structure for the whole 100-tile stack: about 15.5 kg. It is four thin steel posts, ring frames, a base plate and small brackets.\n2. Robot dry mass: about 35.5 kg, down from 85 kg. This is the structure plus the 20 kg crawler.\n3. System total: about 79 kg, down from 135 kg.\n4. Two-robot build: each robot carries 49 tiles. Its structure is 9.3 kg, so each robot is 29.3 kg.\n5. Stack pitch (the up-and-down spacing of tiles in the magazine): 30 mm, so 100 tiles stand 3.0 m tall.\n\nHow it was sized\nA hand calculation assumes a launch load of 10 g along the stack and 3 g sideways. The post margins are thin (about 1.5 to 2.2). The load case is an assumption, not a real launch vehicle.\n\nWhat the simulation now uses\nThe simulation takes the full inertia of the robot and the tile, built from the parts, and the 30 mm stack pitch. The wheel sizing and the two-robot results on this site were re-run with these numbers. The rail plane height (23 mm) and the gantry lift (30 mm) are guesses.\nThe search and robustness results for the build orders were not re-run. They still use the first parameters.\n\nWhat is still open\n1. The servo, ABS fill and fastener masses are guesses.\n2. The 20 kg crawler has no parts list.\n3. The 3 m tall stack on a 0.2 m base has not been checked for tipping or stiffness.\n4. The simulation still ignores the 1.5 mm offset of the tile centre of mass and the spin of the servo rotors.\n\nEvery value in the new sheet carries a status: measured, CAD, datasheet, estimate or guess. Fusion CAD data will replace the guesses.\n",
+      "updated": "2026-11-04"
     },
     {
       "id": "validation-gap-map",
@@ -148,7 +148,7 @@
       "kind": "video",
       "file": "media/two-robot-no-wheels.mp4",
       "title": "Two mirrored robots, no reaction wheels",
-      "caption": "The same build with no wheels at all, seen from the (+x, +y, +z) corner. In step, yaw and pitch cancel, and only roll is left (peak 16 degrees, final 0.4 degrees). If robot B is 0.25 s late, the structure also yaws up to 12 degrees.",
+      "caption": "The same build with no wheels at all, seen from the (+x, +y, +z) corner, with the new robot and tile parameters. In step, yaw and pitch cancel, and only roll is left (peak 13 degrees, final 8 degrees). If robot B is 0.25 s late, the structure also yaws up to 15 degrees.",
       "alt": "Two 3D corner-view animations of two robots building a 10x10 grid with no reaction wheels, with structure axes against fixed axes and a yaw and roll plot below.",
       "section": "two-robot",
       "order": 1,
@@ -162,7 +162,7 @@
       "kind": "video",
       "file": "media/two-robot-mirror.mp4",
       "title": "Two mirrored robots, roll and pitch wheels only",
-      "caption": "The same build with ideal wheels on roll and pitch and no yaw wheel, seen from the (+x, +y, +z) corner. In step, the structure stays still. If robot B is 0.25 s late, the structure yaws up to 12 degrees.",
+      "caption": "The same build with ideal wheels on roll and pitch and no yaw wheel, seen from the (+x, +y, +z) corner, with the new robot and tile parameters. In step, the structure stays still. If robot B is 0.25 s late, the structure yaws up to 15 degrees.",
       "alt": "Two 3D corner-view animations of two robots building each half of a 10x10 tile grid with roll and pitch wheels, with a yaw-angle plot below.",
       "section": "two-robot",
       "order": 2,
@@ -176,7 +176,7 @@
       "kind": "figure",
       "file": "media/two-robot-timing.png",
       "title": "Timing between the two robots",
-      "caption": "Yaw cancellation against the delay of robot B. The 1 degree yaw limit is reached at a delay of about 0.02 s.",
+      "caption": "Yaw cancellation against the delay of robot B, with the new parameters. The 1 degree yaw limit is reached at a delay of about 0.015 s.",
       "alt": "Three plots against robot B delay: peak z momentum, peak z torque and peak yaw angle with no z wheel, with a 1 degree limit line.",
       "section": "two-robot",
       "order": 3,
@@ -188,7 +188,7 @@
       "kind": "figure",
       "file": "media/two-robot-momentum.png",
       "title": "Wheel momentum: one robot against the mirrored pair",
-      "caption": "Wheel momentum needed on each axis. The mirrored pair cancels the y and z axes; the x axis stays.",
+      "caption": "Wheel momentum needed on each axis, with the new parameters. The mirrored pair cancels the y and z axes; the x axis stays.",
       "alt": "Three stacked plots of wheel momentum on x, y and z against time, for one robot on its half and for the mirrored pair.",
       "section": "two-robot",
       "order": 4,
@@ -200,43 +200,43 @@
       "kind": "figure",
       "file": "media/reaction-wheel-results.png",
       "title": "Reaction wheel results",
-      "caption": "Left: the momentum each wheel must store during the spiral. Right: robot motion time when each move slows until the wheel keeps up.",
+      "caption": "Left: the momentum each wheel must store during the spiral, with the new robot and tile parameters. Right: robot motion time when each move slows until the wheel keeps up.",
       "alt": "Two plots: momentum each wheel must store, and robot motion time when moves slow for the wheel.",
       "section": "wheels",
       "order": 1,
       "url": "/show/zig/media/reaction-wheel-results.png",
-      "updated": "2026-11-03"
+      "updated": "2026-11-04"
     },
     {
       "id": "reaction-wheel-comparison",
       "kind": "doc",
       "file": "docs/Reaction_Wheel_Comparison.pdf",
       "title": "Wheel comparison",
-      "caption": "Flown wheel sets against the full-speed need, and the assembly time with each set.",
+      "caption": "Flown wheel sets against the full-speed need, and the assembly time with each set. New robot and tile parameters.",
       "alt": "Wheel comparison",
       "section": "wheels",
       "order": 2,
       "url": "/show/zig/docs/Reaction_Wheel_Comparison.pdf",
-      "updated": "2026-11-03"
+      "updated": "2026-11-04"
     },
     {
       "id": "reaction-wheel-sizing-equations",
       "kind": "doc",
       "file": "docs/Reaction_Wheel_Sizing_Equations.pdf",
       "title": "Sizing equations",
-      "caption": "Two-page summary of the seven equations from momentum balance to wheel mass.",
+      "caption": "Two-page summary of the seven equations from momentum balance to wheel mass. Results table uses the new robot and tile parameters.",
       "alt": "Sizing equations",
       "section": "wheels",
       "order": 3,
       "url": "/show/zig/docs/Reaction_Wheel_Sizing_Equations.pdf",
-      "updated": "2026-11-03"
+      "updated": "2026-11-04"
     },
     {
       "id": "reaction-wheel-sizing-walkthrough",
       "kind": "walkthrough",
       "file": "walkthroughs/reaction-wheel-sizing-walkthrough.html",
-      "title": "Reaction wheel sizing walkthrough",
-      "caption": "How the code sizes the wheels, what the spiral needs, and the checks that ran.",
+      "title": "Reaction wheel sizing walkthrough (first run)",
+      "caption": "How the code sizes the wheels, what the spiral needs, and the checks that ran. This page shows the first run, with the old robot and tile parameters (7.33 N m s and 18.0 N m on z). The figures and tables on the project page use the new parameters.",
       "alt": "Reaction wheel sizing walkthrough",
       "section": "wheels",
       "order": 4,
@@ -248,24 +248,24 @@
       "kind": "figure",
       "file": "media/vendor-wheel-comparison.png",
       "title": "Reaction wheel choices: mass vs motion time",
-      "caption": "Mass of each 3-wheel set against the robot motion time for spiral-outward assembly. Lower left is better. Dotted lines mark BCT RW1 x3. Datasheet values; Honeywell sheets are from 2003.",
+      "caption": "Mass of each 3-wheel set against the robot motion time for spiral-outward assembly, with the new parameters. Lower left is better. Dotted lines mark BCT RW1 x3. Datasheet values; Honeywell sheets are from 2003.",
       "alt": "Log-log scatter plot of wheel set mass against motion time for BCT, Rocket Lab and Honeywell wheels.",
       "section": "wheels",
       "order": 100,
       "url": "/show/zig/media/vendor-wheel-comparison.png",
-      "updated": "2026-11-03"
+      "updated": "2026-11-04"
     },
     {
       "id": "vendor-wheel-flight-check",
       "kind": "figure",
       "file": "media/vendor-wheel-flight-check.png",
       "title": "Flight-controller check of three wheel sets",
-      "caption": "Attitude error, momentum used and torque used for BCT RW1 x3 and Rocket Lab RW4-0.4 and RW4-1.0, with noisy sensors, a delayed report and the robot 2% fast. All stay below 0.011 degrees.",
+      "caption": "Attitude error, momentum used and torque used for BCT RW1 x3 and Rocket Lab RW4-0.4 and RW4-1.0, with noisy sensors, a delayed report and the robot 2% fast. All stay below 0.011 degrees. New parameters.",
       "alt": "Three stacked line plots of attitude error, wheel momentum used and wheel torque used against time for three wheel sets.",
       "section": "wheels",
       "order": 100,
       "url": "/show/zig/media/vendor-wheel-flight-check.png",
-      "updated": "2026-11-03"
+      "updated": "2026-11-04"
     }
   ]
 }
