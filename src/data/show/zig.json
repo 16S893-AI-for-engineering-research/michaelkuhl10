@@ -177,6 +177,30 @@
       "order": 4,
       "url": "/show/zig/walkthroughs/reaction-wheel-sizing-walkthrough.html",
       "updated": "2026-11-03"
+    },
+    {
+      "id": "vendor-wheel-comparison",
+      "kind": "figure",
+      "file": "media/vendor-wheel-comparison.png",
+      "title": "Reaction wheel choices: mass vs motion time",
+      "caption": "Mass of each 3-wheel set against the robot motion time for spiral-outward assembly. Lower left is better. Dotted lines mark BCT RW1 x3. Datasheet values; Honeywell sheets are from 2003.",
+      "alt": "Log-log scatter plot of wheel set mass against motion time for BCT, Rocket Lab and Honeywell wheels.",
+      "section": "wheels",
+      "order": 100,
+      "url": "/show/zig/media/vendor-wheel-comparison.png",
+      "updated": "2026-11-03"
+    },
+    {
+      "id": "vendor-wheel-flight-check",
+      "kind": "figure",
+      "file": "media/vendor-wheel-flight-check.png",
+      "title": "Flight-controller check of three wheel sets",
+      "caption": "Attitude error, momentum used and torque used for BCT RW1 x3 and Rocket Lab RW4-0.4 and RW4-1.0, with noisy sensors, a delayed report and the robot 2% fast. All stay below 0.011 degrees.",
+      "alt": "Three stacked line plots of attitude error, wheel momentum used and wheel torque used against time for three wheel sets.",
+      "section": "wheels",
+      "order": 100,
+      "url": "/show/zig/media/vendor-wheel-flight-check.png",
+      "updated": "2026-11-03"
     }
   ]
 }
