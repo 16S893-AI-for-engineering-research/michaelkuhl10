@@ -47,11 +47,11 @@ const wheelTable = [
       <p class="mt-5 max-w-prose text-lg text-slate-600">
         A robot that builds a structure in free space pushes on that structure with every move. With
         no ground to push against, the structure turns. This project simulates how the ORLO* assembly
-        robots build a 10×10 grid of 1 m tiles. It then picks a build order and sizes a reaction wheel
+        robots build a 10×10 grid of square tiles, each about 160 mm on a side. It then picks a build order and sizes a reaction wheel
         that holds the structure still.
       </p>
       <div class="mt-8 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
-        <div><p class="stat m-0">100</p><p class="m-0 text-sm text-slate-500">tiles, 1 m each</p></div>
+        <div><p class="stat m-0">100</p><p class="m-0 text-sm text-slate-500">tiles, 160 mm each</p></div>
         <div><p class="stat m-0">6</p><p class="m-0 text-sm text-slate-500">layouts compared</p></div>
         <div><p class="stat m-0">46.4°</p><p class="m-0 text-sm text-slate-500">final tilt, no wheel</p></div>
         <div><p class="stat m-0">13.5 min</p><p class="m-0 text-sm text-slate-500">robot motion with a wheel</p></div>
@@ -87,7 +87,7 @@ const wheelTable = [
       <section id="problem" class="scroll-mt-24">
         <h2>1. The problem</h2>
         <p>
-          ORLO* (Orbital Locker Surface Tile Assembly Robot) builds a flat grid from 1 m tiles. The
+          ORLO* (Orbital Locker Surface Tile Assembly Robot) builds a flat grid from square tiles, each about 160 mm on a side. The
           study starts with a 10×10 grid in free space. Nothing holds the structure, so its total
           angular momentum stays zero. When a robot and its tile move one way, the structure turns
           the other way.

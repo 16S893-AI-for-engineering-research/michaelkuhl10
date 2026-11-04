@@ -1,5 +1,5 @@
 What it is
-A Python simulation of robots building a 10x10 grid of 1 m tiles in free space. No ground holds the structure. When a robot moves one way, the structure turns the other way, because the total angular momentum stays zero.
+A Python simulation of robots building a 10x10 grid of square tiles in free space. Each tile is about 160 mm (0.160 m) on a side, so the finished array is about 1.44 m across. No ground holds the structure. When a robot moves one way, the structure turns the other way, because the total angular momentum stays zero.
 
 How it works
 1. params.py holds every physical number (masses, sizes, speed limits). No other file has its own numbers.
