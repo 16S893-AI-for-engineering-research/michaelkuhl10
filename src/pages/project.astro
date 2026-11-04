@@ -244,12 +244,20 @@ const wheelTable = [
           Each half uses a U-cutback path: nested U shapes that grow out from the centre line.
         </p>
         <p>
-          A mirror reverses the turning push of each robot about the vertical axis. So when the robots
-          move in step, their yaw (z) momentum cancels to zero, and pitch (y) cancels too. Roll (x) does
-          not cancel. The pair needs one wheel instead of three. Turning one path 180° instead of
-          mirroring it makes yaw four times worse.
+          A mirror reverses the turning push of each robot about two of the three axes. When the robots
+          move in step, their yaw (z) and pitch (y) momentum cancel to zero. Roll (x) does not cancel.
+          Both robots drive the same way along the rows and lift tiles at the same row, so their roll
+          pushes add. With no wheels at all, the structure rolls up to 16° during the build and ends
+          within 0.5° of where it started.
         </p>
-        <ShowFigure from="zig" id="two-robot-mirror" number={9} />
+        <ShowFigure from="zig" id="two-robot-no-wheels" number={9} />
+        <p>
+          With a wheel on roll (and none on yaw), the structure stays still. One flown BCT RW4-HT wheel
+          (3.2 kg) on roll is enough. Robot motion then takes 3.3 min, against 13.5 min for one robot
+          with three of these wheels. Turning one path 180° instead of mirroring it makes yaw four
+          times worse.
+        </p>
+        <ShowFigure from="zig" id="two-robot-mirror" number={10} />
         <div class="my-6 overflow-x-auto">
           <table class="w-full border-collapse text-sm">
             <thead>
@@ -271,11 +279,13 @@ const wheelTable = [
           stay within about <strong>0.02 s</strong> of each other. That needs a shared clock and the
           same motion plan.
         </p>
-        <ShowFigure from="zig" id="two-robot-timing" number={10} />
+        <ShowFigure from="zig" id="two-robot-timing" number={11} />
         <p>
           Each robot here has a placeholder dry mass of 56.7 kg, which is two thirds of the single
           robot, because each robot carries half the tiles. I will re-run these results when the new
-          tile and robot masses are set.
+          tile and robot masses are set. One mirror pair cannot cancel all three axes. Four robots, one
+          in each quadrant and mirrored across both centre lines, could cancel roll too. I have not
+          simulated that yet.
         </p>
       </section>
 
@@ -288,7 +298,7 @@ const wheelTable = [
           wheel mass is not yet added to the structure. The map below shows what is checked, what is
           assumed and what is still unknown.
         </p>
-        <ShowFigure from="zig" id="validation-gap-map" number={11} />
+        <ShowFigure from="zig" id="validation-gap-map" number={12} />
         <p>
           Joining the seams sets the real finish time. If each seam takes 600 s, joining takes about
           30 hours, and robot motion is less than 0.3 % of the total.
@@ -331,7 +341,7 @@ const wheelTable = [
             <div><p class="stat m-0">332</p><p class="m-0 text-sm text-slate-500">search queries logged</p></div>
             <div><p class="stat m-0">9</p><p class="m-0 text-sm text-slate-500">paper cards, 140 quotes checked</p></div>
           </div>
-          <ShowFigure from="zig" id="literature-pipeline" number={12} />
+          <ShowFigure from="zig" id="literature-pipeline" number={13} />
           <p class="mb-0">
             Every paper must have a DOI or another stable ID, so nothing is cited from memory. Every
             takeaway on a card has a page number and an exact quote. A script checks each quote
