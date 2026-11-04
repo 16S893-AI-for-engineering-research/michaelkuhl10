@@ -9,7 +9,9 @@ const milestones = [
   { step: '01', title: 'Compared robot strategies', text: 'Two robots with reloads against one robot on a single path. One robot was 3.6 times faster.', href: '/project#robots' },
   { step: '02', title: 'Chose the outward spiral', text: 'Six layouts compared. The spiral ends with less tilt and joins most new tiles to two existing tiles.', href: '/project#spiral' },
   { step: '03', title: 'Sized a reaction wheel', text: 'Three BCT RW4-HT wheels hold the attitude within 0.01°, with 13.1 min of robot motion.', href: '/project#wheel' },
-  { step: '04', title: 'Built a literature toolkit', text: 'A side project: Zotero plus a checked workbook of 235 papers and quote-checked paper cards.', href: '/project#literature' },
+  { step: '04', title: 'Mirrored two robots', text: 'In step, two mirror-image robots cancel yaw and pitch. One roll wheel is left.', href: '/project#two-robot' },
+  { step: '05', title: 'Updated robot and tile values', text: 'A parts-based sheet cut the robot from 85 to 35.5 kg. The roll and pitch wheel needs grew about 3.5 times.', href: '/project#parameters' },
+  { step: '06', title: 'Built a literature toolkit', text: 'A side project: Zotero plus a checked workbook of 235 papers and quote-checked paper cards.', href: '/project#literature' },
 ];
 ---
 
@@ -47,7 +49,7 @@ const milestones = [
 
   <section class="container-page pt-14">
     <h2>Progress so far</h2>
-    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {milestones.map((m) => (
         <a href={resolvePath(m.href)} class="card group flex flex-col p-5 no-underline transition-colors hover:border-arc-400">
           <span class="font-mono text-xs font-medium text-arc-600">{m.step}</span>

@@ -29,4 +29,6 @@ Thumbs.db
 research/references/
 *.pdf
 !public/docs/*.pdf
+# PDFs synced from the project repos' public_show/docs (my own reports; the sync script blocks papers by others)
+!public/show/*/docs/*.pdf
 !pod-clinic/*.pdf

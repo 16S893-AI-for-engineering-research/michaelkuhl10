@@ -68,6 +68,42 @@
       "updated": "2026-11-03"
     },
     {
+      "id": "parameter-change",
+      "kind": "figure",
+      "file": "media/parameter-change.png",
+      "title": "What changed in the robot and tile inputs",
+      "caption": "Old values against the new design sheet. The tile is lighter (0.44 kg), the stack frame drops from 65 kg to 15.5 kg, and the robot centre of mass rises from 0.023 m to 0.58 m because the frame is now part of the robot.",
+      "alt": "Three bar charts comparing old and new masses, heights and robot centre-of-mass height.",
+      "section": "parameters",
+      "order": 1,
+      "url": "/show/zig/media/parameter-change.png",
+      "updated": "2026-11-04"
+    },
+    {
+      "id": "single-robot-change",
+      "kind": "figure",
+      "file": "media/single-robot-change.png",
+      "title": "One robot: wheel need before and after",
+      "caption": "One robot on the outward spiral. The x and y wheel momentum need grows about 3.5 times, and the z torque need grows from 18 to 25.5 N m. The build at full speed is 45 s shorter, and the time with flown wheels hardly changes.",
+      "alt": "Bar charts of peak wheel momentum, torque and motion time, old against new, and a time history of wheel momentum on each axis.",
+      "section": "parameters",
+      "order": 2,
+      "url": "/show/zig/media/single-robot-change.png",
+      "updated": "2026-11-04"
+    },
+    {
+      "id": "two-robot-change",
+      "kind": "figure",
+      "file": "media/two-robot-change.png",
+      "title": "Two mirrored robots: before and after",
+      "caption": "The mirrored pair still cancels yaw and pitch. Roll grew: the x wheel need rose from 1.13 to 1.80 N m s, and with no wheels the final roll is 8.1 degrees instead of 0.4. Putting the old robot centre-of-mass height back brings the roll down to 0.3 degrees.",
+      "alt": "Four panels: in-step roll results, yaw against timing delay, motion time with one x wheel, and final roll when one input at a time is set back to its old value.",
+      "section": "parameters",
+      "order": 3,
+      "url": "/show/zig/media/two-robot-change.png",
+      "updated": "2026-11-04"
+    },
+    {
       "id": "square-paths",
       "kind": "video",
       "file": "media/square-paths.mp4",

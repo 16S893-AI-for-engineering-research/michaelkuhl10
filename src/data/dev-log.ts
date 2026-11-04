@@ -17,6 +17,31 @@ export interface DevLogEntry {
 export const entries: DevLogEntry[] = [
   {
     date: '2026-11-04',
+    title: 'Replaced the robot and tile guesses with a parts-based sheet and re-ran the wheel and two-robot results (ZO-31)',
+    image: {
+      src: '/show/zig/media/two-robot-change.png',
+      alt: 'Four panels comparing the mirrored two-robot results with the old and the new parameters.',
+      caption: 'Two mirrored robots, old parameters against new. Yaw still cancels; roll grew.',
+    },
+    aiSummary: [
+      'Asked how valid the tile and robot masses were; the old 65 kg frame was a solid-tube guess, too heavy for plastic tiles.',
+      'Made design_v2/: a parameter sheet and a parts list where every value has a status (measured, CAD, datasheet, estimate, guess).',
+      'New tile: 30 mm thick, mostly ABS, 8 servos and 4 steel pads, 0.44 kg (was 10 mm and 0.5 kg).',
+      'Sized a stack frame by hand (4 thin steel posts, rings, base plate): 15.5 kg, down from 65 kg; margins 1.5 to 2.2 for an assumed launch load.',
+      'One robot is now 35.5 kg (was 85 kg); each robot of the pair is 29.3 kg (was a 56.7 kg placeholder).',
+      'The simulation now carries the full robot and tile inertia tensors and a 30 mm stack pitch; the robot centre of mass rose from 0.023 m to 0.58 m.',
+      'Re-ran the one-robot wheel sizing: x and y momentum need rose from 1.09 and 1.14 to 3.51 and 4.01 N m s; z torque from 18.0 to 25.5 N m.',
+      'Motion time with three BCT RW4-HT wheels stayed about the same: 13.1 min (was 13.5 min).',
+      'Re-ran the mirrored pair: yaw and pitch still cancel; x need rose from 1.13 to 1.80 N m s; no-wheel final roll 8.1 degrees (was 0.4).',
+      'Setting one input at a time back to its old value showed that the higher robot centre of mass causes most of the new roll.',
+      'Re-made the wheel notebooks, the wheel comparison and equation PDFs, the vendor wheel check and both two-robot videos with the new values.',
+      'Added three old-against-new figures and a new Project page section; fixed the 404 on the synced PDFs (.gitignore blocked public/show/*/docs/*.pdf).',
+      'Cost: $11.33 across 3 Claude Sonnet 5-5 sessions (from the Pi session logs), plus this website session.',
+    ],
+    personalNotes: `Add your own notes for this session here.`,
+  },
+  {
+    date: '2026-11-04',
     title: 'Tested two mirrored robots: in step, they cancel the yaw and remove the yaw wheel (ZO-26)',
     aiSummary: [
       'Split the 10x10 grid 50-50 at the centre line; each robot starts on its own seed tile and carries 49 tiles.',
