@@ -17,6 +17,20 @@ export interface DevLogEntry {
 export const entries: DevLogEntry[] = [
   {
     date: '2026-11-04',
+    title: 'Compared single x-axis reaction wheels for the mirrored two-robot pair (ZO-33)',
+    aiSummary: [
+      'With the pair in step, the y and z wheels are not needed. One x wheel must store 1.80 N m s and give 13.2 N m.',
+      'Retimed the pair with each wheel alone on x (80 percent of the rating usable, each move slowed until the wheel keeps up).',
+      'BCT RW4-HT: 3.98 min, 3.2 kg. Rocket Lab RW4-12: 5.77 min, 5.0 kg. Rocket Lab RW4-0.4: 7.84 min, 0.75 kg. BCT RW1: 9.90 min, 1.1 kg. NanoAvionics 4RW0: 34.7 min, 0.67 kg.',
+      'One wheel instead of three cuts wheel mass by 3 and motion time by 3.3 to 3.7 times, for example RW4-HT from 9.6 kg and 13.1 min to 3.2 kg and 4.0 min.',
+      'Flight-controller check with sensor noise, a report delay and robots 2 percent fast: all four tested wheels held attitude within 0.01 degrees with no saturation.',
+      'Added deliverables/zo33/ (compare_single_wheel.py, flight_check.py, CSV, figure, README) and published one figure to the Project page, section 6.',
+      'Committed the updated literature toolkit workbook in the orlo-zig repo.',
+    ],
+    personalNotes: `Add your own notes for this session here.`,
+  },
+  {
+    date: '2026-11-04',
     title: 'Replaced the robot and tile guesses with a parts-based sheet and re-ran the wheel and two-robot results (ZO-31)',
     image: {
       src: '/show/zig/media/two-robot-change.png',

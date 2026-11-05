@@ -48,6 +48,14 @@ const changeTable = [
   { what: 'Pair: motion with one RW4-HT on x', old: '3.3 min', now: '4.0 min' },
 ];
 
+const singleWheelTable = [
+  { set: 'BCT RW4-HT', mass: '3.2', tau: '0.50', h: '2.5', time: '3.98' },
+  { set: 'Rocket Lab RW4-12', mass: '5.0', tau: '0.20', h: '12', time: '5.77' },
+  { set: 'Rocket Lab RW4-0.4 (lightest fast)', mass: '0.75', tau: '0.10', h: '0.4', time: '7.84', pick: true },
+  { set: 'BCT RW1', mass: '1.1', tau: '0.06', h: '1.0', time: '9.90' },
+  { set: 'NanoAvionics 4RW0 (CubeSat)', mass: '0.67', tau: '0.006', h: '0.037', time: '34.7' },
+];
+
 const wheelTable = [
   { set: 'No wheel limit (ideal)', time: '4.40', mass: 'none' },
   { set: 'BCT RW4-HT ×3 (recommended)', time: '13.1', mass: '9.6', pick: true },
@@ -308,6 +316,54 @@ const wheelTable = [
           same motion plan.
         </p>
         <ShowFigure from="zig" id="two-robot-timing" number={11} />
+        <h3 class="mt-10">Which single wheel for the pair?</h3>
+        <p>
+          With the pair in step, the y and z wheels are not needed, so only one wheel on x is left. It
+          must store 1.80 N·m·s and give 13.2 N·m. Torque, not momentum, sets the motion time, as it did
+          for one robot. I retimed the pair with each wheel alone on x, using the same method as before
+          (80% of the rating usable, each move slowed until the wheel keeps up).
+        </p>
+        <ShowFigure from="zig" id="single-wheel-comparison" number={12} />
+        <div class="my-6 overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-slate-300 text-left text-slate-500">
+                <th class="py-2 pr-4 font-medium">One x wheel</th>
+                <th class="py-2 pr-4 text-right font-medium">Mass (kg)</th>
+                <th class="py-2 pr-4 text-right font-medium">Torque (N·m)</th>
+                <th class="py-2 pr-4 text-right font-medium">Momentum (N·m·s)</th>
+                <th class="py-2 text-right font-medium">Pair motion (min)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {singleWheelTable.map((r) => (
+                <tr class:list={['border-b border-slate-200', r.pick && 'bg-arc-50 font-medium text-slate-900']}>
+                  <td class="py-2 pr-4">{r.set}</td>
+                  <td class="py-2 pr-4 text-right font-mono">{r.mass}</td>
+                  <td class="py-2 pr-4 text-right font-mono">{r.tau}</td>
+                  <td class="py-2 pr-4 text-right font-mono">{r.h}</td>
+                  <td class="py-2 text-right font-mono">{r.time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p>
+          One wheel replaces three, so the wheel mass falls by a factor of 3 and the motion time by a
+          factor of 3.3 to 3.7. The BCT RW4-HT is fastest (4.0 min, 3.2 kg). The Rocket Lab RW4-0.4 is
+          the lightest fast wheel: 0.75 kg for 7.8 min, which saves 2.45 kg. The BCT RW1 is both heavier
+          and slower than the RW4-0.4, but it has far more flight history (162 units against 28 on
+          orbit, from the datasheets). The Rocket Lab RW4-12 has the most torque of the Rocket Lab
+          wheels I tried, but at 5 kg it is heavier and slower than the RW4-HT. The CubeSat unit is too
+          weak: it slows the robots 17 times. In a noisy flight-controller test, the four wheels I
+          tested held the attitude within 0.01° with no saturation.
+        </p>
+        <p class="text-sm text-slate-500">
+          Which wheel is best depends on whether mass or time matters more. That is my judgement, not a
+          computed result. The result holds only while the robots stay within about 0.015 s of each
+          other. Rocket Lab data come from a 2025 web archive copy of its datasheets. The 4RW0 is a
+          pyramid of four wheels, so using it on one axis is a rough fit.
+        </p>
         <p>
           Each robot here weighs 29.3 kg: a 20 kg crawler (the old lumped value, no parts list yet) and a
           9.3 kg structure sized for its own 49-tile stack. Every mass is still an estimate. The first run used
@@ -333,7 +389,7 @@ const wheelTable = [
           hand calculation sized a light steel frame of four thin posts and ring frames, about 15.5 kg.
           The simulation now builds the full mass and inertia of the robot and the tile from their parts.
         </p>
-        <ShowFigure from="zig" id="parameter-change" number={12} />
+        <ShowFigure from="zig" id="parameter-change" number={13} />
         <div class="my-6 overflow-x-auto">
           <table class="w-full border-collapse text-sm">
             <thead>
@@ -368,7 +424,7 @@ const wheelTable = [
           more momentum than before. The z momentum is a little lower, but the z torque rose from 18.0
           to 25.5 N·m. The build at full speed is 45 s shorter because the robot is lighter.
         </p>
-        <ShowFigure from="zig" id="single-robot-change" number={13} />
+        <ShowFigure from="zig" id="single-robot-change" number={14} />
         <p>
           With flown wheels, the time hardly changes. Three BCT RW4-HT wheels give 13.1 min of robot
           motion, against 13.5 min before. Torque still sets the time, and the larger torque need
@@ -381,7 +437,7 @@ const wheelTable = [
           to 1.80 N·m·s. With no wheels, the structure now ends rolled by 8.1° instead of 0.4°. The
           timing is also tighter: 0.015 s of delay gives 1° of yaw, against 0.019 s before.
         </p>
-        <ShowFigure from="zig" id="two-robot-change" number={14} />
+        <ShowFigure from="zig" id="two-robot-change" number={15} />
         <p>
           To find the cause, I set one input at a time back to its old value. Only the robot centre of
           mass height made a large difference: with the old height, the final roll falls to 0.3°. The
@@ -425,7 +481,7 @@ const wheelTable = [
           wheel mass is not yet added to the structure. The map below shows what is checked, what is
           assumed and what is still unknown.
         </p>
-        <ShowFigure from="zig" id="validation-gap-map" number={15} />
+        <ShowFigure from="zig" id="validation-gap-map" number={16} />
         <p>
           Joining the seams sets the real finish time. If each seam takes 600 s, joining takes about
           30 hours, and robot motion is less than 0.3 % of the total.
@@ -469,7 +525,7 @@ const wheelTable = [
             <div><p class="stat m-0">332</p><p class="m-0 text-sm text-slate-500">search queries logged</p></div>
             <div><p class="stat m-0">9</p><p class="m-0 text-sm text-slate-500">paper cards, 140 quotes checked</p></div>
           </div>
-          <ShowFigure from="zig" id="literature-pipeline" number={16} />
+          <ShowFigure from="zig" id="literature-pipeline" number={17} />
           <p class="mb-0">
             Every paper must have a DOI or another stable ID, so nothing is cited from memory. Every
             takeaway on a card has a page number and an exact quote. A script checks each quote

@@ -232,6 +232,18 @@
       "updated": "2026-11-04"
     },
     {
+      "id": "single-wheel-comparison",
+      "kind": "figure",
+      "file": "media/single-wheel-comparison.png",
+      "title": "One x wheel for the mirrored pair: mass against motion time",
+      "caption": "Five wheels asked for, plus nine more, as the one x wheel of the mirrored pair. The BCT RW4-HT is fastest (4.0 min, 3.2 kg). The Rocket Lab RW4-0.4 is the lightest fast wheel (7.8 min, 0.75 kg). Lower left is better.",
+      "alt": "Scatter plot of wheel mass against robot motion time on log axes for 14 reaction wheels, with the BCT RW4-HT, Rocket Lab RW4-0.4, BCT RW1, Rocket Lab RW4-12 and NanoAvionics 4RW0 outlined.",
+      "section": "two-robot",
+      "order": 5,
+      "url": "/show/zig/media/single-wheel-comparison.png",
+      "updated": "2026-11-04"
+    },
+    {
       "id": "reaction-wheel-results",
       "kind": "figure",
       "file": "media/reaction-wheel-results.png",
