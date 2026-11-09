@@ -369,9 +369,24 @@ const wheelTable = [
           9.3 kg structure sized for its own 49-tile stack. Every mass is still an estimate. The first run used
           a placeholder of 56.7 kg per robot. With the new values the roll wheel need rose from 1.13 to 1.80 N·m·s, and the
           no-wheel structure ends rolled by 8° instead of 0.4°. The cause appears to be the higher robot centre of mass,
-          but I have not traced the mechanism. One mirror pair cannot cancel all three axes. Four robots, one
-          in each quadrant and mirrored across both centre lines, could cancel roll too. I have not
-          simulated that yet.
+          but I have not traced the mechanism.
+        </p>
+
+        <h3 class="mt-10">Four robots remove the roll too</h3>
+        <p>
+          One mirror pair cannot cancel all three axes. So I simulated four robots, one in each quadrant
+          of the grid and mirrored across both centre lines. Each robot builds one 5×5 quarter from a
+          seed tile at the centre and carries 24 tiles. The four turning pushes add to zero on all three
+          axes, so no wheel is needed. In step, the peak momentum is 10<sup>−14</sup> N·m·s and the tilt stays below 10<sup>−15</sup>°.
+          The build takes 57 s, against 121 s for the pair.
+        </p>
+        <ShowFigure from="zig" id="four-robot-no-wheels" number={13} />
+        <p>
+          Timing still matters. If one robot starts late, all three axes move: 0.9° of peak tilt at a 0.05 s delay
+          and 4.2° at 0.25 s. If a whole mirror side starts late together, only one axis moves, and the tilt is
+          smaller. The model is the same rigid, isolated model, with no collision check where the quarters
+          meet. In the model the crawler box overlaps the lowest tile by 7 mm. The video draws the base under
+          the stack, but the results use the model as it is.
         </p>
       </section>
 
@@ -389,7 +404,7 @@ const wheelTable = [
           hand calculation sized a light steel frame of four thin posts and ring frames, about 15.5 kg.
           The simulation now builds the full mass and inertia of the robot and the tile from their parts.
         </p>
-        <ShowFigure from="zig" id="parameter-change" number={13} />
+        <ShowFigure from="zig" id="parameter-change" number={14} />
         <div class="my-6 overflow-x-auto">
           <table class="w-full border-collapse text-sm">
             <thead>
@@ -424,7 +439,7 @@ const wheelTable = [
           more momentum than before. The z momentum is a little lower, but the z torque rose from 18.0
           to 25.5 N·m. The build at full speed is 45 s shorter because the robot is lighter.
         </p>
-        <ShowFigure from="zig" id="single-robot-change" number={14} />
+        <ShowFigure from="zig" id="single-robot-change" number={15} />
         <p>
           With flown wheels, the time hardly changes. Three BCT RW4-HT wheels give 13.1 min of robot
           motion, against 13.5 min before. Torque still sets the time, and the larger torque need
@@ -437,7 +452,7 @@ const wheelTable = [
           to 1.80 N·m·s. With no wheels, the structure now ends rolled by 8.1° instead of 0.4°. The
           timing is also tighter: 0.015 s of delay gives 1° of yaw, against 0.019 s before.
         </p>
-        <ShowFigure from="zig" id="two-robot-change" number={15} />
+        <ShowFigure from="zig" id="two-robot-change" number={16} />
         <p>
           To find the cause, I set one input at a time back to its old value. Only the robot centre of
           mass height made a large difference: with the old height, the final roll falls to 0.3°. The
@@ -481,7 +496,7 @@ const wheelTable = [
           wheel mass is not yet added to the structure. The map below shows what is checked, what is
           assumed and what is still unknown.
         </p>
-        <ShowFigure from="zig" id="validation-gap-map" number={16} />
+        <ShowFigure from="zig" id="validation-gap-map" number={17} />
         <p>
           Joining the seams sets the real finish time. If each seam takes 600 s, joining takes about
           30 hours, and robot motion is less than 0.3 % of the total.
@@ -525,7 +540,7 @@ const wheelTable = [
             <div><p class="stat m-0">332</p><p class="m-0 text-sm text-slate-500">search queries logged</p></div>
             <div><p class="stat m-0">9</p><p class="m-0 text-sm text-slate-500">paper cards, 140 quotes checked</p></div>
           </div>
-          <ShowFigure from="zig" id="literature-pipeline" number={17} />
+          <ShowFigure from="zig" id="literature-pipeline" number={18} />
           <p class="mb-0">
             Every paper must have a DOI or another stable ID, so nothing is cited from memory. Every
             takeaway on a card has a page number and an exact quote. A script checks each quote

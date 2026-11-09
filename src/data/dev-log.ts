@@ -16,6 +16,27 @@ export interface DevLogEntry {
 
 export const entries: DevLogEntry[] = [
   {
+    date: '2026-11-09',
+    title: 'Simulated four mirrored robots that cancel all three axes of attitude change (ZO-37)',
+    image: {
+      src: '/show/zig/media/four-robot-no-wheels-poster.jpg',
+      alt: 'Three-dimensional view of four robots, each building a quarter of a 10 by 10 tile grid, with a momentum plot below.',
+      caption: 'Four mirrored robots in step, no reaction wheels. The momentum of the four adds to zero.',
+    },
+    aiSummary: [
+      'Asked for a simulation with four robots that cancels all attitude change; the mirrored pair left the x (roll) momentum.',
+      'Cut the 10x10 grid into four 5x5 quarters; robot A builds one quarter from a seed at the centre, and B, C and D are its images across x, y and both (24 carried tiles each, 26.0 kg per robot).',
+      'In step with no wheels, the peak total momentum is 1e-14 N m s and the peak tilt is 7e-16 degrees. One robot alone gives 1.9 N m s and 168 degrees; the pair gives 1.8 N m s and 13.2 degrees.',
+      'Build time is 56.8 s, against 121.3 s for the pair.',
+      'Timing sweep: if one robot starts late, all three axes move (0.9 degrees at 0.05 s, 4.2 degrees at 0.25 s); if a whole mirror side starts late, only one axis moves (about 1 degree at 0.25 s).',
+      'Added four_robot.py, four_robot_analysis.py, render_four_robot.py and 12 tests (all pass), plus deliverables/zo37/.',
+      'Made a 3D corner-view animation of the in-step case only, with each crawler base drawn under its own tile stack.',
+      'Found that in the mass model the crawler box overlaps the lowest tile by 7 mm; only the drawing was changed, not the results.',
+      'Published the animation as figure 13 in section 6 of the Project page and added a short four-robot section there.',
+    ],
+    personalNotes: `I wanted to know whether adding two more robots would cancel the roll that the mirrored pair could not remove. With each robot building one quarter and mirrored across both centre lines, the momentum of the four adds to zero on all three axes, so no wheel is needed in step. The risk is timing, because one late robot moves all three axes, so I still need to test what the team does when a robot is late or fails.`,
+  },
+  {
     date: '2026-11-04',
     title: 'Compared single x-axis reaction wheels for the mirrored two-robot pair (ZO-33)',
     aiSummary: [
@@ -27,7 +48,7 @@ export const entries: DevLogEntry[] = [
       'Added deliverables/zo33/ (compare_single_wheel.py, flight_check.py, CSV, figure, README) and published one figure to the Project page, section 6.',
       'Committed the updated literature toolkit workbook in the orlo-zig repo.',
     ],
-    personalNotes: `Add your own notes for this session here.`,
+    personalNotes: `I wanted to know which single wheel the mirrored pair needs now that the y and z wheels are not needed. I retimed the pair with each wheel alone on x, and the BCT RW4-HT was fastest at 3.98 min, while the Rocket Lab RW4-0.4 was the lightest fast wheel at 0.75 kg. Which one is best depends on whether mass or time matters more to me, and I still need to decide that.`,
   },
   {
     date: '2026-11-04',
@@ -52,7 +73,7 @@ export const entries: DevLogEntry[] = [
       'Added three old-against-new figures and a new Project page section; fixed the 404 on the synced PDFs (.gitignore blocked public/show/*/docs/*.pdf).',
       'Cost: $11.33 across 3 Claude Sonnet 5-5 sessions (from the Pi session logs), plus this website session.',
     ],
-    personalNotes: `Add your own notes for this session here.`,
+    personalNotes: `I asked how valid the tile and robot masses were, and the answer was that the old 65 kg frame was a guess that was far too heavy for plastic tiles. I had the agents build a parts-based sheet where every value has a status, which cut one robot from 85 kg to 35.5 kg. The roll of the mirrored pair grew with the new values, and I still need to trace why the higher robot centre of mass causes it.`,
   },
   {
     date: '2026-11-04',
@@ -67,7 +88,7 @@ export const entries: DevLogEntry[] = [
       'Added two_robot.py, zo26_analysis.py, render_two_robot.py and 6 tests; the full suite passed with 1011 tests.',
       'Rendered an animation of the pair in step against robot B 0.25 s late, with roll and pitch wheels only.',
     ],
-    personalNotes: `Add your own notes for this session here.`,
+    personalNotes: `I wanted to know whether two robots that mirror each other could cancel the yaw so that I could remove the yaw wheel. In step, the pair cancels yaw and pitch, but turning one path 180 degrees instead of mirroring it doubles the yaw. The robots must stay within about 0.02 s of each other, so the next question is how well a real team can keep that timing.`,
   },
   {
     date: '2026-11-03',

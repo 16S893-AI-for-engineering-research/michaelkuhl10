@@ -208,6 +208,20 @@
       "updated": "2026-11-04"
     },
     {
+      "id": "four-robot-no-wheels",
+      "kind": "video",
+      "file": "media/four-robot-no-wheels.mp4",
+      "title": "Four mirrored robots, no reaction wheels",
+      "caption": "Four mirror-image robots build the 10x10 grid in step with no wheels at all, seen from the (+x, +y, +z) corner. Each robot builds one 5x5 quarter, with its crawler base under its own tile stack. The momentum of the four adds to zero on all three axes (peak 1e-14 N m s), so the structure does not turn. Rigid, isolated, prescribed motion; robots 26 kg each.",
+      "alt": "3D corner-view animation of four robots, each building a 5 by 5 quarter of a 10 by 10 tile grid from a seed at the centre, with a plot below of the momentum of one robot against the sum of all four.",
+      "section": "two-robot",
+      "order": 3,
+      "poster": "media/four-robot-no-wheels-poster.jpg",
+      "url": "/show/zig/media/four-robot-no-wheels.mp4",
+      "poster_url": "/show/zig/media/four-robot-no-wheels-poster.jpg",
+      "updated": "2026-11-09"
+    },
+    {
       "id": "two-robot-timing",
       "kind": "figure",
       "file": "media/two-robot-timing.png",
