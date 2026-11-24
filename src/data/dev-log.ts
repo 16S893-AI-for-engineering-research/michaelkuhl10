@@ -11,10 +11,29 @@ export interface DevLogEntry {
   personalNotes: string;
   attachment?: { href: string; label: string };
   image?: { src: string; alt: string; caption?: string };
+  video?: { src: string; poster?: string; alt: string; caption?: string };
   essay?: 'debate';
 }
 
 export const entries: DevLogEntry[] = [
+  {
+    date: '2026-11-24',
+    title: 'Rendered the two-robot early-sync build in Blender from the CAD meshes (ZO-38)',
+    video: {
+      src: '/show/zig/media/blender-two-robot-sync-early.mp4',
+      poster: '/show/zig/media/blender-two-robot-sync-early-poster.jpg',
+      alt: 'Blender animation of two assembly robots on a shared platform placing tiles column by column to build a 10 by 10 grid.',
+      caption: 'Two mirrored robots build the 10×10 grid (Blender, 720p, 2 min 15 s). OVERLAP marks where the robots collide.',
+    },
+    aiSummary: [
+      'Built a Blender scene from the Fusion STL meshes and the sim motion data.',
+      'Robot A holds after its first turn; from t = 36.4 s B is the exact mirror of A.',
+      'Max passive tilt fell to 41.5° from 81° with the earlier sync.',
+      'The robot envelopes overlap in two windows, worst -103.8 mm.',
+      'Made a 720p copy for this site: 4.0 MB, down from the 60 MB 1080p render.',
+    ],
+    personalNotes: `Add your own notes for this session here.`,
+  },
   {
     date: '2026-11-09',
     title: 'Simulated four mirrored robots that cancel all three axes of attitude change (ZO-37)',

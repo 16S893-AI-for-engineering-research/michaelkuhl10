@@ -234,6 +234,20 @@
       "updated": "2026-11-04"
     },
     {
+      "id": "blender-two-robot-sync-early",
+      "kind": "video",
+      "file": "media/blender-two-robot-sync-early.mp4",
+      "title": "Two robots in Blender, early sync",
+      "caption": "Blender render of two mirrored robots building the 10x10 grid from the CAD meshes. Robot A holds after its first turn; from t = 36.4 s robot B is the exact mirror of A. The OVERLAP caption marks two windows where the robot envelopes intersect (worst -103.8 mm). Passive attitude, no wheels; 720p copy of the 1080p render.",
+      "alt": "3D Blender animation of two assembly robots on a shared platform placing tiles column by column to build a 10 by 10 grid.",
+      "section": "two-robot",
+      "order": 4,
+      "poster": "media/blender-two-robot-sync-early-poster.jpg",
+      "url": "/show/zig/media/blender-two-robot-sync-early.mp4",
+      "poster_url": "/show/zig/media/blender-two-robot-sync-early-poster.jpg",
+      "updated": "2026-11-24"
+    },
+    {
       "id": "two-robot-momentum",
       "kind": "figure",
       "file": "media/two-robot-momentum.png",

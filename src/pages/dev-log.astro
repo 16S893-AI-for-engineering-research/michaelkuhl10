@@ -76,6 +76,24 @@ const dayLabel = (d: string) =>
                   </figure>
                 )}
 
+                {entry.video && (
+                  <figure class="card mt-4 overflow-hidden">
+                    <video
+                      src={resolvePath(entry.video.src)}
+                      poster={entry.video.poster ? resolvePath(entry.video.poster) : undefined}
+                      aria-label={entry.video.alt}
+                      class="block w-full h-auto bg-slate-100"
+                      controls
+                      muted
+                      playsinline
+                      preload="none"
+                    ></video>
+                    {entry.video.caption && (
+                      <figcaption class="border-t border-slate-200 px-5 py-3 text-sm text-slate-500">{entry.video.caption}</figcaption>
+                    )}
+                  </figure>
+                )}
+
                 {entry.essay === 'debate' && (
                   <details class="card mt-4 overflow-hidden">
                     <summary class="cursor-pointer px-5 py-3 text-sm font-medium text-arc-700">
