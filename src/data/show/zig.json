@@ -19,6 +19,54 @@
       "updated": "2026-11-03"
     },
     {
+      "id": "ai-workflow",
+      "kind": "figure",
+      "file": "media/ai-workflow.png",
+      "title": "One design question, start to decision",
+      "caption": "The loop used for every study: I ask a question and decide; agents plan, write the physics code and tests, run the checks and make the figures. A failed check sends the work back to the model.",
+      "alt": "Flow chart of six steps: ask, plan, model, check, show, decide, with a loop from check back to model and from decide back to ask.",
+      "section": "ai",
+      "order": 1,
+      "url": "/show/zig/media/ai-workflow.png",
+      "updated": "2026-11-24"
+    },
+    {
+      "id": "ai-decisions",
+      "kind": "figure",
+      "file": "media/ai-decisions.png",
+      "title": "Design decisions set by the simulations",
+      "caption": "Eight design questions in order. Each box gives what the physics model showed and the decision it led to.",
+      "alt": "Flow chart of eight design questions, from one robot or two, through build order and wheel sizing, to mirrored robots, four robots and a CAD clearance check.",
+      "section": "ai",
+      "order": 2,
+      "url": "/show/zig/media/ai-decisions.png",
+      "updated": "2026-11-24"
+    },
+    {
+      "id": "blender-cad-pair",
+      "kind": "figure",
+      "file": "media/blender-cad-pair.jpg",
+      "title": "Fusion CAD in the Blender simulation",
+      "caption": "Fusion 360 robot meshes driven by the simulated motion and attitude in Blender. The overlay flags where the two robot envelopes intersect (up to 104 mm), a problem found before any hardware was built.",
+      "alt": "Blender render of two tall robot frames on a strip of tiles above Earth, with an overlay that reports structure attitude and an overlap warning.",
+      "section": "ai",
+      "order": 3,
+      "url": "/show/zig/media/blender-cad-pair.jpg",
+      "updated": "2026-11-24"
+    },
+    {
+      "id": "blender-1m-tiles",
+      "kind": "figure",
+      "file": "media/blender-1m-tiles.jpg",
+      "title": "Scaled to 1 m tiles",
+      "caption": "The same pipeline re-run for 1 m tiles: new CAD from a script, new motion from the simulation, new render. The mirrored pair holds pitch and yaw fixed.",
+      "alt": "Blender render of two mirrored robots building a grid of 1 m tiles in orbit, 54 of 100 tiles placed.",
+      "section": "ai",
+      "order": 4,
+      "url": "/show/zig/media/blender-1m-tiles.jpg",
+      "updated": "2026-11-24"
+    },
+    {
       "id": "design-v2-progress",
       "kind": "text",
       "file": "text/design-v2-progress.md",

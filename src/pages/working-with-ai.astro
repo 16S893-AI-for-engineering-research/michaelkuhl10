@@ -1,0 +1,181 @@
+---
+// How AI agents sped up the design work. Hours with AI come from the pi and
+// Claude Code session logs (active time, gaps over 10 min dropped). Hours
+// without AI are my own estimates. Figures come from the ORLO-Zig public_show/
+// folder (deliverables/ai_acceleration/make_diagrams.py, svg-figs skill).
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ShowFigure from '@components/ShowFigure.astro';
+
+const work = [
+  { name: 'Simulation core and checks', tasks: 'ZO-1 to ZO-14', ai: 16, est: 160 },
+  { name: 'Build-order search', tasks: 'ZO-15 to ZO-22', ai: 7, est: 100 },
+  { name: 'Robustness runs, decision package, wheel sizing', tasks: 'ZO-23 to ZO-25, ZO-32', ai: 9.5, est: 140 },
+  { name: 'Two and four robots, new parameters', tasks: 'ZO-26 to ZO-37', ai: 7.5, est: 100 },
+  { name: 'CAD to Blender, 1 m tiles', tasks: 'ZO-38 to ZO-40', ai: 1.5, est: 60 },
+  { name: 'Literature toolkit, 235 papers', tasks: 'ZO-30', ai: 5, est: 80 },
+  { name: 'This website and controls code', tasks: '', ai: 7.5, est: 40 },
+];
+const totAi = work.reduce((s, w) => s + w.ai, 0);
+const totEst = work.reduce((s, w) => s + w.est, 0);
+
+// Chart geometry: grouped horizontal bars, one axis (hours).
+const AI = '#0287b5';
+const EST = '#c2410c';
+const max = 160;
+const labelW = 0;
+const plotW = 380;
+const rowH = 58;
+const top = 8;
+const x = (h: number) => labelW + (h / max) * plotW;
+const chartH = top + work.length * rowH + 28;
+const ticks = [0, 40, 80, 120, 160];
+
+const accelerated = [
+  { what: 'Physics code', how: '6-DOF momentum model, path planner, wheel controller: 134 Python files, 613 tests.' },
+  { what: 'Checks', how: 'Conservation gates and analytic cross-checks run on every result, so a bad model fails loudly.' },
+  { what: 'Many runs', how: '20 robustness runs and wheel sweeps ran in the background while I did other work.' },
+  { what: 'Visuals', how: 'Plots, animations and Blender renders made straight from the saved simulation data.' },
+  { what: 'Reading', how: 'Agents searched databases, checked 140 quotes against the PDFs, and wrote paper cards.' },
+];
+---
+
+<BaseLayout
+  title="Working with AI"
+  description="How AI agents sped up the design work: time with AI against my estimate without it, and how physics simulations set each design decision."
+>
+  <section class="border-b border-slate-200 bg-gradient-to-b from-arc-50/60 to-white">
+    <div class="container-page pt-14 pb-12">
+      <p class="eyebrow">Working with AI · Sep to Nov 2026</p>
+      <h1 class="mt-2 max-w-3xl">How AI agents sped up the design work</h1>
+      <p class="mt-5 max-w-prose text-lg text-slate-600">
+        I set the questions and made the decisions. AI agents wrote and checked the physics code, ran
+        the simulations and made the figures. Each design question went from idea to evidence in hours
+        instead of weeks.
+      </p>
+      <div class="mt-8 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
+        <div><p class="stat m-0">≈45 h</p><p class="m-0 text-sm text-slate-500">of working sessions, over 9 weeks</p></div>
+        <div><p class="stat m-0">≈{totEst} h</p><p class="m-0 text-sm text-slate-500">my estimate without AI</p></div>
+        <div><p class="stat m-0">48</p><p class="m-0 text-sm text-slate-500">planned tasks finished</p></div>
+        <div><p class="stat m-0">613</p><p class="m-0 text-sm text-slate-500">tests on the physics code</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-page pt-12 pb-8">
+    <article class="article max-w-3xl">
+      <section>
+        <h2>1. The loop</h2>
+        <p>Every study followed the same six steps. The agents did the slow middle; I did the two ends.</p>
+        <ShowFigure from="zig" id="ai-workflow" number={1} />
+      </section>
+
+      <section class="mt-14">
+        <h2>2. Time with AI against without</h2>
+        <figure class="my-8">
+          <div class="card p-5">
+            <div class="mb-4 flex flex-wrap gap-5 text-sm text-slate-600">
+              <span class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm" style={`background:${AI}`}></span>With AI (session logs)</span>
+              <span class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm" style={`background:${EST}`}></span>Without AI (my estimate)</span>
+            </div>
+            <div class="space-y-0">
+              {work.map((w) => (
+                <div class="grid grid-cols-1 gap-1 sm:grid-cols-[14rem_1fr] sm:items-center" style={`min-height:${rowH}px`}>
+                  <div class="text-sm leading-5">
+                    <span class="font-medium text-slate-800">{w.name}</span>
+                    {w.tasks && <span class="block font-mono text-[11px] text-slate-400">{w.tasks}</span>}
+                  </div>
+                  <svg viewBox={`0 0 ${plotW + 60} 40`} class="block w-full" role="img" aria-label={`${w.name}: ${w.ai} h with AI, about ${w.est} h without`}>
+                    {ticks.map((t) => <line x1={x(t)} x2={x(t)} y1="0" y2="40" stroke="#e2e8f0" stroke-width="1" />)}
+                    <g class="bar">
+                      <title>{`${w.name}: ${w.ai} h with AI`}</title>
+                      <rect x="0" y="3" width={Math.max(x(w.ai), 4)} height="14" rx="3" fill={AI} />
+                      <rect x="0" y="0" width={plotW} height="20" fill="transparent" />
+                    </g>
+                    <text x={Math.max(x(w.ai), 4) + 6} y="15" font-size="13" fill="#334155">{w.ai} h</text>
+                    <g class="bar">
+                      <title>{`${w.name}: about ${w.est} h without AI (estimate)`}</title>
+                      <rect x="0" y="22" width={x(w.est)} height="14" rx="3" fill={EST} />
+                      <rect x="0" y="17" width={plotW} height="17" fill="transparent" />
+                    </g>
+                    <text x={x(w.est) + 6} y="34" font-size="13" fill="#334155">≈{w.est} h</text>
+                  </svg>
+                </div>
+              ))}
+            </div>
+            <div class="hidden sm:grid sm:grid-cols-[14rem_1fr]">
+              <span></span>
+              <svg viewBox={`0 0 ${plotW + 60} 18`} class="block w-full" aria-hidden="true">
+                {ticks.map((t) => <text x={x(t)} y="13" font-size="12" fill="#64748b" text-anchor={t === 0 ? 'start' : 'middle'}>{t} h</text>)}
+              </svg>
+            </div>
+          </div>
+          <figcaption class="mt-2.5 text-sm leading-6 text-slate-500">
+            <span class="font-semibold text-slate-700">Figure 2. </span>
+            Hours with AI are active time in the agent session logs ({totAi} h summed; 45 h of wall-clock
+            time, since some agents ran in parallel). Hours without AI are my own estimates for doing the
+            same work by hand. The CAD row counts agent session time only.
+          </figcaption>
+        </figure>
+        <details class="mb-6 text-sm text-slate-600">
+          <summary class="cursor-pointer text-slate-700">Show as a table</summary>
+          <table class="mt-3 w-full border-collapse">
+            <thead><tr class="border-b border-slate-300 text-left text-slate-500"><th class="py-2 pr-4 font-medium">Work</th><th class="py-2 pr-4 text-right font-medium">With AI (h)</th><th class="py-2 text-right font-medium">Without AI, est. (h)</th></tr></thead>
+            <tbody>
+              {work.map((w) => <tr class="border-b border-slate-200"><td class="py-2 pr-4">{w.name}</td><td class="py-2 pr-4 text-right font-mono">{w.ai}</td><td class="py-2 text-right font-mono">{w.est}</td></tr>)}
+              <tr class="font-medium text-slate-900"><td class="py-2 pr-4">Total</td><td class="py-2 pr-4 text-right font-mono">{totAi}</td><td class="py-2 text-right font-mono">{totEst}</td></tr>
+            </tbody>
+          </table>
+        </details>
+
+        <h3>What AI sped up</h3>
+        <ul class="mt-3 grid list-none gap-3 p-0 sm:grid-cols-2">
+          {accelerated.map((a) => (
+            <li class="card p-4 text-sm leading-6">
+              <span class="font-semibold text-slate-900">{a.what}.</span> <span class="text-slate-600">{a.how}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="mt-14">
+        <h2>3. Physics that set the design</h2>
+        <p>
+          The model tracks every moving body (robots, gantry, tiles) in free space, where the total
+          angular momentum must stay zero. Every run must pass conservation and analytic checks before
+          its numbers are used. Each result then fed the next design question.
+        </p>
+        <ShowFigure from="zig" id="ai-decisions" number={3} />
+        <ShowFigure from="zig" id="two-robot-mirror" number={4} />
+        <ShowFigure from="zig" id="validation-gap-map" number={5} />
+      </section>
+
+      <section class="mt-14">
+        <h2>4. From simulation to CAD to render</h2>
+        <p>
+          The robot CAD from Fusion 360 goes into Blender, driven by the simulated motion and attitude.
+          A clearance check found the two robots overlap by up to 104 mm, long before any hardware was
+          made. Scaling the design to 1 m tiles meant re-running the same scripts.
+        </p>
+        <ShowFigure from="zig" id="blender-cad-pair" number={6} />
+        <ShowFigure from="zig" id="blender-1m-tiles" number={7} />
+      </section>
+
+      <section class="mt-14">
+        <h2>5. What stayed with me</h2>
+        <ul class="list-disc pl-5">
+          <li>Choosing the questions, and the test of success for each one.</li>
+          <li>Doubting inputs: I asked where the 65 kg frame came from. It was a guess, and replacing it changed the results.</li>
+          <li>The design calls, such as the outward spiral for stronger tile joints, which the numbers alone did not pick.</li>
+        </ul>
+        <p class="text-sm text-slate-500">
+          The simulations are verified against physics laws but not yet validated against hardware. See
+          the validation gap map above and the Project page for what is not yet known.
+        </p>
+      </section>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .bar:hover rect:first-of-type { opacity: 0.8; }
+</style>
