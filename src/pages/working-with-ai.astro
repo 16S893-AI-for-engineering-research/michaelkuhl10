@@ -1,62 +1,64 @@
 ---
-// How AI agents sped up the design work. Hours with AI come from the pi and
-// Claude Code session logs (active time, gaps over 10 min dropped). Hours
-// without AI are my own estimates. Figures come from the ORLO-Zig public_show/
-// folder (deliverables/ai_acceleration/make_diagrams.py, svg-figs skill).
+// How AI sped up the physical design work: Fusion CAD through the Fusion MCP,
+// export, merge with the physics simulation, and a Blender render.
+// Hours with AI: active time in the Claude Code session logs, 20-23 Nov 2026
+// (gaps over 10 min dropped; unattended renders not counted).
+// Hours without AI: my own estimates.
+// Figures: ORLO-Zig deliverables/ai_acceleration/make_diagrams.py (svg-figs skill).
 import BaseLayout from '@layouts/BaseLayout.astro';
 import ShowFigure from '@components/ShowFigure.astro';
 
 const work = [
-  { name: 'Simulation core and checks', tasks: 'ZO-1 to ZO-14', ai: 16, est: 160 },
-  { name: 'Build-order search', tasks: 'ZO-15 to ZO-22', ai: 7, est: 100 },
-  { name: 'Robustness runs, decision package, wheel sizing', tasks: 'ZO-23 to ZO-25, ZO-32', ai: 9.5, est: 140 },
-  { name: 'Two and four robots, new parameters', tasks: 'ZO-26 to ZO-37', ai: 7.5, est: 100 },
-  { name: 'CAD to Blender, 1 m tiles', tasks: 'ZO-38 to ZO-40', ai: 1.5, est: 60 },
-  { name: 'Literature toolkit, 235 papers', tasks: 'ZO-30', ai: 5, est: 80 },
-  { name: 'This website and controls code', tasks: '', ai: 7.5, est: 40 },
+  { name: 'First CAD-to-render pipeline', note: 'export, physics merge, Blender scene, render', ai: 3.8, est: 80 },
+  { name: 'Scale-up to 1 m tiles', note: 'new CAD by script, new sim, new render', ai: 0.7, est: 40 },
+  { name: 'Crawler built into the 49-tile robot', note: 'CAD fixes, early-sync render', ai: 1.3, est: 20 },
+  { name: 'New design: racks in the tile corners', note: 'brainstorm to crawler v2', ai: 0.9, est: 16 },
 ];
-const totAi = work.reduce((s, w) => s + w.ai, 0);
+const totAi = Math.round(work.reduce((s, w) => s + w.ai, 0) * 10) / 10;
 const totEst = work.reduce((s, w) => s + w.est, 0);
 
-// Chart geometry: grouped horizontal bars, one axis (hours).
 const AI = '#0287b5';
 const EST = '#c2410c';
-const max = 160;
-const labelW = 0;
+const max = 80;
 const plotW = 380;
-const rowH = 58;
-const top = 8;
-const x = (h: number) => labelW + (h / max) * plotW;
-const chartH = top + work.length * rowH + 28;
-const ticks = [0, 40, 80, 120, 160];
+const x = (h: number) => (h / max) * plotW;
+const ticks = [0, 20, 40, 60, 80];
 
-const accelerated = [
-  { what: 'Physics code', how: '6-DOF momentum model, path planner, wheel controller: 134 Python files, 613 tests.' },
-  { what: 'Checks', how: 'Conservation gates and analytic cross-checks run on every result, so a bad model fails loudly.' },
-  { what: 'Many runs', how: '20 robustness runs and wheel sweeps ran in the background while I did other work.' },
-  { what: 'Visuals', how: 'Plots, animations and Blender renders made straight from the saved simulation data.' },
-  { what: 'Reading', how: 'Agents searched databases, checked 140 quotes against the PDFs, and wrote paper cards.' },
+const mine = [
+  'Designed the 49-tile assembler in Fusion: frame, gantry, end effector, tile shelf.',
+  'Chose the McMaster parts: NEMA 17 motor (6627T65), module 1 pinion (2664N353), ball-bearing carriage (6709K114).',
+  'Shaped the tiles, including a bottom extrusion so the straight tile sits in the storage shelf.',
+  'Had the new ideas: racks in the tile corners, a crawler that climbs the stack, robots that sync after the first turn.',
+  'Made the design calls: tile height near 30 mm, the channel rack, tiles placed next to two neighbours.',
+];
+const theirs = [
+  'Read the whole assembly through the Fusion MCP (253 calls): parts, sizes, pinion geometry.',
+  'Set up the rack and pinion rule as Fusion user parameters, so tiles stay whole teeth when resized.',
+  'Rebuilt the assembler for 1 m tiles from a 438-line script: module 2, 159 teeth, new turn arcs.',
+  'Added joints with travel limits and ran interference checks over the full travel.',
+  'Exported 56 parts in groups that move together, merged them with the physics data, and wrote the Blender scene.',
 ];
 ---
 
 <BaseLayout
   title="Working with AI"
-  description="How AI agents sped up the design work: time with AI against my estimate without it, and how physics simulations set each design decision."
+  description="How AI sped up the physical design: Fusion CAD through the Fusion MCP, merged with a physics simulation into a Blender render."
 >
   <section class="border-b border-slate-200 bg-gradient-to-b from-arc-50/60 to-white">
     <div class="container-page pt-14 pb-12">
-      <p class="eyebrow">Working with AI · Sep to Nov 2026</p>
-      <h1 class="mt-2 max-w-3xl">How AI agents sped up the design work</h1>
+      <p class="eyebrow">Working with AI · CAD to render</p>
+      <h1 class="mt-2 max-w-3xl">From Fusion CAD to a physics-based render, with an AI agent</h1>
       <p class="mt-5 max-w-prose text-lg text-slate-600">
-        I set the questions and made the decisions. AI agents wrote and checked the physics code, ran
-        the simulations and made the figures. Each design question went from idea to evidence in hours
-        instead of weeks.
+        I design the robot in Fusion 360 and make the design calls. An AI agent connected to Fusion
+        (the Fusion MCP) edits the model, keeps the gear and joint relationships, exports the parts,
+        merges them with the physics simulation and builds the Blender render. In four days we went
+        from a CAD model to three rendered builds and one new crawler design.
       </p>
       <div class="mt-8 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
-        <div><p class="stat m-0">≈45 h</p><p class="m-0 text-sm text-slate-500">of working sessions, over 9 weeks</p></div>
+        <div><p class="stat m-0">≈{totAi} h</p><p class="m-0 text-sm text-slate-500">of agent sessions, 20–23 Nov</p></div>
         <div><p class="stat m-0">≈{totEst} h</p><p class="m-0 text-sm text-slate-500">my estimate without AI</p></div>
-        <div><p class="stat m-0">48</p><p class="m-0 text-sm text-slate-500">planned tasks finished</p></div>
-        <div><p class="stat m-0">613</p><p class="m-0 text-sm text-slate-500">tests on the physics code</p></div>
+        <div><p class="stat m-0">253</p><p class="m-0 text-sm text-slate-500">Fusion edits and reads by the agent</p></div>
+        <div><p class="stat m-0">56</p><p class="m-0 text-sm text-slate-500">CAD parts driven by the physics</p></div>
       </div>
     </div>
   </section>
@@ -64,44 +66,52 @@ const accelerated = [
   <div class="container-page pt-12 pb-8">
     <article class="article max-w-3xl">
       <section>
-        <h2>1. The loop</h2>
-        <p>Every study followed the same six steps. The agents did the slow middle; I did the two ends.</p>
-        <ShowFigure from="zig" id="ai-workflow" number={1} />
+        <h2>1. The pipeline</h2>
+        <ShowFigure from="zig" id="cad-pipeline" number={1} />
       </section>
 
       <section class="mt-14">
-        <h2>2. Time with AI against without</h2>
-        <figure class="my-8">
+        <h2>2. What I did, and what the AI sped up</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          <div class="card border-t-4 p-5" style="border-top-color:#0a5f99">
+            <p class="m-0 font-semibold" style="color:#0a5f99">Me</p>
+            <ul class="mb-0 mt-2 list-disc space-y-1.5 pl-5 text-sm leading-6 text-slate-600">
+              {mine.map((t) => <li>{t}</li>)}
+            </ul>
+          </div>
+          <div class="card border-t-4 p-5" style="border-top-color:#a35d00">
+            <p class="m-0 font-semibold" style="color:#a35d00">AI agent (Fusion MCP, Python, Blender)</p>
+            <ul class="mb-0 mt-2 list-disc space-y-1.5 pl-5 text-sm leading-6 text-slate-600">
+              {theirs.map((t) => <li>{t}</li>)}
+            </ul>
+          </div>
+        </div>
+
+        <figure class="my-10">
           <div class="card p-5">
             <div class="mb-4 flex flex-wrap gap-5 text-sm text-slate-600">
               <span class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm" style={`background:${AI}`}></span>With AI (session logs)</span>
               <span class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm" style={`background:${EST}`}></span>Without AI (my estimate)</span>
             </div>
-            <div class="space-y-0">
-              {work.map((w) => (
-                <div class="grid grid-cols-1 gap-1 sm:grid-cols-[14rem_1fr] sm:items-center" style={`min-height:${rowH}px`}>
-                  <div class="text-sm leading-5">
-                    <span class="font-medium text-slate-800">{w.name}</span>
-                    {w.tasks && <span class="block font-mono text-[11px] text-slate-400">{w.tasks}</span>}
-                  </div>
-                  <svg viewBox={`0 0 ${plotW + 60} 40`} class="block w-full" role="img" aria-label={`${w.name}: ${w.ai} h with AI, about ${w.est} h without`}>
-                    {ticks.map((t) => <line x1={x(t)} x2={x(t)} y1="0" y2="40" stroke="#e2e8f0" stroke-width="1" />)}
-                    <g class="bar">
-                      <title>{`${w.name}: ${w.ai} h with AI`}</title>
-                      <rect x="0" y="3" width={Math.max(x(w.ai), 4)} height="14" rx="3" fill={AI} />
-                      <rect x="0" y="0" width={plotW} height="20" fill="transparent" />
-                    </g>
-                    <text x={Math.max(x(w.ai), 4) + 6} y="15" font-size="13" fill="#334155">{w.ai} h</text>
-                    <g class="bar">
-                      <title>{`${w.name}: about ${w.est} h without AI (estimate)`}</title>
-                      <rect x="0" y="22" width={x(w.est)} height="14" rx="3" fill={EST} />
-                      <rect x="0" y="17" width={plotW} height="17" fill="transparent" />
-                    </g>
-                    <text x={x(w.est) + 6} y="34" font-size="13" fill="#334155">≈{w.est} h</text>
-                  </svg>
+            {work.map((w) => (
+              <div class="grid grid-cols-1 gap-1 py-1.5 sm:grid-cols-[14rem_1fr] sm:items-center">
+                <div class="text-sm leading-5">
+                  <span class="font-medium text-slate-800">{w.name}</span>
+                  <span class="block text-xs text-slate-400">{w.note}</span>
                 </div>
-              ))}
-            </div>
+                <svg viewBox={`0 0 ${plotW + 60} 40`} class="block w-full" role="img" aria-label={`${w.name}: ${w.ai} h with AI, about ${w.est} h without`}>
+                  {ticks.map((t) => <line x1={x(t)} x2={x(t)} y1="0" y2="40" stroke="#e2e8f0" stroke-width="1" />)}
+                  <g><title>{`${w.name}: ${w.ai} h with AI`}</title>
+                    <rect x="0" y="3" width={Math.max(x(w.ai), 4)} height="14" rx="3" fill={AI} />
+                    <rect x="0" y="0" width={plotW} height="20" fill="transparent" /></g>
+                  <text x={Math.max(x(w.ai), 4) + 6} y="15" font-size="13" fill="#334155">{w.ai} h</text>
+                  <g><title>{`${w.name}: about ${w.est} h without AI (estimate)`}</title>
+                    <rect x="0" y="22" width={x(w.est)} height="14" rx="3" fill={EST} />
+                    <rect x="0" y="20" width={plotW} height="20" fill="transparent" /></g>
+                  <text x={x(w.est) + 6} y="34" font-size="13" fill="#334155">≈{w.est} h</text>
+                </svg>
+              </div>
+            ))}
             <div class="hidden sm:grid sm:grid-cols-[14rem_1fr]">
               <span></span>
               <svg viewBox={`0 0 ${plotW + 60} 18`} class="block w-full" aria-hidden="true">
@@ -111,71 +121,52 @@ const accelerated = [
           </div>
           <figcaption class="mt-2.5 text-sm leading-6 text-slate-500">
             <span class="font-semibold text-slate-700">Figure 2. </span>
-            Hours with AI are active time in the agent session logs ({totAi} h summed; 45 h of wall-clock
-            time, since some agents ran in parallel). Hours without AI are my own estimates for doing the
-            same work by hand. The CAD row counts agent session time only.
+            Hours with AI are active time in the agent session logs ({totAi} h in all). Blender renders
+            ran unattended and are not counted. Hours without AI are my own estimates for the same work,
+            including learning the Fusion and Blender Python APIs. My own modelling time in Fusion is not
+            in either bar.
           </figcaption>
         </figure>
-        <details class="mb-6 text-sm text-slate-600">
-          <summary class="cursor-pointer text-slate-700">Show as a table</summary>
-          <table class="mt-3 w-full border-collapse">
-            <thead><tr class="border-b border-slate-300 text-left text-slate-500"><th class="py-2 pr-4 font-medium">Work</th><th class="py-2 pr-4 text-right font-medium">With AI (h)</th><th class="py-2 text-right font-medium">Without AI, est. (h)</th></tr></thead>
-            <tbody>
-              {work.map((w) => <tr class="border-b border-slate-200"><td class="py-2 pr-4">{w.name}</td><td class="py-2 pr-4 text-right font-mono">{w.ai}</td><td class="py-2 text-right font-mono">{w.est}</td></tr>)}
-              <tr class="font-medium text-slate-900"><td class="py-2 pr-4">Total</td><td class="py-2 pr-4 text-right font-mono">{totAi}</td><td class="py-2 text-right font-mono">{totEst}</td></tr>
-            </tbody>
-          </table>
-        </details>
-
-        <h3>What AI sped up</h3>
-        <ul class="mt-3 grid list-none gap-3 p-0 sm:grid-cols-2">
-          {accelerated.map((a) => (
-            <li class="card p-4 text-sm leading-6">
-              <span class="font-semibold text-slate-900">{a.what}.</span> <span class="text-slate-600">{a.how}</span>
-            </li>
-          ))}
-        </ul>
       </section>
 
       <section class="mt-14">
-        <h2>3. Physics that set the design</h2>
+        <h2>3. Keeping the gears and joints right</h2>
         <p>
-          The model tracks every moving body (robots, gantry, tiles) in free space, where the total
-          angular momentum must stay zero. Every run must pass conservation and analytic checks before
-          its numbers are used. Each result then fed the next design question.
+          One rule ties the design together: a tile edge must be a whole number of rack teeth. The agent
+          stored it as Fusion parameters, so resizing a tile keeps the racks in step, and it reused the
+          rule to scale the robot from 160 mm to 1 m tiles.
         </p>
-        <ShowFigure from="zig" id="ai-decisions" number={3} />
-        <ShowFigure from="zig" id="two-robot-mirror" number={4} />
-        <ShowFigure from="zig" id="validation-gap-map" number={5} />
+        <ShowFigure from="zig" id="rack-rule" number={3} />
+        <ShowFigure from="zig" id="gantry-closeup" number={4} />
       </section>
 
       <section class="mt-14">
-        <h2>4. From simulation to CAD to render</h2>
+        <h2>4. A new design in one evening</h2>
         <p>
-          The robot CAD from Fusion 360 goes into Blender, driven by the simulated motion and attitude.
-          A clearance check found the two robots overlap by up to 104 mm, long before any hardware was
-          made. Scaling the design to 1 m tiles meant re-running the same scripts.
+          I proposed racks inside the tile corners so a crawler could climb the stack. The agent checked
+          the tooth math, gave options, built it in Fusion, and then found that the crawler could twist,
+          so it proposed a channel rack. About two hours from idea to a checked CAD model.
+        </p>
+        <ShowFigure from="zig" id="brainstorm" number={5} />
+      </section>
+
+      <section class="mt-14">
+        <h2>5. The render is driven by the physics</h2>
+        <p>
+          Every frame places the Fusion meshes where the simulation says. The structure's tilt comes from
+          conservation of angular momentum as the robots and tiles move. The same scene also checks
+          clearance, and it found the two robots overlap by up to 104 mm, before anything was built.
         </p>
         <ShowFigure from="zig" id="blender-cad-pair" number={6} />
-        <ShowFigure from="zig" id="blender-1m-tiles" number={7} />
-      </section>
-
-      <section class="mt-14">
-        <h2>5. What stayed with me</h2>
-        <ul class="list-disc pl-5">
-          <li>Choosing the questions, and the test of success for each one.</li>
-          <li>Doubting inputs: I asked where the 65 kg frame came from. It was a guess, and replacing it changed the results.</li>
-          <li>The design calls, such as the outward spiral for stronger tile joints, which the numbers alone did not pick.</li>
-        </ul>
+        <ShowFigure from="zig" id="blender-two-robot-sync-early" number={7} />
+        <ShowFigure from="zig" id="blender-1m-tiles" number={8} />
         <p class="text-sm text-slate-500">
-          The simulations are verified against physics laws but not yet validated against hardware. See
-          the validation gap map above and the Project page for what is not yet known.
+          Limits: the physics covers the free-floating rotation of the structure, not contact, gear
+          meshing or flexing. Masses come from parts lists, not from Fusion's mass properties. For the
+          1 m design those lists were measured off the Fusion model; for the 160 mm design many values
+          are still estimates.
         </p>
       </section>
     </article>
   </div>
 </BaseLayout>
-
-<style>
-  .bar:hover rect:first-of-type { opacity: 0.8; }
-</style>

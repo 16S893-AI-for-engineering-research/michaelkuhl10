@@ -19,27 +19,27 @@
       "updated": "2026-11-03"
     },
     {
-      "id": "ai-workflow",
+      "id": "cad-pipeline",
       "kind": "figure",
-      "file": "media/ai-workflow.png",
-      "title": "One design question, start to decision",
-      "caption": "The loop used for every study: I ask a question and decide; agents plan, write the physics code and tests, run the checks and make the figures. A failed check sends the work back to the model.",
-      "alt": "Flow chart of six steps: ask, plan, model, check, show, decide, with a loop from check back to model and from decide back to ask.",
+      "file": "media/cad-pipeline.png",
+      "title": "From Fusion CAD and physics to a Blender render",
+      "caption": "Two inputs meet in one Blender scene: the Fusion CAD, edited and exported through the Fusion MCP, and the physics simulation of the build. The render's clearance check sent the design back to Fusion.",
+      "alt": "Color flow chart: Fusion design, Fusion MCP edits and STL export on top; assembly rules, physics simulation and motion data below; both feed a Blender build script and a render with a clearance check that loops back to the design.",
       "section": "ai",
       "order": 1,
-      "url": "/show/zig/media/ai-workflow.png",
+      "url": "/show/zig/media/cad-pipeline.png",
       "updated": "2026-11-24"
     },
     {
-      "id": "ai-decisions",
+      "id": "rack-rule",
       "kind": "figure",
-      "file": "media/ai-decisions.png",
-      "title": "Design decisions set by the simulations",
-      "caption": "Eight design questions in order. Each box gives what the physics model showed and the decision it led to.",
-      "alt": "Flow chart of eight design questions, from one robot or two, through build order and wheel sizing, to mirrored robots, four robots and a CAD clearance check.",
+      "file": "media/rack-rule.png",
+      "title": "The rack and pinion rule behind every tile",
+      "caption": "The tile edge is a whole number of rack teeth, so racks line up from tile to tile. The same rule, with new tooth counts and module, gave the 160 mm tile, the 1 m tile and the stacking tile.",
+      "alt": "Color flow chart: McMaster pinion, tooth pitch p equals pi m, tile edge L equals N p, racks line up; below, four designs built from the rule: 160 mm tile, 1 m tile, stacking tile and turn tiles.",
       "section": "ai",
       "order": 2,
-      "url": "/show/zig/media/ai-decisions.png",
+      "url": "/show/zig/media/rack-rule.png",
       "updated": "2026-11-24"
     },
     {
@@ -55,6 +55,18 @@
       "updated": "2026-11-24"
     },
     {
+      "id": "brainstorm",
+      "kind": "figure",
+      "file": "media/brainstorm.png",
+      "title": "Brainstorm to CAD in one evening",
+      "caption": "A design session from the log: my idea and design calls on the left, the AI agent working in Fusion on the right.",
+      "alt": "Two-column flow chart with times from 20:30 to 22:19, alternating between my design decisions and the AI agent's questions, options and Fusion builds, ending with crawler v2.",
+      "section": "ai",
+      "order": 3,
+      "url": "/show/zig/media/brainstorm.png",
+      "updated": "2026-11-24"
+    },
+    {
       "id": "blender-1m-tiles",
       "kind": "figure",
       "file": "media/blender-1m-tiles.jpg",
@@ -64,6 +76,18 @@
       "section": "ai",
       "order": 4,
       "url": "/show/zig/media/blender-1m-tiles.jpg",
+      "updated": "2026-11-24"
+    },
+    {
+      "id": "gantry-closeup",
+      "kind": "figure",
+      "file": "media/gantry-closeup.jpg",
+      "title": "The gantry, rendered from the Fusion meshes",
+      "caption": "Close-up of the top of one robot, rendered in Blender from the exported Fusion meshes: McMaster NEMA 17 motors, module 1 pinions on the corner racks, ball-bearing carriages and 80/20 frame.",
+      "alt": "Blender close-up of an aluminium 80/20 frame with orange printed brackets, black stepper motors, gear racks and linear rails.",
+      "section": "ai",
+      "order": 4,
+      "url": "/show/zig/media/gantry-closeup.jpg",
       "updated": "2026-11-24"
     },
     {
